@@ -6,10 +6,15 @@ class AppFonts {
     Color? color,
     double? fontSize,
     FontWeight? fontWeight,
+    FontStyle? fontStyle,
+    TextDecoration? textDecoration,
+
   }) =>
       GoogleFonts.poppins(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontSize: fontSize,
         color: color,
+        fontStyle: fontStyle,
       );
 }

@@ -34,25 +34,27 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Expanded(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if (index != 2)
+                        if (index == 0)
                           Utils.textButton(
                             onPressed: () {
                               _pageController.animateToPage(
                                 2,
                                 duration: const Duration(seconds: 1),
-                                curve: Curves.easeInBack,
+                                curve: Curves.ease,
                               );
                             },
                             elevation: 1,
                             hzPadding: 10,
                             fontSize: 14,
                             buttonText: "Skip",
-                            themeProvider: themeProvider,
                           ),
                       ],
                     ),
@@ -77,12 +79,12 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                               onPressed: () {
                                 _pageController.nextPage(
                                     duration: const Duration(seconds: 1),
-                                    curve: Curves.fastEaseInToSlowEaseOut);
+                                    curve: Curves.ease);
                               },
                               elevation: 3,
                               hzPadding: 26,
                               buttonText: "Next",
-                              themeProvider: themeProvider,
+
                             ),
                           if (index == 2)
                             Utils.textButton(
@@ -91,7 +93,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                               elevation: 3,
                               fontSize: 18,
                               hzPadding: 36,
-                              themeProvider: themeProvider,
+
                             ),
                           const Spacer(
                             flex: 1,

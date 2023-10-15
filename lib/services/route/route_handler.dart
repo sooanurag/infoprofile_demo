@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
+import 'package:infoprofile_demo/view/onboarding/getstarted_route.dart';
+import 'package:infoprofile_demo/view/onboarding/login_route.dart';
 import 'package:infoprofile_demo/view/onboarding/onboarding_route.dart';
+import 'package:infoprofile_demo/view/onboarding/signup_route.dart';
 
 import '../../view/onboarding/splash_route.dart';
 
@@ -11,6 +14,12 @@ class RouteHandler {
         return MaterialPageRoute(builder: (context) => const SplashRoute());
       case Routes.onboarding:
         return MaterialPageRoute(builder: (context) => const OnboardingRoute());
+      case Routes.login:
+        return MaterialPageRoute(builder: (context) => const LoginRoute());
+      case Routes.signup:
+        return MaterialPageRoute(builder: (context) => const SignupRoute());
+      case Routes.getstarted:
+        return MaterialPageRoute(builder: (context) => const GetStartedRoute());
       default:
         return MaterialPageRoute(
             builder: (context) => Scaffold(
