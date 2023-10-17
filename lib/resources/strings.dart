@@ -11,6 +11,8 @@ class AppStrings {
   static const String authProfileDetails = "Profile Details";
   static const String authForgotPassword = "Forgot Password";
   static const String authOTP = "OTP Authentication";
+  static const String authSendOTP = "Send OTP";
+  static const String authVerifyOTP = "Verify";
   static Map<String, dynamic> authSubHeaders = {
     authLogIn:
         "Enter your username or email and password or use social-media authentication to login.",

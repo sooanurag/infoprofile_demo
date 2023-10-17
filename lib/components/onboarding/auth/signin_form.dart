@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
+import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/utils/lottie_animation.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 import '../../../resources/strings.dart';
 
@@ -25,6 +28,7 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Column(children: [
@@ -58,7 +62,9 @@ class _SignInFormState extends State<SignInForm> {
                 padding: MaterialStateProperty.all(EdgeInsets.zero),
                 overlayColor:
                     MaterialStateProperty.all(Colors.white.withOpacity(0))),
-            onPressed: () {},
+            onPressed: () {
+              authProvider.setAuthType(authtype: AppStrings.authForgotPassword);
+            },
             child: Text(
               "${AppStrings.authForgotPassword}?",
               style: AppFonts.headerStyle(
@@ -72,7 +78,10 @@ class _SignInFormState extends State<SignInForm> {
         //   height: 10,
         // ),
         Utils.textButton(
-          onPressed: () {},
+          onPressed: () {
+            // login api call
+            Navigator.pushReplacementNamed(context, Routes.feeds);
+          },
           buttonText: AppStrings.authLogIn,
         ),
       ]),

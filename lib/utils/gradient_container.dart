@@ -69,12 +69,18 @@ class _GradientContainerState extends State<GradientContainer>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+    
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
         return Container(
-
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: widget.colors,

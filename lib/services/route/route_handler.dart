@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
+import 'package:infoprofile_demo/view/home/feeds_route.dart';
 import 'package:infoprofile_demo/view/onboarding/getstarted_route.dart';
 import 'package:infoprofile_demo/view/onboarding/login_route.dart';
 import 'package:infoprofile_demo/view/onboarding/onboarding_route.dart';
@@ -8,8 +9,8 @@ import 'package:infoprofile_demo/view/onboarding/signup_route.dart';
 import '../../view/onboarding/splash_route.dart';
 
 class RouteHandler {
-  static Route<dynamic> generateRoute(RouteSettings settings){
-    switch(settings.name){
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(builder: (context) => const SplashRoute());
       case Routes.onboarding:
@@ -20,6 +21,9 @@ class RouteHandler {
         return MaterialPageRoute(builder: (context) => const SignupRoute());
       case Routes.getstarted:
         return MaterialPageRoute(builder: (context) => const GetStartedRoute());
+      case Routes.feeds:
+        return MaterialPageRoute(builder: (context) => const FeedsRoute());
+
       default:
         return MaterialPageRoute(
             builder: (context) => Scaffold(

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:infoprofile_demo/components/onboarding/auth/forgot_password_form.dart';
 import 'package:infoprofile_demo/components/onboarding/auth/signin_form.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 
@@ -22,6 +23,11 @@ class AuthProvider with ChangeNotifier {
       setAuthTypePrefix(authtypePrefix: AppStrings.prefixLogin);
       setFormWidget(formWidget: const SignUpForm());
     }
+    else if (authType == AppStrings.authForgotPassword) {
+      setAuthTypeSubHead(
+          authtypeSubHead: AppStrings.authSubHeaders[AppStrings.authForgotPassword]);
+      setFormWidget(formWidget: const ForgotPasswordForm());
+    }
     notifyListeners();
   }
 
@@ -43,6 +49,13 @@ class AuthProvider with ChangeNotifier {
   Widget get formWidget => _formWidget;
   void setFormWidget({required Widget formWidget}) {
     _formWidget = formWidget;
+    notifyListeners();
+  }
+
+  bool _isOTPsent = false;
+  bool get isOTPsent => _isOTPsent;
+  void setIsOTPsent({required bool status}) {
+    _isOTPsent = status;
     notifyListeners();
   }
 

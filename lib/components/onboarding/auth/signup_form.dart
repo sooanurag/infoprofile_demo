@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../resources/fonts.dart';
 import '../../../resources/strings.dart';
 import '../../../utils/lottie_animation.dart';
 import '../../../utils/utils.dart';
@@ -66,26 +65,9 @@ class _SignUpFormState extends State<SignUpForm> {
           isFilled: true,
           contentPadding: const EdgeInsets.all(0),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all(EdgeInsets.zero),
-                overlayColor:
-                    MaterialStateProperty.all(Colors.white.withOpacity(0))),
-            onPressed: () {},
-            child: Text(
-              "${AppStrings.authForgotPassword}?",
-              style: AppFonts.headerStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12),
-            ),
-          ),
+        const SizedBox(
+          height: 20,
         ),
-        // const SizedBox(
-        //   height: 10,
-        // ),
         Utils.textButton(
           onPressed: () {},
           buttonText: AppStrings.authSignUp,

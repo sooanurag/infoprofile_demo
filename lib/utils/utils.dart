@@ -11,11 +11,12 @@ class Utils {
     double? fontSize = 16,
     double? hzPadding = 20,
     Color? textColor = Colors.black,
+    Color? backgroundColor = Colors.white,
   }) {
     return TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.white),
+          backgroundColor: MaterialStateProperty.all(backgroundColor),
           elevation: MaterialStateProperty.all(elevation),
           shadowColor: MaterialStateProperty.all(Colors.black)),
       child: Padding(
@@ -33,27 +34,30 @@ class Utils {
   }
   //----------------------------
 
-  static Widget infoprofileTypo() => Text(
+  static Widget infoprofileTypo({
+    double? fontSize,
+    FontWeight? fontWeight,
+  }) =>
+      Text(
         "infoprofile",
-        style: AppFonts.headerStyle(
-            color: Colors.white, fontSize: 38, fontWeight: FontWeight.bold),
+        style: AppFonts.headerStyle(fontSize: fontSize, fontWeight: fontWeight),
       );
   //----------------------------
 
 // customTextFormField
   static TextFormField customTextFormField({
     required TextEditingController inputController,
-    required String invalidText,
+    required String? invalidText,
     String? label,
     String? hint,
-    required Widget prefixIcon,
+    Widget? prefixIcon,
     FocusNode? currentFocusNode,
     BuildContext? context,
     FocusNode? nextNode,
     bool obscure = false,
     Widget? suffixIcon,
     void Function(String)? onChanged,
-    bool? isEnabled,
+    bool? isEnabled = true,
     bool? isFilled,
     Color? fillColor,
     Color? prefixIconColor,
@@ -61,8 +65,16 @@ class Utils {
     Color? cursorColor = Colors.white,
     double? borderRadius = 12,
     EdgeInsetsGeometry? contentPadding,
+    int? maxLength,
+    TextAlign? textAlign = TextAlign.start,
+    double? inputFontSize,
+    TextInputType? keyboardType,
   }) {
     return TextFormField(
+      keyboardType: keyboardType,
+      textAlign: textAlign!,
+      style: TextStyle(fontSize: inputFontSize, color: Colors.black),
+      maxLength: maxLength,
       cursorColor: cursorColor,
       enabled: isEnabled,
       onChanged: onChanged,
@@ -85,9 +97,11 @@ class Utils {
             }
           : null,
       decoration: InputDecoration(
+        hintStyle: const TextStyle(color: Colors.black),
+        counterText: "",
         contentPadding: contentPadding,
         filled: isFilled,
-        fillColor: fillColor,
+        fillColor: (isEnabled!) ? fillColor : Colors.white54,
         prefixIconColor: prefixIconColor,
         suffixIconColor: suffixIconColor,
         label: (label != null) ? Text(label) : null,
@@ -95,10 +109,12 @@ class Utils {
           borderRadius: BorderRadius.all(Radius.circular(borderRadius!)),
         ),
         hintText: hint,
-        prefixIcon: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: prefixIcon,
-        ),
+        prefixIcon: (prefixIcon == null)
+            ? null
+            : Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: prefixIcon,
+              ),
         suffixIcon: suffixIcon,
       ),
     );

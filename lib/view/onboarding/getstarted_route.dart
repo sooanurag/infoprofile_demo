@@ -37,6 +37,7 @@ class _GetStartedRouteState extends State<GetStartedRoute> {
   void dispose() {
     SystemChrome.restoreSystemUIOverlays();
     super.dispose();
+    
   }
 
   @override

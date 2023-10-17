@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 class GlassmorphContainer extends StatelessWidget {
   final Widget child;
   final double? borderRadius;
+  final double? hzMargin;
+  final Color? color;
 
-  const GlassmorphContainer({
+   const GlassmorphContainer({
     super.key,
     required this.child,
     this.borderRadius = 20,
+    this.hzMargin = 20,
+    this.color = Colors.white,
   });
 
   @override
@@ -29,17 +33,17 @@ class GlassmorphContainer extends StatelessWidget {
 
           //gradient
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
+            margin: EdgeInsets.symmetric(horizontal: hzMargin!),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.white.withOpacity(0.2),
+                color: color!.withOpacity(0.2),
               ),
               borderRadius: BorderRadius.circular(borderRadius!),
               gradient: LinearGradient(
                 colors: [
-                  Colors.white.withOpacity(0),
-                  Colors.white.withOpacity(0.3),
+                  color!.withOpacity(0),
+                  color!.withOpacity(0.3),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,

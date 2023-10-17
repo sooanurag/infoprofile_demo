@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:infoprofile_demo/providers/onboarding/authAnimate_provider.dart';
+import 'package:infoprofile_demo/providers/home/feeds_provider.dart';
+import 'package:infoprofile_demo/providers/home/postbuttons_provider.dart';
+import 'package:infoprofile_demo/providers/onboarding/authanimate_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/getstarted_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/onboarding_provider.dart';
@@ -26,17 +28,18 @@ class InfoProfile extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => GetstartedProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => AuthAnimateProvider()),
+        ChangeNotifierProvider(create: (_) => FeedsProvider()),
+        ChangeNotifierProvider(create: (_) => PostbuttonsProvider()),
       ],
       child: Builder(builder: (context) {
         final themeProvider =
             Provider.of<ThemeProvider>(context, listen: false);
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          themeMode: themeProvider.themeMode,
           theme: lightTheme,
           darkTheme: darkTheme,
           onGenerateRoute: RouteHandler.generateRoute,
-          initialRoute: Routes.getstarted,
+          initialRoute: Routes.feeds,
         );
       }),
     );

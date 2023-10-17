@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:infoprofile_demo/components/onboarding/auth/signin_form.dart';
-import 'package:infoprofile_demo/providers/onboarding/authAnimate_provider.dart';
+
+import 'package:infoprofile_demo/providers/onboarding/authanimate_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/paths.dart';
@@ -11,6 +11,7 @@ import 'package:infoprofile_demo/utils/lottie_animation.dart';
 import 'package:provider/provider.dart';
 
 import '../../../resources/strings.dart';
+import '../../../utils/utils.dart';
 
 class AuthSignInState extends StatefulWidget {
   const AuthSignInState({super.key});
@@ -75,51 +76,82 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                         SizedBox(
                           height: screenSize.height * 0.06,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GlassmorphContainer(
-                              child: LottieAnimations.facebook,
+                        if (value.authType == AppStrings.authForgotPassword ||
+                            value.authType == AppStrings.authOTP)
+                          //forgot back button
+                          Center(
+                            child: Utils.textButton(
+                              onPressed: () {
+                                if (value.authType ==
+                                    AppStrings.authForgotPassword) {
+                                  value.setAuthType(
+                                      authtype: AppStrings.authLogIn);
+                                } else if (value.authType ==
+                                    AppStrings.authOTP) {
+                                  value.setAuthType(
+                                      authtype: AppStrings.authForgotPassword);
+                                  value.setIsOTPsent(status: false);
+                                }
+                              },
+                              buttonText: "Back",
+                              elevation: 0,
+                              backgroundColor: Colors.white24,
+                              textColor: Colors.white,
                             ),
-                            GlassmorphContainer(
-                              child: LottieAnimations.linkdin,
-                            ),
-                            GlassmorphContainer(
-                              child: LottieAnimations.twitter,
-                            ),
-                          ],
-                        ).animate().show(),
+                          ),
+                        if (value.authType == AppStrings.authLogIn ||
+                            value.authType == AppStrings.authSignUp)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GlassmorphContainer(
+                                child: LottieAnimations.facebook,
+                              ),
+                              GlassmorphContainer(
+                                child: LottieAnimations.linkdin,
+                              ),
+                              GlassmorphContainer(
+                                child: LottieAnimations.twitter,
+                              ),
+                            ],
+                          ).animate().fadeIn(),
                         SizedBox(
                           height: screenSize.height * 0.08,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              value.authTypePrefix,
-                              style: AppFonts.headerStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            TextButton(
-                                style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(
-                                        EdgeInsets.zero)),
-                                onPressed: () {
-                                  value.setAuthType(
-                                      authtype:(value.authType==AppStrings.authSignUp)? AppStrings.authLogIn: AppStrings.authSignUp);
-                                },
-                                child: Text(
-                                  (value.authType == AppStrings.authLogIn)
-                                      ? AppStrings.authSignUp
-                                      : AppStrings.authLogIn,
-                                  style: AppFonts.headerStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      textDecoration: TextDecoration.underline),
-                                ))
-                          ],
-                        )
+                        if (value.authType == AppStrings.authLogIn ||
+                            value.authType == AppStrings.authSignUp)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                value.authTypePrefix,
+                                style: AppFonts.headerStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              TextButton(
+                                  style: ButtonStyle(
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.zero)),
+                                  onPressed: () {
+                                    value.setAuthType(
+                                        authtype: (value.authType ==
+                                                AppStrings.authSignUp)
+                                            ? AppStrings.authLogIn
+                                            : AppStrings.authSignUp);
+                                  },
+                                  child: Text(
+                                    (value.authType == AppStrings.authLogIn)
+                                        ? AppStrings.authSignUp
+                                        : AppStrings.authLogIn,
+                                    style: AppFonts.headerStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        textDecoration:
+                                            TextDecoration.underline),
+                                  ))
+                            ],
+                          )
                       ],
                     );
                   },

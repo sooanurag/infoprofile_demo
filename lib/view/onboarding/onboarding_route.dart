@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:infoprofile_demo/providers/theme_provider.dart';
+
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 import 'package:infoprofile_demo/utils/lottie_animation.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
-import 'package:provider/provider.dart';
+
 
 class OnboardingRoute extends StatefulWidget {
   const OnboardingRoute({super.key});
@@ -23,7 +23,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
   ];
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     return Scaffold(
       body: SafeArea(
         child: PageView.builder(
