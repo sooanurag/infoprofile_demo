@@ -31,17 +31,13 @@ class InfoProfile extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FeedsProvider()),
         ChangeNotifierProvider(create: (_) => PostbuttonsProvider()),
       ],
-      child: Builder(builder: (context) {
-        final themeProvider =
-            Provider.of<ThemeProvider>(context, listen: false);
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: lightTheme,
-          darkTheme: darkTheme,
-          onGenerateRoute: RouteHandler.generateRoute,
-          initialRoute: Routes.feeds,
-        );
-      }),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        onGenerateRoute: RouteHandler.generateRoute,
+        initialRoute: Routes.feeds,
+      ),
     );
   }
 }

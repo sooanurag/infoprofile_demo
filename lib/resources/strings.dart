@@ -31,4 +31,14 @@ class AppStrings {
   static const passwordInvalidtext = "Enter your password!";
   static const prefixSignUp = "Don't have an account?";
   static const prefixLogin = "Already have an account?";
+
+  //drawer
+  static List<String> drawerTilesTitles = [
+    "Profile",
+    "Premium",
+    "Favourits",
+    "Archive",
+    "Acitvity",
+    "Settings",
+  ];
 }

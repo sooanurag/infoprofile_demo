@@ -13,12 +13,18 @@ ThemeData lightTheme = ThemeData().copyWith(
 );
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
+
+    listTileTheme: ListTileThemeData().copyWith(tileColor: Colors.white),
+    dividerColor: Colors.grey,
     useMaterial3: true,
     colorScheme: kDarkColorScheme,
     iconButtonTheme: IconButtonThemeData(
-      style: ButtonStyle(
-        iconColor:MaterialStateProperty.all(Colors.white),
-      )
+        style: ButtonStyle(
+      iconColor: MaterialStateProperty.all(Colors.white),
+    )),
+    drawerTheme: const DrawerThemeData().copyWith(
+      backgroundColor: Colors.black,
+      surfaceTintColor: Colors.black,
     ),
     appBarTheme: const AppBarTheme().copyWith(
         backgroundColor: Colors.black,

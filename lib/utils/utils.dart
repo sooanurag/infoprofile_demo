@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../resources/fonts.dart';
 
@@ -129,4 +130,15 @@ class Utils {
     currentNode.unfocus();
     FocusScope.of(context).requestFocus(nextNode);
   }
+
+// -------------------------------
+
+  static List<IconData> drawerTileIcons = [
+    FontAwesomeIcons.user,
+    FontAwesomeIcons.crown,
+    FontAwesomeIcons.star,
+    FontAwesomeIcons.bookmark,
+    FontAwesomeIcons.chartLine,
+    FontAwesomeIcons.gear,
+  ];
 }
