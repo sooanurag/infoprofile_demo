@@ -36,7 +36,7 @@ class InfoProfile extends StatelessWidget {
         theme: lightTheme,
         darkTheme: darkTheme,
         onGenerateRoute: RouteHandler.generateRoute,
-        initialRoute: Routes.profile,
+        initialRoute: Routes.getstarted,
       ),
     );
   }

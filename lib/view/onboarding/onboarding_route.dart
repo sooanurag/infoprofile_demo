@@ -5,7 +5,6 @@ import 'package:infoprofile_demo/resources/strings.dart';
 import 'package:infoprofile_demo/utils/lottie_animation.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
 
-
 class OnboardingRoute extends StatefulWidget {
   const OnboardingRoute({super.key});
 
@@ -23,7 +22,6 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
   ];
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SafeArea(
         child: PageView.builder(
@@ -68,7 +66,9 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                           Text(
                             AppStrings.onBoardingHeaders[index],
                             style: AppFonts.headerStyle(
-                                fontSize: 28, fontWeight: FontWeight.bold),
+                                context: context,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold),
                           ),
                           animations[index],
                           const Spacer(
@@ -84,7 +84,6 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                               elevation: 3,
                               hzPadding: 26,
                               buttonText: "Next",
-
                             ),
                           if (index == 2)
                             Utils.textButton(
@@ -93,7 +92,6 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                               elevation: 3,
                               fontSize: 18,
                               hzPadding: 36,
-
                             ),
                           const Spacer(
                             flex: 1,

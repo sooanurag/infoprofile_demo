@@ -42,6 +42,7 @@ class _GetstartedStateTwoState extends State<GetstartedStateTwo> {
             Text(
               AppStrings.subHeading,
               style: AppFonts.headerStyle(
+                context: context,
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 20),
@@ -71,6 +72,7 @@ class _GetstartedStateTwoState extends State<GetstartedStateTwo> {
                   child: Text(
                     "Get started",
                     style: AppFonts.headerStyle(
+                      context: context,
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ).animate().moveX(),
                 ),
@@ -82,6 +84,7 @@ class _GetstartedStateTwoState extends State<GetstartedStateTwo> {
             Center(
               child: DefaultTextStyle(
                 style: AppFonts.headerStyle(
+                  context: context,
                   fontSize: 12,
                   color: Colors.white,
                 ),

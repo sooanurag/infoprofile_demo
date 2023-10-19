@@ -18,7 +18,7 @@ class _SplashRouteState extends State<SplashRoute> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, Routes.onboarding);
+      Navigator.pushReplacementNamed(context, Routes.getstarted);
     });
   }
 

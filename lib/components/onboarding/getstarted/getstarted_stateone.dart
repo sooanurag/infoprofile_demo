@@ -14,20 +14,19 @@ class _GetstartedStateOneState extends State<GetstartedStateOne> {
   @override
   Widget build(BuildContext context) {
     return Center(
-                    child: DefaultTextStyle(
-                      style: AppFonts.headerStyle(
-                        fontSize: 28,
-                        color: Colors.white,
-                      ),
-                      child:
-                          AnimatedTextKit(totalRepeatCount: 1, animatedTexts: [
-                        FadeAnimatedText("hey!",
-                            duration: const Duration(seconds: 3)),
-                        FadeAnimatedText("Welcome to\ninfoprofile!",
-                            duration: const Duration(seconds: 3),
-                            textAlign: TextAlign.center),
-                      ]),
-                    ),
-                  );
+      child: DefaultTextStyle(
+        style: AppFonts.headerStyle(
+          context: context,
+          fontSize: 28,
+          color: Colors.white,
+        ),
+        child: AnimatedTextKit(totalRepeatCount: 1, animatedTexts: [
+          FadeAnimatedText("hey!", duration: const Duration(seconds: 3)),
+          FadeAnimatedText("Welcome to\ninfoprofile!",
+              duration: const Duration(seconds: 3),
+              textAlign: TextAlign.center),
+        ]),
+      ),
+    );
   }
 }

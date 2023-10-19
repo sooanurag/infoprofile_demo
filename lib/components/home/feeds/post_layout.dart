@@ -10,11 +10,13 @@ class PostLayout extends StatefulWidget {
   final String name;
   final String username;
   final String caption;
+  final String imageURL;
   const PostLayout(
       {super.key,
       required this.screenSize,
       required this.name,
       required this.username,
+      required this.imageURL,
       this.caption = ""});
 
   @override
@@ -51,12 +53,13 @@ class _PostLayoutState extends State<PostLayout> {
                       children: [
                         Text(
                           widget.name,
-                          style:
-                              AppFonts.headerStyle(fontWeight: FontWeight.bold),
+                          style: AppFonts.headerStyle(
+                              fontWeight: FontWeight.bold, context: context),
                         ),
                         Text(
                           " - 8h",
-                          style: AppFonts.headerStyle(color: AppColors.grey),
+                          style: AppFonts.headerStyle(
+                              color: AppColors.grey, context: context),
                         ),
                       ],
                     ),
@@ -80,10 +83,10 @@ class _PostLayoutState extends State<PostLayout> {
                 Text(
                   widget.username,
                   style: AppFonts.headerStyle(
-                    color: Colors.grey,
-                    fontStyle: FontStyle.italic,
-                    fontSize: 12,
-                  ),
+                      context: context,
+                      color: Colors.grey,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(
                   height: 5,
@@ -111,10 +114,16 @@ class _PostLayoutState extends State<PostLayout> {
                   height: 10,
                 ),
                 // image
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: CachedNetworkImage(
-                    imageUrl: "https://picsum.photos/1000/600",
+                GestureDetector(
+                  onDoubleTap: () {
+                    isLiked = !isLiked;
+                    setState(() {});
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.imageURL,
+                    ),
                   ),
                 ),
 

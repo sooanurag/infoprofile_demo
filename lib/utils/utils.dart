@@ -38,10 +38,11 @@ class Utils {
   static Widget infoprofileTypo({
     double? fontSize,
     FontWeight? fontWeight,
+    required BuildContext context,
   }) =>
       Text(
         "infoprofile",
-        style: AppFonts.headerStyle(fontSize: fontSize, fontWeight: fontWeight),
+        style: AppFonts.headerStyle(fontSize: fontSize, fontWeight: fontWeight,context: context),
       );
   //----------------------------
 
@@ -141,4 +142,23 @@ class Utils {
     FontAwesomeIcons.chartLine,
     FontAwesomeIcons.gear,
   ];
+
+  //-------------
+  static alertDialog({
+    required BuildContext context,
+    Widget? inputTitle,
+    Widget? inputContent,
+    List<Widget>? inputActions,
+  }) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            title: inputTitle,
+            content: inputContent,
+            actions: inputActions,
+          );
+        });
+  }
 }

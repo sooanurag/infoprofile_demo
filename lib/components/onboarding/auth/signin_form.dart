@@ -68,6 +68,7 @@ class _SignInFormState extends State<SignInForm> {
             child: Text(
               "${AppStrings.authForgotPassword}?",
               style: AppFonts.headerStyle(
+                context: context,
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 12),

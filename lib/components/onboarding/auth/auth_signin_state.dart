@@ -53,6 +53,7 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                         Text(
                           value.authType,
                           style: AppFonts.headerStyle(
+                            context: context,
                               fontWeight: FontWeight.bold,
                               fontSize: 24,
                               color: Colors.white),
@@ -63,6 +64,7 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                         Text(
                           value.authTypeSubHead,
                           style: AppFonts.headerStyle(
+                            context: context,
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
                               color: Colors.white),
@@ -126,6 +128,7 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                               Text(
                                 value.authTypePrefix,
                                 style: AppFonts.headerStyle(
+                                  context: context,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -145,6 +148,7 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                                         ? AppStrings.authSignUp
                                         : AppStrings.authLogIn,
                                     style: AppFonts.headerStyle(
+                                      context: context,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         textDecoration:

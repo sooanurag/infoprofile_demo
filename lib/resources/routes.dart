@@ -6,4 +6,6 @@ class Routes {
   static const String getstarted = "getstarted_route";
   static const String feeds = "feeds_route";
   static const String profile = "profile_route";
+  static const String search = "search_route";
+  static const String notification = "notification_route";
 }

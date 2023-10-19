@@ -7,7 +7,8 @@ import '../../../resources/fonts.dart';
 class ProfileInfo extends StatefulWidget {
   final Size screenSize;
   final double? radius;
-  const ProfileInfo({super.key, required this.screenSize, this.radius});
+  final VoidCallback profileCallBack;
+  const ProfileInfo({super.key, required this.screenSize, this.radius,required this.profileCallBack});
 
   @override
   State<ProfileInfo> createState() => _ProfileInfoState();
@@ -25,8 +26,11 @@ class _ProfileInfoState extends State<ProfileInfo> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CircleAvatar(
-              radius: widget.radius ?? widget.screenSize.width * 0.08,
+            GestureDetector(
+              onTap: widget.profileCallBack,
+              child: CircleAvatar(
+                radius: widget.radius ?? widget.screenSize.width * 0.08,
+              ),
             ),
             IconButton(
                 visualDensity: VisualDensity.compact,
@@ -45,11 +49,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
         //fullname - ** provider missing
         Text(
           "Anurag Gupta",
-          style: AppFonts.headerStyle(fontWeight: FontWeight.bold),
+          style: AppFonts.headerStyle(fontWeight: FontWeight.bold,context: context),
         ),
         Text(
           "@username",
           style: AppFonts.headerStyle(
+            context: context,
             fontWeight: FontWeight.w500,
             fontStyle: FontStyle.italic,
             color: Colors.grey,
@@ -67,9 +72,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
             text: TextSpan(
                 text: "719 ",
                 style: AppFonts.headerStyle(
-                  color: (Theme.of(context).brightness == Brightness.dark)
-                      ? AppColors.white
-                      : AppColors.black,
+                  context: context,
                   fontWeight: FontWeight.bold,
                   fontSize: widget.screenSize.height * 0.015,
                 ),
@@ -77,13 +80,14 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   TextSpan(
                     text: "Following  ",
                     style: AppFonts.headerStyle(
+                      context: context,
                       color: Colors.grey,
                     ),
                   ),
                   const TextSpan(text: "0 "),
                   TextSpan(
                     text: "Followers",
-                    style: AppFonts.headerStyle(color: Colors.grey),
+                    style: AppFonts.headerStyle(color: Colors.grey,context: context),
                   ),
                 ]),
           ),

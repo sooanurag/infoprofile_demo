@@ -1,24 +1,28 @@
 import 'package:infoprofile_demo/models/user_model.dart';
 
 class DummyData {
-   static String url =
+  static String url =
       "https://pixabay.com/vectors/add-plus-link-chain-linking-6945894/";
   static List<UserModel> users = [
     UserModel(
       fullName: "Anurag Gupta",
-      profilePicture: url,
+      username: "sooanurag",
+      profilePicture: "https://picsum.photos/1000/600",
     ),
     UserModel(
       fullName: "Ashish Rai",
-      profilePicture: url,
+      username: "ashishrai123",
+      profilePicture: "https://picsum.photos/1000/900",
     ),
     UserModel(
       fullName: "Mayank Dubey",
-      profilePicture: url,
+      username: "golden",
+      profilePicture: "https://picsum.photos/600/600",
     ),
     UserModel(
       fullName: "Kruger",
-      profilePicture: url,
+      username: "garuna",
+      profilePicture: "https://picsum.photos/1000/400",
     ),
   ];
 }

@@ -9,6 +9,7 @@ import 'package:infoprofile_demo/resources/colors.dart';
 
 import 'package:infoprofile_demo/resources/dummy_data.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
+import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 
 import 'package:infoprofile_demo/utils/glassmorph_container.dart';
@@ -30,10 +31,15 @@ class _FeedsRouteState extends State<FeedsRoute> {
         child: SafeArea(
           bottom: false,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                ProfileInfo(screenSize: screenSize),
+                ProfileInfo(
+                  screenSize: screenSize,
+                  profileCallBack: () {
+                    Navigator.pushNamed(context, Routes.profile);
+                  },
+                ),
                 Divider(
                   color: Colors.grey,
                   thickness: 1,
@@ -44,19 +50,26 @@ class _FeedsRouteState extends State<FeedsRoute> {
                     itemCount: AppStrings.drawerTilesTitles.length,
                     itemBuilder: (context, index) {
                       return InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          if (index == 0) {
+                            Navigator.pushNamed(context, Routes.profile);
+                          }
+                        },
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           leading: FaIcon(
                             Utils.drawerTileIcons[index],
-                            color: AppColors.white,
+                            color: (Theme.of(context).brightness ==
+                                    Brightness.dark)
+                                ? AppColors.white
+                                : AppColors.black,
                             size: screenSize.height * 0.02,
                           ),
                           title: Text(
                             AppStrings.drawerTilesTitles[index],
                             style: AppFonts.headerStyle(
+                              context: context,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.white,
                             ),
                           ),
                         ),
@@ -73,27 +86,35 @@ class _FeedsRouteState extends State<FeedsRoute> {
         leadingWidth: screenSize.width * 0.08,
         leading: Builder(
           builder: (context) {
-            return GestureDetector(
-                onTap: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                child: const CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(
-                      "https://picsum.photos/200/200"),
-                ));
+            return Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: GestureDetector(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: const CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(
+                        "https://picsum.photos/200/200"),
+                  )),
+            );
           },
         ),
         centerTitle: false,
-        title: Utils.infoprofileTypo(fontWeight: FontWeight.w600, fontSize: 22),
+        title: Utils.infoprofileTypo(
+            fontWeight: FontWeight.w600, fontSize: 22, context: context),
         actions: [
           IconButton(
             visualDensity: VisualDensity.compact,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.search);
+            },
             icon: const Icon(Icons.search_outlined),
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.notification);
+            },
             icon: const Icon(Icons.notifications_outlined),
           ),
         ],
@@ -106,6 +127,7 @@ class _FeedsRouteState extends State<FeedsRoute> {
             screenSize: screenSize,
             name: userData.fullName.toString(),
             username: userData.username.toString(),
+            imageURL: userData.profilePicture!,
             caption:
                 "This is sample text, only for preview. this is sample text, onluy for preview purposes. This is only sample data.#ajfnakjf #fjnakjf",
           );

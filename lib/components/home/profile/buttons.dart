@@ -36,7 +36,7 @@ class ProfileButtons extends StatelessWidget {
                     EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child: Text(
                   "Edit profile",
-                  style: AppFonts.headerStyle(fontWeight: FontWeight.w600),
+                  style: AppFonts.headerStyle(fontWeight: FontWeight.w600,context: context),
                 ),
               ),
             ),
@@ -56,7 +56,7 @@ class ProfileButtons extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
               child: Text(
                 "Share",
-                style: AppFonts.headerStyle(fontWeight: FontWeight.w600),
+                style: AppFonts.headerStyle(fontWeight: FontWeight.w600,context: context),
               ),
             ),
           ),
