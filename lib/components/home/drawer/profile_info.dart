@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infoprofile_demo/resources/colors.dart';
 
 import '../../../resources/fonts.dart';
 
 class ProfileInfo extends StatefulWidget {
   final Size screenSize;
-  const ProfileInfo({super.key, required this.screenSize});
+  final double? radius;
+  const ProfileInfo({super.key, required this.screenSize, this.radius});
 
   @override
   State<ProfileInfo> createState() => _ProfileInfoState();
@@ -24,7 +26,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CircleAvatar(
-              radius: widget.screenSize.width * 0.08,
+              radius: widget.radius ?? widget.screenSize.width * 0.08,
             ),
             IconButton(
                 visualDensity: VisualDensity.compact,
@@ -57,30 +59,34 @@ class _ProfileInfoState extends State<ProfileInfo> {
           height: widget.screenSize.height * 0.01,
         ),
         // follower-following
-        Row(
-          children: [
-            RichText(
-              text: TextSpan(
-                  text: "719 ",
-                  style: AppFonts.headerStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: widget.screenSize.height * 0.015,
+        InkWell(
+          onTap: () {
+            // bottomsheet
+          },
+          child: RichText(
+            text: TextSpan(
+                text: "719 ",
+                style: AppFonts.headerStyle(
+                  color: (Theme.of(context).brightness == Brightness.dark)
+                      ? AppColors.white
+                      : AppColors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: widget.screenSize.height * 0.015,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: "Following  ",
+                    style: AppFonts.headerStyle(
+                      color: Colors.grey,
+                    ),
                   ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "Following  ",
-                      style: AppFonts.headerStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    TextSpan(text: "0 "),
-                    TextSpan(
-                      text: "Followers",
-                      style: AppFonts.headerStyle(color: Colors.grey),
-                    ),
-                  ]),
-            ),
-          ],
+                  const TextSpan(text: "0 "),
+                  TextSpan(
+                    text: "Followers",
+                    style: AppFonts.headerStyle(color: Colors.grey),
+                  ),
+                ]),
+          ),
         ),
       ],
     );

@@ -51,13 +51,6 @@ class GlassmorphContainer extends StatelessWidget {
             ),
             child: child,
           ),
-
-          //child
-          // Center(
-          //     child: Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: child,
-          // )),
         ],
       ),
     );

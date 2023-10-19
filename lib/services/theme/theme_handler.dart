@@ -8,13 +8,24 @@ var kDarkColorScheme =
     ColorScheme.fromSeed(brightness: Brightness.dark, seedColor: Colors.black);
 
 ThemeData lightTheme = ThemeData().copyWith(
-  useMaterial3: true,
-  colorScheme: kColorScheme,
-);
+    useMaterial3: true,
+    colorScheme: kColorScheme,
+    dividerColor: Colors.grey,
+    iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+      iconColor: MaterialStateProperty.all(Colors.black),
+    )),
+    drawerTheme: const DrawerThemeData().copyWith(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+    ),
+    appBarTheme: const AppBarTheme().copyWith(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        foregroundColor: Colors.white),
+    scaffoldBackgroundColor: Colors.white);
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
-
-    listTileTheme: ListTileThemeData().copyWith(tileColor: Colors.white),
     dividerColor: Colors.grey,
     useMaterial3: true,
     colorScheme: kDarkColorScheme,

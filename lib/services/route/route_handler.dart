@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/view/home/feeds_route.dart';
+import 'package:infoprofile_demo/view/home/profile_route.dart';
 import 'package:infoprofile_demo/view/onboarding/getstarted_route.dart';
 import 'package:infoprofile_demo/view/onboarding/login_route.dart';
 import 'package:infoprofile_demo/view/onboarding/onboarding_route.dart';
@@ -23,6 +24,8 @@ class RouteHandler {
         return MaterialPageRoute(builder: (context) => const GetStartedRoute());
       case Routes.feeds:
         return MaterialPageRoute(builder: (context) => const FeedsRoute());
+      case Routes.profile:
+        return MaterialPageRoute(builder: (context) => const ProfileRoute());
 
       default:
         return MaterialPageRoute(
