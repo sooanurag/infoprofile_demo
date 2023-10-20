@@ -71,9 +71,11 @@ class Utils {
     TextAlign? textAlign = TextAlign.start,
     double? inputFontSize,
     TextInputType? keyboardType,
+    TextInputAction? textInputAction,
   }) {
     return TextFormField(
       keyboardType: keyboardType,
+      textInputAction: textInputAction,
       textAlign: textAlign!,
       style: TextStyle(fontSize: inputFontSize, color: Colors.black),
       maxLength: maxLength,

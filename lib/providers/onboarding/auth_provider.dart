@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/components/onboarding/auth/forgot_password_form.dart';
 import 'package:infoprofile_demo/components/onboarding/auth/signin_form.dart';
+import 'package:infoprofile_demo/components/onboarding/auth/verify_user_form.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 
 import '../../components/onboarding/auth/signup_form.dart';
@@ -16,18 +16,26 @@ class AuthProvider with ChangeNotifier {
           authtypeSubHead: AppStrings.authSubHeaders[AppStrings.authLogIn]);
       setAuthTypePrefix(authtypePrefix: AppStrings.prefixSignUp);
       setFormWidget(formWidget: const SignInForm());
-    }
-    else if (authType == AppStrings.authSignUp) {
+    } else if (authType == AppStrings.authSignUp) {
       setAuthTypeSubHead(
           authtypeSubHead: AppStrings.authSubHeaders[AppStrings.authSignUp]);
       setAuthTypePrefix(authtypePrefix: AppStrings.prefixLogin);
       setFormWidget(formWidget: const SignUpForm());
-    }
-    else if (authType == AppStrings.authForgotPassword) {
+    } else if (authType == AppStrings.authForgotPassword) {
       setAuthTypeSubHead(
-          authtypeSubHead: AppStrings.authSubHeaders[AppStrings.authForgotPassword]);
+          authtypeSubHead:
+              AppStrings.authSubHeaders[AppStrings.authForgotPassword]);
       setFormWidget(formWidget: const ForgotPasswordForm());
+    } else if (authType == AppStrings.authOTP) {
+      setAuthTypeSubHead(
+          authtypeSubHead: AppStrings.authSubHeaders[AppStrings.authOTP]);
+    } else if (authType == AppStrings.authVerifyUserEmail) {
+      setAuthTypeSubHead(
+          authtypeSubHead:
+              AppStrings.authSubHeaders[AppStrings.authVerifyUserEmail]);
+      setFormWidget(formWidget: const VerifyUserForm());
     }
+
     notifyListeners();
   }
 

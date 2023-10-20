@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infoprofile_demo/components/onboarding/auth/auth_signin_state.dart';
+import 'package:infoprofile_demo/components/onboarding/auth/authentication_state.dart';
 import 'package:infoprofile_demo/components/onboarding/getstarted/getstarted_state_two.dart';
 import 'package:infoprofile_demo/components/onboarding/getstarted/getstarted_stateone.dart';
 import 'package:infoprofile_demo/providers/onboarding/getstarted_provider.dart';

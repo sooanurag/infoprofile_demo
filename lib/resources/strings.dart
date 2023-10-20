@@ -13,7 +13,9 @@ class AppStrings {
   static const String authOTP = "OTP Authentication";
   static const String authSendOTP = "Send OTP";
   static const String authVerifyOTP = "Verify";
+  static const String authVerifyUserEmail = "Email Verification";
   static Map<String, dynamic> authSubHeaders = {
+    authVerifyUserEmail: "Please enter 4-digits code sent on your Email address.",
     authLogIn:
         "Enter your username or email and password or use social-media authentication to login.",
     authSignUp:

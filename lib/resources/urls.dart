@@ -1,17 +1,16 @@
 class AppUrls {
-  static const String ends = '''
-192.168.2.181:4010
-
-/api/v1/user/login
-
-/api/v1/user/signup
-/api/v1/user/verifyUser
-
-/api/v1/user/forgot-password
-/api/v1/user/verifyOTP
-/api/v1/user/send-otp
-/api/v1/user/reset-password
-
-/api/v1/user/logout
-''';
+  static const base = "https://harshitsocial.appskeeper.in/api/v1/user";
+  // flow: signUp(sends otp to email) => verifyUser
+  static const signUp = "$base/signup";
+  static const verifyUser = "$base/verifyUser";
+  // logIn => accessToken(return)
+  static const logIn = "$base/login";
+  // logOut(no parameters req, header: acessToken)
+  static const logOut = "$base/logout";
+  // forgotPassword(sends otp) => verifyOTP =>  resetPassword(with bearerToken)
+  static const forgotPassword = "$base/forgot-password";
+  static const verifyOTP = "$base/verifyOTP";
+  static const resetPassword = "$base/reset-password";
+  // resend OTP
+  static const resendOTP = "$base/send-otp";
 }
