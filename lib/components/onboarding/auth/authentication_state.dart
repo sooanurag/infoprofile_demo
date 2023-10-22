@@ -111,14 +111,32 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              GlassmorphContainer(
-                                child: LottieAnimations.facebook,
+                              GestureDetector(
+                                onTap: () {
+                                  Utils.showToastMessage(
+                                      AppStrings.notAvailabe);
+                                },
+                                child: GlassmorphContainer(
+                                  child: LottieAnimations.facebook,
+                                ),
                               ),
-                              GlassmorphContainer(
-                                child: LottieAnimations.linkdin,
+                              GestureDetector(
+                                onTap: () {
+                                  Utils.showToastMessage(
+                                      AppStrings.notAvailabe);
+                                },
+                                child: GlassmorphContainer(
+                                  child: LottieAnimations.linkdin,
+                                ),
                               ),
-                              GlassmorphContainer(
-                                child: LottieAnimations.twitter,
+                              GestureDetector(
+                                onTap: () {
+                                  Utils.showToastMessage(
+                                      AppStrings.notAvailabe);
+                                },
+                                child: GlassmorphContainer(
+                                  child: LottieAnimations.twitter,
+                                ),
                               ),
                             ],
                           ).animate().fadeIn(),

@@ -20,6 +20,14 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  // @override
+  // void initState() {
+  //   _emailFocusNode.requestFocus();
+  //   super.initState();
+  // }
 
   @override
   void dispose() {
@@ -37,6 +45,8 @@ class _SignInFormState extends State<SignInForm> {
         Utils.customTextFormField(
           inputController: _emailController,
           invalidText: AppStrings.emailInvalidtext,
+          currentFocusNode: _emailFocusNode,
+          textInputAction: TextInputAction.next,
           prefixIcon: LottieAnimations.email,
           borderRadius: 30,
           hint: "Email Address",
@@ -51,6 +61,8 @@ class _SignInFormState extends State<SignInForm> {
           return Utils.customTextFormField(
             inputController: _passwordController,
             invalidText: AppStrings.passwordInvalidtext,
+            currentFocusNode: _passwordFocusNode,
+            textInputAction: TextInputAction.done,
             prefixIcon: LottieAnimations.lock,
             obscure: value.isObscure,
             suffixIcon: IconButton(
@@ -96,22 +108,22 @@ class _SignInFormState extends State<SignInForm> {
         Utils.textButton(
           onPressed: () async {
             // login api call
+            _passwordFocusNode.unfocus();
             Utils.customDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: CircularProgressIndicator(
-                        color: AppColors.white,
-                      ),
-                    ));
+                barrierDismissible: false,
+                context: context,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: CircularProgressIndicator(
+                    color: AppColors.white,
+                  ),
+                ));
             AuthViewModel.onSubmitLogIn(
               context: context,
               authProvider: authProvider,
               inputEmail: _emailController.text.trim(),
               inputPassword: _passwordController.text.trim(),
             );
-            
           },
           buttonText: AppStrings.authLogIn,
         ),

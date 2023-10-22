@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/components/onboarding/auth/forgot_password_form.dart';
+
 import 'package:infoprofile_demo/components/onboarding/auth/signin_form.dart';
 import 'package:infoprofile_demo/components/onboarding/auth/verify_user_form.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
@@ -34,6 +35,11 @@ class AuthProvider with ChangeNotifier {
           authtypeSubHead:
               AppStrings.authSubHeaders[AppStrings.authVerifyUserEmail]);
       setFormWidget(formWidget: const VerifyUserForm());
+    } else if (authType == AppStrings.authNewPassword) {
+      setAuthTypeSubHead(
+          authtypeSubHead:
+              AppStrings.authSubHeaders[AppStrings.authNewPassword]);
+      // set form widget
     }
 
     notifyListeners();

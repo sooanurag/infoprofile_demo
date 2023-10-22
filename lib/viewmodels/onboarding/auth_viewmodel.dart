@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/models/login_response_model.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
+import 'package:infoprofile_demo/models/veryotp_response.dart';
 import 'package:infoprofile_demo/repository/auth/auth_repo.dart';
 import 'package:infoprofile_demo/resources/api_payloads.dart';
 
@@ -9,6 +10,7 @@ import 'package:infoprofile_demo/services/prefrences_service.dart';
 
 import 'package:infoprofile_demo/utils/utils.dart';
 
+import '../../components/onboarding/auth/newpassword_form.dart';
 import '../../providers/onboarding/auth_provider.dart';
 import '../../resources/strings.dart';
 
@@ -108,8 +110,6 @@ class AuthViewModel {
         otp: inputOTP,
       ))
           .then((value) async {
-        // Navigator.of(context).pop();
-        // pop not required
         providerValue.setIsVerfyingEmailStatus(status: false);
         //login-call
         await onSubmitLogIn(
@@ -130,5 +130,96 @@ class AuthViewModel {
         Utils.showToastMessage(error.toString());
       });
     }
+  }
+
+  static Future<void> onSubmitSendOTP({
+    required String inputEmail,
+    required BuildContext context,
+    required AuthProvider authProvider,
+  }) async {
+    await AuthRepository().forgotPassword(inputEmail: inputEmail).then((value) {
+      Navigator.pop(context);
+      authProvider.setAuthType(authtype: AppStrings.authOTP);
+      authProvider.setIsOTPsent(status: true);
+      authProvider.setSignUpEmail(email: inputEmail);
+    }).onError((error, stackTrace) {
+      Navigator.pop(context);
+      Utils.alertDialog(
+          context: context,
+          inputContent: Text(error.toString()),
+          inputActions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("close"),
+            ),
+          ]);
+    });
+  }
+
+  static Future<void> onSubmitForgotPasswordOTPverify({
+    required String inputEmail,
+    required String otp,
+    required BuildContext context,
+    required AuthProvider authProvider,
+  }) async {
+    debugPrint('otp: $otp');
+    await AuthRepository()
+        .verifyForgotPasswordOTP(
+      inputEmail: inputEmail,
+      otp: otp,
+    )
+        .then((value) {
+      Navigator.pop(context); // loading pop
+      VerifyOtpResponseModel responseData =
+          VerifyOtpResponseModel.fromJson(value);
+      authProvider.setAuthType(authtype: AppStrings.authNewPassword);
+      authProvider.setFormWidget(
+          formWidget: NewPasswordForm(
+              bearerToken: responseData.data.resetPasswordToken));
+    }).onError((error, stackTrace) {
+      Navigator.pop(context); // loading pop
+      Utils.alertDialog(
+          context: context,
+          inputContent: Text(error.toString()),
+          inputActions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("close"),
+            ),
+          ]);
+    });
+  }
+
+  static Future<void> onSubmitNewPassword({
+    required String newPassword,
+    required String bearerToken,
+    required BuildContext context,
+    required AuthProvider authProvider,
+  }) async {
+    await AuthRepository()
+        .newPassword(newPassword: newPassword, bearerToken: bearerToken)
+        .then((value) {
+      // sucess status - set authtype to login
+      Navigator.pop(context);
+      Utils.showToastMessage("Success");
+      authProvider.setAuthType(authtype: AppStrings.authLogIn);
+    }).onError((error, stackTrace) {
+      Navigator.pop(context); // loading pop
+      Utils.alertDialog(
+          context: context,
+          inputContent: Text(error.toString()),
+          inputActions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("close"),
+            ),
+          ]);
+    });
   }
 }

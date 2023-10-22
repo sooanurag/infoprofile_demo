@@ -21,8 +21,6 @@ class NetworkApiService extends BaseApiService {
           )
           .timeout(const Duration(seconds: 10));
       apiResponse = response;
-      debugPrint("status code: ${response.statusCode}");
-      debugPrint("==========================");
       debugPrint("response: ${apiResponse.body}");
       debugPrint("==========================");
     } on SocketException {
@@ -39,6 +37,7 @@ class NetworkApiService extends BaseApiService {
     Map<String, String>? header,
   }) async {
     dynamic apiResponse;
+    debugPrint('data: ${data.toString()}');
     try {
       final response = await http
           .post(
@@ -48,8 +47,6 @@ class NetworkApiService extends BaseApiService {
           )
           .timeout(const Duration(seconds: 10));
       apiResponse = response;
-      debugPrint("status code: ${response.statusCode}");
-      debugPrint("==========================");
       debugPrint("response: ${apiResponse.body}");
       debugPrint("==================");
     } on SocketException {

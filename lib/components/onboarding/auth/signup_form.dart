@@ -26,6 +26,12 @@ class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    _usernameFocusNode.requestFocus();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _emailController.dispose();

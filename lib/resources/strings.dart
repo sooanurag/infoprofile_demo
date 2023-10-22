@@ -15,6 +15,7 @@ class AppStrings {
   static const String authreSendOTP = "Resend OTP";
   static const String authVerifyOTP = "Verify";
   static const String authVerifyUserEmail = "Email Verification";
+  static const String authNewPassword = "New Password";
   static Map<String, dynamic> authSubHeaders = {
     authVerifyUserEmail:
         "Please enter 4-digits code sent on your Email address.",
@@ -27,6 +28,7 @@ class AppStrings {
     authForgotPassword:
         "Enter the email address associated with your account so that we can send an OTP to reset your password.",
     authOTP: "Please enter 4-digits code sent on your Email address.",
+    authNewPassword: "Please enter your new password."
   };
 
   //log-in
@@ -48,4 +50,5 @@ class AppStrings {
   // EXCEPTIONS
   static const emailNotVerified =
       "Error during communication: ACCOUNT_NOT_VERIFIED";
+  static const notAvailabe = "Not available.";
 }

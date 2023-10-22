@@ -51,7 +51,7 @@ class ApiPayload {
   }) =>
       {
         'email': email,
-        'otp': otp,
+        "otp": otp,
       };
   
   static Map<String, String> resetPasswordData({
