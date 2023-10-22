@@ -73,4 +73,47 @@ class AuthProvider with ChangeNotifier {
     _isSignUp = status;
     notifyListeners();
   }
+
+// cerdentials
+  String _signUpEmail = "";
+  String get signUpEmail => _signUpEmail;
+  void setSignUpEmail({required String email}) {
+    _signUpEmail = email;
+    notifyListeners();
+  }
+
+  String _inputPassword = "";
+  String get inputPassword => _inputPassword;
+  void setInputPassword({required String password}) {
+    _inputPassword = password;
+    notifyListeners();
+  }
+
+  void clearCredentials() {
+    _inputPassword = "";
+    _signUpEmail = "";
+  }
+
+  String _accessToken = "";
+  String get accessToken => _accessToken;
+  void setAcessToken({required String token}) {
+    _accessToken = token;
+    notifyListeners();
+  }
+
+// verify-OTP
+  bool _isVerifyingEmail = false;
+  bool get isVerifyingEmail => _isVerifyingEmail;
+  void setIsVerfyingEmailStatus({required bool status}) {
+    _isVerifyingEmail = status;
+    notifyListeners();
+  }
+
+// obscure
+  bool _isObscure = true;
+  bool get isObscure => _isObscure;
+  void setObscureStatus({required bool status}) {
+    _isObscure = status;
+    notifyListeners();
+  }
 }

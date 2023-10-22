@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:infoprofile_demo/utils/glassmorph_container.dart';
 
 import '../resources/fonts.dart';
 
@@ -42,7 +45,8 @@ class Utils {
   }) =>
       Text(
         "infoprofile",
-        style: AppFonts.headerStyle(fontSize: fontSize, fontWeight: fontWeight,context: context),
+        style: AppFonts.headerStyle(
+            fontSize: fontSize, fontWeight: fontWeight, context: context),
       );
   //----------------------------
 
@@ -146,21 +150,54 @@ class Utils {
   ];
 
   //-------------
+
+  static customDialog({
+    required BuildContext context,
+    required Widget child,
+    bool barrierDismissible = true,
+  }) {
+    showDialog(
+      barrierDismissible: barrierDismissible,
+      context: context,
+      builder: (context) {
+        return Center(child: GlassmorphContainer(child: child));
+      },
+    );
+  }
+
+  //============
   static alertDialog({
     required BuildContext context,
     Widget? inputTitle,
     Widget? inputContent,
     List<Widget>? inputActions,
+    bool? barrierDismissible = true,
+    Color? backgroundColor,
+    EdgeInsetsGeometry? contentPadding,
+    EdgeInsetsGeometry? actionsPadding,
+    MainAxisAlignment? actionsAlignment,
+    EdgeInsets insetPadding =
+        const EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
   }) {
     showDialog(
+        barrierDismissible: barrierDismissible!,
         context: context,
         builder: (context) {
           return AlertDialog(
-            contentPadding: EdgeInsets.zero,
+            backgroundColor: backgroundColor ,
+            actionsAlignment: actionsAlignment ,
+            insetPadding: insetPadding,
+            contentPadding: contentPadding,
+            actionsPadding: actionsPadding,
             title: inputTitle,
             content: inputContent,
             actions: inputActions,
           );
         });
+  }
+
+  static showToastMessage(String message) {
+    Fluttertoast.showToast(
+        msg: message, timeInSecForIosWeb: 2, backgroundColor: Colors.black12);
   }
 }

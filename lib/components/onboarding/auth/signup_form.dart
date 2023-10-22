@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
+import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/viewmodels/onboarding/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +23,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   final _usernameFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -38,64 +41,95 @@ class _SignUpFormState extends State<SignUpForm> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Column(children: [
-        Utils.customTextFormField(
-          inputController: _usernameController,
-          currentFocusNode: _usernameFocusNode,
-          textInputAction: TextInputAction.next,
-          invalidText: AppStrings.usernameInvalidtext,
-          prefixIcon: LottieAnimations.person,
-          borderRadius: 30,
-          hint: "Username",
-          fillColor: Colors.white,
-          isFilled: true,
-          contentPadding: const EdgeInsets.all(0),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Utils.customTextFormField(
-          inputController: _emailController,
-          currentFocusNode: _emailFocusNode,
-          textInputAction: TextInputAction.next,
-          invalidText: AppStrings.emailInvalidtext,
-          prefixIcon: LottieAnimations.email,
-          borderRadius: 30,
-          hint: "Email Address",
-          fillColor: Colors.white,
-          isFilled: true,
-          contentPadding: const EdgeInsets.all(0),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Utils.customTextFormField(
-          inputController: _passwordController,
-          currentFocusNode: _passwordFocusNode,
-          textInputAction: TextInputAction.done,
-          invalidText: AppStrings.passwordInvalidtext,
-          prefixIcon: LottieAnimations.lock,
-          borderRadius: 30,
-          hint: "Password",
-          fillColor: Colors.white,
-          isFilled: true,
-          contentPadding: const EdgeInsets.all(0),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Utils.textButton(
-          onPressed: () {
-            AuthViewModel.onSubmitSignUp(
-              inputEmail: _emailController.text.trim(),
-              inputUsername: _usernameController.text.trim(),
-              inputPassword: _passwordController.text.trim(),
+      child: Form(
+        key: _formKey,
+        child: Column(children: [
+          Utils.customTextFormField(
+            inputController: _usernameController,
+            currentFocusNode: _usernameFocusNode,
+            textInputAction: TextInputAction.next,
+            invalidText: AppStrings.usernameInvalidtext,
+            prefixIcon: LottieAnimations.person,
+            borderRadius: 30,
+            hint: "Username",
+            fillColor: Colors.white,
+            isFilled: true,
+            contentPadding: const EdgeInsets.all(0),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Utils.customTextFormField(
+            inputController: _emailController,
+            currentFocusNode: _emailFocusNode,
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.emailAddress,
+            invalidText: AppStrings.emailInvalidtext,
+            prefixIcon: LottieAnimations.email,
+            borderRadius: 30,
+            hint: "Email Address",
+            fillColor: Colors.white,
+            isFilled: true,
+            contentPadding: const EdgeInsets.all(0),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Consumer<AuthProvider>(builder: (context, value, child) {
+            return Utils.customTextFormField(
+              inputController: _passwordController,
+              currentFocusNode: _passwordFocusNode,
+              textInputAction: TextInputAction.done,
+              invalidText: AppStrings.passwordInvalidtext,
+              prefixIcon: LottieAnimations.lock,
+              obscure: value.isObscure,
+              suffixIcon: IconButton(
+                  onPressed: () {
+                    value.setObscureStatus(status: !value.isObscure);
+                  },
+                  icon: (value.isObscure)
+                      ? const Icon(Icons.visibility_off_outlined)
+                      : Icon(
+                          Icons.visibility,
+                          color: AppColors.blue,
+                        )),
+              borderRadius: 30,
+              hint: "Password",
+              fillColor: Colors.white,
+              isFilled: true,
+              contentPadding: const EdgeInsets.all(0),
             );
-            authProvider.setAuthType(authtype: AppStrings.authVerifyUserEmail);
-          },
-          buttonText: AppStrings.authSignUp,
-        ),
-      ]),
+          }),
+          const SizedBox(
+            height: 20,
+          ),
+          Utils.textButton(
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                Utils.customDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: CircularProgressIndicator(
+                        color: AppColors.white,
+                      ),
+                    ));
+                authProvider.setSignUpEmail(
+                    email: _emailController.text.trim());
+                await AuthViewModel.onSubmitSignUp(
+                  authProvider: authProvider,
+                  context: context,
+                  inputEmail: _emailController.text.trim(),
+                  inputUsername: _usernameController.text.trim(),
+                  inputPassword: _passwordController.text.trim(),
+                );
+              }
+            },
+            buttonText: AppStrings.authSignUp,
+          ),
+        ]),
+      ),
     );
   }
 }

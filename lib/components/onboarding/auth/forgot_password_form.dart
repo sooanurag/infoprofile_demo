@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infoprofile_demo/components/onboarding/auth/otp_form.dart';
 import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   final _otpTwo = TextEditingController();
   final _otpthree = TextEditingController();
   final _otpFour = TextEditingController();
+  final _otpOneFocusNode = FocusNode();
+  final _otpTwoFocusNode = FocusNode();
+  final _otpthreeFocusNode = FocusNode();
+  final _otpFourFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -28,6 +34,10 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
     _otpTwo.dispose();
     _otpthree.dispose();
     _otpFour.dispose();
+    _otpOneFocusNode.dispose();
+    _otpTwoFocusNode.dispose();
+    _otpthreeFocusNode.dispose();
+    _otpFourFocusNode.dispose();
   }
 
   @override
@@ -54,75 +64,17 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
           if (value.authType == AppStrings.authOTP)
             Padding(
               padding: const EdgeInsets.only(top: 20, right: 24, left: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Utils.customTextFormField(
-                      inputController: _otpOne,
-                      invalidText: "",
-                      contentPadding: EdgeInsets.zero,
-                      fillColor: Colors.white,
-                      isFilled: true,
-                      textAlign: TextAlign.center,
-                      inputFontSize: 22,
-                      maxLength: 1,
-                      cursorColor: Colors.black12,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Utils.customTextFormField(
-                      inputController: _otpTwo,
-                      invalidText: "",
-                      contentPadding: EdgeInsets.zero,
-                      fillColor: Colors.white,
-                      isFilled: true,
-                      textAlign: TextAlign.center,
-                      inputFontSize: 22,
-                      maxLength: 1,
-                      cursorColor: Colors.black12,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Utils.customTextFormField(
-                      inputController: _otpthree,
-                      invalidText: "",
-                      contentPadding: EdgeInsets.zero,
-                      fillColor: Colors.white,
-                      isFilled: true,
-                      textAlign: TextAlign.center,
-                      inputFontSize: 22,
-                      maxLength: 1,
-                      cursorColor: Colors.black12,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Utils.customTextFormField(
-                      inputController: _otpFour,
-                      invalidText: "",
-                      contentPadding: EdgeInsets.zero,
-                      fillColor: Colors.white,
-                      isFilled: true,
-                      textAlign: TextAlign.center,
-                      inputFontSize: 22,
-                      maxLength: 1,
-                      cursorColor: Colors.black12,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ],
+              child: OtpForm(
+                formKey: _formKey,
+                otpOne: _otpOne,
+                otpTwo: _otpTwo,
+                otpthree: _otpthree,
+                otpFour: _otpFour,
+                otpOneFocusNode: _otpOneFocusNode,
+                otpTwoFocusNode: _otpTwoFocusNode,
+                otpthreeFocusNode: _otpthreeFocusNode,
+                otpFourFocusNode: _otpFourFocusNode,
+                value: value,
               ),
             ),
           const SizedBox(

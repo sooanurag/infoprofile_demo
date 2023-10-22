@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/app_exceptions.dart';
 import 'base_api_service.dart';
-
-
-
 
 class NetworkApiService extends BaseApiService {
   @override
@@ -16,13 +14,17 @@ class NetworkApiService extends BaseApiService {
   }) async {
     dynamic apiResponse;
     try {
-      final respsonse = await http
+      final response = await http
           .get(
             Uri.parse(url),
             headers: header,
           )
           .timeout(const Duration(seconds: 10));
-      apiResponse = respsonse;
+      apiResponse = response;
+      debugPrint("status code: ${response.statusCode}");
+      debugPrint("==========================");
+      debugPrint("response: ${apiResponse.body}");
+      debugPrint("==========================");
     } on SocketException {
       throw FetchDataException("No internet");
     }
@@ -46,6 +48,10 @@ class NetworkApiService extends BaseApiService {
           )
           .timeout(const Duration(seconds: 10));
       apiResponse = response;
+      debugPrint("status code: ${response.statusCode}");
+      debugPrint("==========================");
+      debugPrint("response: ${apiResponse.body}");
+      debugPrint("==================");
     } on SocketException {
       throw FetchDataException("No Internet");
     }
@@ -54,15 +60,15 @@ class NetworkApiService extends BaseApiService {
   }
 
   dynamic returnResponse(http.Response response) {
-    switch (jsonDecode(response.body)["statusCode"]) {
+    switch (response.statusCode) {
       case 200:
         return jsonDecode(response.body);
       case 400:
-        throw BadRequestException(response.body);
+        throw BadRequestException(jsonDecode(response.body)["type"]);
       case 404:
-        throw UnauthorizedException(response.body);
+        throw UnauthorizedException(jsonDecode(response.body)["type"]);
       default:
-        throw FetchDataException(response.body);
+        throw FetchDataException(jsonDecode(response.body)["type"]);
     }
   }
 }

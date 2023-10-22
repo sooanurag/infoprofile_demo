@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
-import 'package:infoprofile_demo/resources/routes.dart';
+
 import 'package:infoprofile_demo/utils/lottie_animation.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
+import 'package:infoprofile_demo/viewmodels/onboarding/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 
+import '../../../resources/colors.dart';
 import '../../../resources/strings.dart';
 
 class SignInForm extends StatefulWidget {
@@ -45,16 +47,29 @@ class _SignInFormState extends State<SignInForm> {
         const SizedBox(
           height: 20,
         ),
-        Utils.customTextFormField(
-          inputController: _passwordController,
-          invalidText: AppStrings.passwordInvalidtext,
-          prefixIcon: LottieAnimations.lock,
-          borderRadius: 30,
-          hint: "Password",
-          fillColor: Colors.white,
-          isFilled: true,
-          contentPadding: const EdgeInsets.all(0),
-        ),
+        Consumer<AuthProvider>(builder: (context, value, child) {
+          return Utils.customTextFormField(
+            inputController: _passwordController,
+            invalidText: AppStrings.passwordInvalidtext,
+            prefixIcon: LottieAnimations.lock,
+            obscure: value.isObscure,
+            suffixIcon: IconButton(
+                onPressed: () {
+                  value.setObscureStatus(status: !value.isObscure);
+                },
+                icon: (value.isObscure)
+                    ? const Icon(Icons.visibility_off_outlined)
+                    : Icon(
+                        Icons.visibility,
+                        color: AppColors.blue,
+                      )),
+            borderRadius: 30,
+            hint: "Password",
+            fillColor: Colors.white,
+            isFilled: true,
+            contentPadding: const EdgeInsets.all(0),
+          );
+        }),
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
@@ -68,7 +83,7 @@ class _SignInFormState extends State<SignInForm> {
             child: Text(
               "${AppStrings.authForgotPassword}?",
               style: AppFonts.headerStyle(
-                context: context,
+                  context: context,
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 12),
@@ -79,9 +94,24 @@ class _SignInFormState extends State<SignInForm> {
         //   height: 10,
         // ),
         Utils.textButton(
-          onPressed: () {
+          onPressed: () async {
             // login api call
-            Navigator.pushReplacementNamed(context, Routes.feeds);
+            Utils.customDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: CircularProgressIndicator(
+                        color: AppColors.white,
+                      ),
+                    ));
+            AuthViewModel.onSubmitLogIn(
+              context: context,
+              authProvider: authProvider,
+              inputEmail: _emailController.text.trim(),
+              inputPassword: _passwordController.text.trim(),
+            );
+            
           },
           buttonText: AppStrings.authLogIn,
         ),

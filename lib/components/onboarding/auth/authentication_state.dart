@@ -53,7 +53,7 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                         Text(
                           value.authType,
                           style: AppFonts.headerStyle(
-                            context: context,
+                              context: context,
                               fontWeight: FontWeight.bold,
                               fontSize: 24,
                               color: Colors.white),
@@ -64,7 +64,7 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                         Text(
                           value.authTypeSubHead,
                           style: AppFonts.headerStyle(
-                            context: context,
+                              context: context,
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
                               color: Colors.white),
@@ -79,7 +79,8 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                           height: screenSize.height * 0.06,
                         ),
                         if (value.authType == AppStrings.authForgotPassword ||
-                            value.authType == AppStrings.authOTP)
+                            value.authType == AppStrings.authOTP ||
+                            value.authType == AppStrings.authVerifyUserEmail)
                           //forgot back button
                           Center(
                             child: Utils.textButton(
@@ -93,6 +94,10 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                                   value.setAuthType(
                                       authtype: AppStrings.authForgotPassword);
                                   value.setIsOTPsent(status: false);
+                                } else if (value.authType ==
+                                    AppStrings.authVerifyUserEmail) {
+                                  value.setAuthType(
+                                      authtype: AppStrings.authSignUp);
                                 }
                               },
                               buttonText: "Back",
@@ -128,7 +133,7 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                               Text(
                                 value.authTypePrefix,
                                 style: AppFonts.headerStyle(
-                                  context: context,
+                                    context: context,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -148,7 +153,7 @@ class _AuthSignInStateState extends State<AuthSignInState> {
                                         ? AppStrings.authSignUp
                                         : AppStrings.authLogIn,
                                     style: AppFonts.headerStyle(
-                                      context: context,
+                                        context: context,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         textDecoration:
