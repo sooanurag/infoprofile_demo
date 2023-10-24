@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
+import 'package:infoprofile_demo/viewmodels/onboarding/auth_viewmodel.dart';
 
 import 'package:provider/provider.dart';
 
@@ -61,6 +62,9 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
               isFilled: true,
               contentPadding: const EdgeInsets.all(0),
             ),
+            const SizedBox(
+              height: 20,
+            ),
             Utils.customTextFormField(
               inputController: _confirmPasswordController,
               currentFocusNode: _confirmPasswordFocusNode,
@@ -90,8 +94,41 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
             Utils.textButton(
               onPressed: () async {
                 // new password APi call
+                if (_formKey.currentState!.validate()) {
+                  if (_newPasswordController.text !=
+                      _confirmPasswordController.text) {
+                    Utils.alertDialog(
+                        context: context,
+                        inputTitle: const Text("Error:"),
+                        inputContent: const Text("Password did'nt matched!"),
+                        inputActions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("close"),
+                          ),
+                        ]);
+                  } else {
+                    Utils.customDialog(
+                barrierDismissible: false,
+                context: context,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: CircularProgressIndicator(
+                    color: AppColors.white,
+                  ),
+                ));
+                    await AuthViewModel.onSubmitNewPassword(
+                      newPassword: _newPasswordController.text,
+                      bearerToken: widget.bearerToken,
+                      context: context,
+                      authProvider: value,
+                    );
+                  }
+                }
               },
-              buttonText: AppStrings.authNewPassword,
+              buttonText: "Confirm",
             ),
           ]),
         );

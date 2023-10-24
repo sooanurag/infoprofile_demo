@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
+import 'package:infoprofile_demo/view/actions/create_post_route.dart';
 import 'package:infoprofile_demo/view/home/feeds_route.dart';
 import 'package:infoprofile_demo/view/home/notifications_route.dart';
 import 'package:infoprofile_demo/view/home/profile_route.dart';
@@ -32,6 +33,8 @@ class RouteHandler {
         return MaterialPageRoute(builder: (context) => const NotificationsRoute());
       case Routes.search:
         return MaterialPageRoute(builder: (context) => const SearchRoute());
+      case Routes.createPost:
+        return MaterialPageRoute(builder: (context) => const CreatePostRoute());
 
       default:
         return MaterialPageRoute(

@@ -3,6 +3,7 @@ import 'package:infoprofile_demo/components/onboarding/auth/forgot_password_form
 
 import 'package:infoprofile_demo/components/onboarding/auth/signin_form.dart';
 import 'package:infoprofile_demo/components/onboarding/auth/verify_user_form.dart';
+
 import 'package:infoprofile_demo/resources/strings.dart';
 
 import '../../components/onboarding/auth/signup_form.dart';
@@ -122,4 +123,6 @@ class AuthProvider with ChangeNotifier {
     _isObscure = status;
     notifyListeners();
   }
+
+  
 }

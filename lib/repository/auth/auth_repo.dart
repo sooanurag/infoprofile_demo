@@ -109,7 +109,7 @@ class AuthRepository {
     dynamic jsonResponse;
     try {
       jsonResponse = await _apiService.postApiCall(
-        url: AppUrls.forgotPassword,
+        url: AppUrls.verifyOTP,
         data: ApiPayload.verifyOTPData(email: inputEmail, otp: otp),
         header: ApiPayload.contentTypeHeader,
       );
@@ -126,7 +126,7 @@ class AuthRepository {
     dynamic jsonResponse;
     try {
       jsonResponse = await _apiService.postApiCall(
-        url: AppUrls.forgotPassword,
+        url: AppUrls.resetPassword,
         header: ApiPayload.bearerTokenHeader(bearerToken: bearerToken),
         data: ApiPayload.resetPasswordData(newPassword: newPassword),
       );

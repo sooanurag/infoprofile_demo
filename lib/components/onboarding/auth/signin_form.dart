@@ -22,6 +22,7 @@ class _SignInFormState extends State<SignInForm> {
   final _passwordController = TextEditingController();
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
+  final _formkey = GlobalKey<FormState>();
 
   // @override
   // void initState() {
@@ -41,93 +42,99 @@ class _SignInFormState extends State<SignInForm> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Column(children: [
-        Utils.customTextFormField(
-          inputController: _emailController,
-          invalidText: AppStrings.emailInvalidtext,
-          currentFocusNode: _emailFocusNode,
-          textInputAction: TextInputAction.next,
-          prefixIcon: LottieAnimations.email,
-          borderRadius: 30,
-          hint: "Email Address",
-          fillColor: Colors.white,
-          isFilled: true,
-          contentPadding: const EdgeInsets.all(0),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Consumer<AuthProvider>(builder: (context, value, child) {
-          return Utils.customTextFormField(
-            inputController: _passwordController,
-            invalidText: AppStrings.passwordInvalidtext,
-            currentFocusNode: _passwordFocusNode,
-            textInputAction: TextInputAction.done,
-            prefixIcon: LottieAnimations.lock,
-            obscure: value.isObscure,
-            suffixIcon: IconButton(
-                onPressed: () {
-                  value.setObscureStatus(status: !value.isObscure);
-                },
-                icon: (value.isObscure)
-                    ? const Icon(Icons.visibility_off_outlined)
-                    : Icon(
-                        Icons.visibility,
-                        color: AppColors.blue,
-                      )),
+      child: Form(
+        key: _formkey,
+        child: Column(children: [
+          Utils.customTextFormField(
+            inputController: _emailController,
+            invalidText: AppStrings.emailInvalidtext,
+            currentFocusNode: _emailFocusNode,
+            textInputAction: TextInputAction.next,
+            prefixIcon: LottieAnimations.email,
             borderRadius: 30,
-            hint: "Password",
+            hint: "Email Address",
             fillColor: Colors.white,
             isFilled: true,
             contentPadding: const EdgeInsets.all(0),
-          );
-        }),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all(EdgeInsets.zero),
-                overlayColor:
-                    MaterialStateProperty.all(Colors.white.withOpacity(0))),
-            onPressed: () {
-              authProvider.setAuthType(authtype: AppStrings.authForgotPassword);
-            },
-            child: Text(
-              "${AppStrings.authForgotPassword}?",
-              style: AppFonts.headerStyle(
-                  context: context,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Consumer<AuthProvider>(builder: (context, value, child) {
+            return Utils.customTextFormField(
+              inputController: _passwordController,
+              invalidText: AppStrings.passwordInvalidtext,
+              currentFocusNode: _passwordFocusNode,
+              textInputAction: TextInputAction.done,
+              prefixIcon: LottieAnimations.lock,
+              obscure: value.isObscure,
+              suffixIcon: IconButton(
+                  onPressed: () {
+                    value.setObscureStatus(status: !value.isObscure);
+                  },
+                  icon: (value.isObscure)
+                      ? const Icon(Icons.visibility_off_outlined)
+                      : Icon(
+                          Icons.visibility,
+                          color: AppColors.blue,
+                        )),
+              borderRadius: 30,
+              hint: "Password",
+              fillColor: Colors.white,
+              isFilled: true,
+              contentPadding: const EdgeInsets.all(0),
+            );
+          }),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.zero),
+                  overlayColor:
+                      MaterialStateProperty.all(Colors.white.withOpacity(0))),
+              onPressed: () {
+                authProvider.setAuthType(
+                    authtype: AppStrings.authForgotPassword);
+              },
+              child: Text(
+                "${AppStrings.authForgotPassword}?",
+                style: AppFonts.headerStyle(
+                    context: context,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12),
+              ),
             ),
           ),
-        ),
-        // const SizedBox(
-        //   height: 10,
-        // ),
-        Utils.textButton(
-          onPressed: () async {
-            // login api call
-            _passwordFocusNode.unfocus();
-            Utils.customDialog(
-                barrierDismissible: false,
-                context: context,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: CircularProgressIndicator(
-                    color: AppColors.white,
-                  ),
-                ));
-            AuthViewModel.onSubmitLogIn(
-              context: context,
-              authProvider: authProvider,
-              inputEmail: _emailController.text.trim(),
-              inputPassword: _passwordController.text.trim(),
-            );
-          },
-          buttonText: AppStrings.authLogIn,
-        ),
-      ]),
+          // const SizedBox(
+          //   height: 10,
+          // ),
+          Utils.textButton(
+            onPressed: () async {
+              // login api call
+              if (_formkey.currentState!.validate()) {
+                _passwordFocusNode.unfocus();
+                Utils.customDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: CircularProgressIndicator(
+                        color: AppColors.white,
+                      ),
+                    ));
+                AuthViewModel.onSubmitLogIn(
+                  context: context,
+                  authProvider: authProvider,
+                  inputEmail: _emailController.text.trim(),
+                  inputPassword: _passwordController.text.trim(),
+                );
+              }
+            },
+            buttonText: AppStrings.authLogIn,
+          ),
+        ]),
+      ),
     );
   }
 }

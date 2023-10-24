@@ -1,8 +1,14 @@
+import 'dart:io';
+
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+
 import 'package:infoprofile_demo/utils/glassmorph_container.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 import '../resources/fonts.dart';
 
@@ -16,10 +22,14 @@ class Utils {
     double? hzPadding = 20,
     Color? textColor = Colors.black,
     Color? backgroundColor = Colors.white,
+    VisualDensity? visualDensity,
+    bool? enableFeedback,
   }) {
     return TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
+          enableFeedback: enableFeedback,
+          visualDensity: visualDensity,
           backgroundColor: MaterialStateProperty.all(backgroundColor),
           elevation: MaterialStateProperty.all(elevation),
           shadowColor: MaterialStateProperty.all(Colors.black)),
@@ -184,8 +194,8 @@ class Utils {
         context: context,
         builder: (context) {
           return AlertDialog(
-            backgroundColor: backgroundColor ,
-            actionsAlignment: actionsAlignment ,
+            backgroundColor: backgroundColor,
+            actionsAlignment: actionsAlignment,
             insetPadding: insetPadding,
             contentPadding: contentPadding,
             actionsPadding: actionsPadding,
@@ -197,7 +207,29 @@ class Utils {
   }
 
   static showToastMessage(String message) {
-    Fluttertoast.showToast(
-        msg: message, timeInSecForIosWeb: 2, backgroundColor: Colors.black12);
+    Fluttertoast.showToast(msg: message, timeInSecForIosWeb: 2);
+  }
+
+  //===============
+
+  // select Image
+  static Future<File?> selectImage(
+      {required ImageSource source,}) async {
+    XFile? pickedImageFile = await ImagePicker().pickImage(source: source);
+    if (pickedImageFile != null) {
+        return await cropImage(pickedImageFile: pickedImageFile, );
+      
+    }
+    return null;
+  }
+
+// crop Image
+  static Future<File?> cropImage({required XFile pickedImageFile, }) async {
+    CroppedFile? croppedIMageFile =
+        await ImageCropper().cropImage(sourcePath: pickedImageFile.path);
+    if (croppedIMageFile != null) {
+      return File(croppedIMageFile.path);
+    }
+    return null;
   }
 }

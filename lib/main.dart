@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
+import 'package:infoprofile_demo/providers/actions/createpost_provider.dart';
 import 'package:infoprofile_demo/providers/home/feeds_provider.dart';
 import 'package:infoprofile_demo/providers/home/postbuttons_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/authanimate_provider.dart';
@@ -17,6 +18,7 @@ import 'services/theme/theme_handler.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PrefrencesSettings settings = await PrefrenceService().getPrefrences();
+
   runApp(InfoProfile(
     settings: settings,
   ));
@@ -39,6 +41,7 @@ class InfoProfile extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthAnimateProvider()),
         ChangeNotifierProvider(create: (_) => FeedsProvider()),
         ChangeNotifierProvider(create: (_) => PostbuttonsProvider()),
+        ChangeNotifierProvider(create: (_) => CreatePostProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -46,7 +49,7 @@ class InfoProfile extends StatelessWidget {
         darkTheme: darkTheme,
         onGenerateRoute: RouteHandler.generateRoute,
         initialRoute:
-            (settings.accesstoken != null) ? Routes.getstarted : Routes.getstarted,
+            (settings.accesstoken != null) ? Routes.feeds : Routes.getstarted,
       ),
     );
   }

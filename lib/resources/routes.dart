@@ -8,4 +8,5 @@ class Routes {
   static const String profile = "profile_route";
   static const String search = "search_route";
   static const String notification = "notification_route";
+  static const String createPost = "createPost_route";
 }
