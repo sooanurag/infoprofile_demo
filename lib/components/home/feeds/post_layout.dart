@@ -144,7 +144,9 @@ class _PostLayoutState extends State<PostLayout> {
                                     .animate()
                                     .scale(curve: Curves.easeIn)
                                     .then()
-                                    .animate(delay: const Duration(milliseconds: 600))
+                                    .animate(
+                                        delay:
+                                            const Duration(milliseconds: 400))
                                     .fadeOut()
                                 : Container();
                           }),
