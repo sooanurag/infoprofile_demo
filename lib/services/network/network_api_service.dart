@@ -11,12 +11,13 @@ class NetworkApiService extends BaseApiService {
   Future getApiCall({
     required String url,
     Map<String, String>? header,
+    String? params,
   }) async {
     dynamic apiResponse;
     try {
       final response = await http
           .get(
-            Uri.parse(url),
+            Uri.parse((params == null) ? url : 'url?$params'),
             headers: header,
           )
           .timeout(const Duration(seconds: 10));
@@ -35,13 +36,14 @@ class NetworkApiService extends BaseApiService {
     required String url,
     dynamic data,
     Map<String, String>? header,
+    String? params,
   }) async {
     dynamic apiResponse;
     debugPrint('data: ${data.toString()}');
     try {
       final response = await http
           .post(
-            Uri.parse(url),
+            Uri.parse((params == null) ? url : 'url?$params'),
             body: jsonEncode(data),
             headers: header,
           )
@@ -54,6 +56,54 @@ class NetworkApiService extends BaseApiService {
     }
 
     return returnResponse(apiResponse);
+  }
+
+  @override
+  Future deleteApiCall({
+    required String url,
+    data,
+    Map<String, String>? header,
+    String? params,
+  }) async {
+    dynamic apiResponse;
+    try {
+      dynamic response = await http
+          .delete(
+            Uri.parse((params == null) ? url : 'url?$params'),
+            headers: header,
+            body: jsonEncode(data),
+          )
+          .timeout(const Duration(seconds: 10));
+      apiResponse = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet");
+    }
+    return apiResponse;
+  }
+
+  @override
+  Future patchApiCall({
+    required String url,
+    data,
+    Map<String, String>? header,
+    String? params,
+  }) async {
+    dynamic apiResponse;
+    try {
+      dynamic response = await http
+          .patch(
+            Uri.parse((params == null) ? url : '$url?$params'),
+            headers: header,
+            body: jsonEncode(data),
+          )
+          .timeout(
+            const Duration(seconds: 10),
+          );
+      apiResponse = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet");
+    }
+    return apiResponse;
   }
 
   dynamic returnResponse(http.Response response) {

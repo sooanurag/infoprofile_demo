@@ -51,4 +51,7 @@ class AppStrings {
   static const emailNotVerified =
       "Error during communication: ACCOUNT_NOT_VERIFIED";
   static const notAvailabe = "Not available.";
+
+  //post---
+  static const mediaType = "image";
 }
