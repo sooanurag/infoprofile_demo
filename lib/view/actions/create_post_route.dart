@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +26,7 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
     createPostProvider =
         Provider.of<CreatePostProvider>(context, listen: false);
     _initData(createPostProvider: createPostProvider);
-    // _captionFocusNode.requestFocus();
+
     super.initState();
   }
 
@@ -53,7 +54,6 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
                   onPressed: () {
                     if (value.isPostReady) {
                       // posy api
-                      // post api
                       value.setIsPostReady(status: false);
                     }
                   },
@@ -92,7 +92,10 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CircleAvatar(), // user profile pic
+                      const CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                            "https://picsum.photos/800/800"),
+                      ), // user profile pic
                       const SizedBox(
                         width: 10,
                       ),
@@ -106,18 +109,20 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
                                       AppStrings.notAvailabe);
                                 },
                                 buttonText: "Public",
+                                elevation: 0,
                                 visualDensity: VisualDensity.compact,
                                 hzPadding: 10),
                             TextField(
                               controller: _captionController,
                               focusNode: _captionFocusNode,
                               onChanged: (inputValue) {
-                                if(value.imageFile==null){
-                                if (inputValue.isNotEmpty) {
-                                  value.setIsPostReady(status: true);
-                                } else if (inputValue.isEmpty) {
-                                  value.setIsPostReady(status: false);
-                                }}
+                                if (value.imageFile == null) {
+                                  if (inputValue.isNotEmpty) {
+                                    value.setIsPostReady(status: true);
+                                  } else if (inputValue.isEmpty) {
+                                    value.setIsPostReady(status: false);
+                                  }
+                                }
                               },
                               decoration: const InputDecoration(
                                 hintText: "Caption...",

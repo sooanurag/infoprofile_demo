@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
-  seedColor: Colors.purple,
+  seedColor: Colors.grey,
 );
 
-var kDarkColorScheme = ColorScheme.fromSeed(
-    brightness: Brightness.dark, seedColor: Colors.purple);
+var kDarkColorScheme =
+    ColorScheme.fromSeed(brightness: Brightness.dark, seedColor: Colors.grey);
 
 ThemeData lightTheme = ThemeData().copyWith(
     useMaterial3: true,

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/components/home/drawer/profile_info.dart';
 import 'package:infoprofile_demo/components/home/profile/buttons.dart';
+import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
 
 class ProfileRoute extends StatefulWidget {
@@ -26,7 +27,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
           child: Column(
             children: [
               ProfileInfo(
-                profileCallBack: (){},
+                profileCallBack: () {},
                 radius: screenSize.width * 0.1,
                 screenSize: screenSize,
               ),
@@ -56,10 +57,16 @@ class _ProfileRouteState extends State<ProfileRoute> {
                     return InkWell(
                       onLongPress: () {
                         Utils.alertDialog(
+                          backgroundColor: AppColors.black,
+                          insetPadding: const EdgeInsets.all(40),
+                          contentPadding: EdgeInsets.zero,
                           context: context,
-                          inputContent: CachedNetworkImage(
-                            imageUrl: "https://picsum.photos/200/200",
-                            fit: BoxFit.cover,
+                          inputContent: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: CachedNetworkImage(
+                              imageUrl: "https://picsum.photos/800/800",
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         );
                       },
@@ -67,7 +74,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
                         margin: EdgeInsets.zero,
                         child: Center(
                           child: CachedNetworkImage(
-                            imageUrl: "https://picsum.photos/200/200",
+                            imageUrl: "https://picsum.photos/800/800",
                             fit: BoxFit.cover,
                           ),
                         ),

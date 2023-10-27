@@ -1,3 +1,4 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -30,6 +31,8 @@ class _PostLayoutState extends State<PostLayout> {
   TextOverflow? textOverflow = TextOverflow.ellipsis;
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 12,
@@ -192,7 +195,54 @@ class _PostLayoutState extends State<PostLayout> {
                   IconButton(
                     visualDensity: VisualDensity.compact,
                     onPressed: () {
-                      //like
+                      //commentApi
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Column(
+                              children: [
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                Divider(
+                                  thickness: 5,
+                                  indent: screenSize.width * 0.4,
+                                  endIndent: screenSize.width * 0.4,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 14, vertical: 12),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Comments:",
+                                      style: AppFonts.headerStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18,
+                                          context: context),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ListView.builder(
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 12),
+                                    itemCount: 10,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        margin: const EdgeInsets.only(bottom: 10),
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black26,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
                     },
                     icon: const FaIcon(
                       FontAwesomeIcons.comment,
