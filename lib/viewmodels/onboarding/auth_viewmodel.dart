@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/models/login_response_model.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/models/veryotp_response.dart';
+import 'package:infoprofile_demo/providers/home/user_provider.dart';
 import 'package:infoprofile_demo/repository/auth/auth_repo.dart';
 import 'package:infoprofile_demo/resources/api_payloads.dart';
 
@@ -9,6 +10,7 @@ import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/services/prefrences_service.dart';
 
 import 'package:infoprofile_demo/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/onboarding/auth/newpassword_form.dart';
 import '../../providers/onboarding/auth_provider.dart';
@@ -53,20 +55,29 @@ class AuthViewModel {
       email: inputEmail,
       password: inputPassword,
     ))
-        .then((value) {
+        .then((value) async {
       final loginResponseData = LoginResponseModel.fromJson(value);
       final userData = loginResponseData.data;
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      
       PrefrenceService().savePrefrences(
           prefrencesSettings: PrefrencesSettings(
+            userId: userData.user.id,
         accesstoken: userData.accessToken,
         email: userData.user.email,
         username: userData.user.username,
+        fullName: userData.user.fullName,
+        profilePic: userData.user.profilePic,
+        profileBio: userData.user.profileBio,
         followerCount: userData.user.followerCount,
         followingCount: userData.user.followingCount,
         postCount: userData.user.postCount,
       ));
+      PrefrencesSettings settings = await PrefrenceService().getPrefrences();
+      userProvider.setUserData (userData: settings );
+      if(context.mounted){
       Navigator.popUntil(context, (route) => route.isFirst);
-      Navigator.pushReplacementNamed(context, Routes.feeds);
+      Navigator.pushReplacementNamed(context, Routes.feeds);}
     }).onError((error, stackTrace) {
       Navigator.pop(context);
       Utils.alertDialog(

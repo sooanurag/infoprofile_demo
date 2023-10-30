@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -31,6 +30,7 @@ class _PostLayoutState extends State<PostLayout> {
   TextOverflow? textOverflow = TextOverflow.ellipsis;
   @override
   Widget build(BuildContext context) {
+
     Size screenSize = MediaQuery.of(context).size;
 
     return Padding(
@@ -225,12 +225,13 @@ class _PostLayoutState extends State<PostLayout> {
                                 ),
                                 Expanded(
                                   child: ListView.builder(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 12),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12),
                                     itemCount: 10,
                                     itemBuilder: (context, index) {
                                       return Container(
-                                        margin: const EdgeInsets.only(bottom: 10),
+                                        margin:
+                                            const EdgeInsets.only(bottom: 10),
                                         height: 60,
                                         decoration: BoxDecoration(
                                             color: Colors.black26,

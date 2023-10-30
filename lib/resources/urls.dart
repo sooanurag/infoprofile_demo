@@ -1,47 +1,50 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppUrls {
-  static const base = "https://harshitsocial.appskeeper.in/api/v1/user";
+  static String base = dotenv.env['apibaseUrl']!;
   // flow: signUp(sends otp to email) => verifyUser
-  static const signUp = "$base/signup";
-  static const verifyUser = "$base/verifyUser";
+  static String signUp = "$base/signup";
+  static String verifyUser = "$base/verifyUser";
   // logIn => accessToken(return)
-  static const logIn = "$base/login";
+  static String logIn = "$base/login";
   // logOut(no parameters req, header: acessToken)
-  static const logOut = "$base/logout";
+  static String logOut = "$base/logout";
   // forgotPassword(sends otp) => verifyOTP =>  resetPassword(with bearerToken)
-  static const forgotPassword = "$base/forgot-password";
-  static const verifyOTP = "$base/verifyOTP";
-  static const resetPassword = "$base/reset-password";
+  static String forgotPassword = "$base/forgot-password";
+  static String verifyOTP = "$base/verifyOTP";
+  static String resetPassword = "$base/reset-password";
   // resend OTP
-  static const resendOTP = "$base/send-otp";
+  static String resendOTP = "$base/send-otp";
 
   // post urls:-
-  static const createPost = "$base/createPost";
-  static const deletePost = "$base/deletePost";
-  static const editPost = "$base/editPost";
+  static String createPost = "$base/createPost";
+  static String deletePost = "$base/deletePost";
+  static String editPost = "$base/editPost";
   // likes
-  static const getPostLikes = "$base/getPostLikes";
-  static const postLike = "$base/postLike";
-  static const postDislike = "$base/postDislike";
+  static String getPostLikes = "$base/getPostLikes";
+  static String postLike = "$base/postLike";
+  static String postDislike = "$base/postDislike";
   //comments
-  static const createComment = "$base/createComment";
-  static const deleteComment = "$base/deleteComment";
-  static const editComment = "$base/editComment";
-  static const listComments = "$base/listComments";
+  static String createComment = "$base/createComment";
+  static String deleteComment = "$base/deleteComment";
+  static String editComment = "$base/editComment";
+  static String listComments = "$base/listComments";
   //report
-  static const reportPost = "$base/reportPost";
+  static String reportPost = "$base/reportPost";
 
   // profile
-  static const followUser = "$base/followUser";
-  static const getFollowers = "$base/getFollowers";
-  static const getFollowing = "$base/getFollowing";
-  static const unfollowUser = "$base/unfollowUser";
+  static String followUser = "$base/followUser";
+  static String getFollowers = "$base/getFollowers";
+  static String getFollowing = "$base/getFollowing";
+  static String unfollowUser = "$base/unfollowUser";
 
   // user
-  static const editProfile = "$base/editProfile";
+  static String editProfile = "$base/editProfile";
     // user home-feeds
-  static const userFeed = "$base/userFeed";
+  static String userFeed = "$base/userFeed";
     // get user/others profile-info
-  static const userProfile = "$base/userProfile";
+  static String userProfile = "$base/userProfile";
+  
   
 
 

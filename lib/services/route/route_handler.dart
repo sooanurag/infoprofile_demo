@@ -26,7 +26,7 @@ class RouteHandler {
       case Routes.getstarted:
         return MaterialPageRoute(builder: (context) => const GetStartedRoute());
       case Routes.feeds:
-        return MaterialPageRoute(builder: (context) => const FeedsRoute());
+        return MaterialPageRoute(builder: (context) =>  const FeedsRoute());
       case Routes.profile:
         return MaterialPageRoute(builder: (context) => const ProfileRoute());
       case Routes.notification:

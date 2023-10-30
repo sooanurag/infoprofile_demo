@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/providers/actions/createpost_provider.dart';
 import 'package:infoprofile_demo/providers/home/feeds_provider.dart';
 import 'package:infoprofile_demo/providers/home/postbuttons_provider.dart';
+import 'package:infoprofile_demo/providers/home/user_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/authanimate_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/getstarted_provider.dart';
@@ -18,6 +20,7 @@ import 'services/theme/theme_handler.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PrefrencesSettings settings = await PrefrenceService().getPrefrences();
+  await dotenv.load(fileName: '.env');
 
   runApp(InfoProfile(
     settings: settings,
@@ -42,6 +45,7 @@ class InfoProfile extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FeedsProvider()),
         ChangeNotifierProvider(create: (_) => PostbuttonsProvider()),
         ChangeNotifierProvider(create: (_) => CreatePostProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

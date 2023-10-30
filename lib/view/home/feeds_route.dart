@@ -7,7 +7,7 @@ import 'package:infoprofile_demo/components/home/feeds/custom_floatingbutton.dar
 import 'package:infoprofile_demo/components/home/feeds/post_layout.dart';
 
 import 'package:infoprofile_demo/models/user_model.dart';
-
+import 'package:infoprofile_demo/providers/home/user_provider.dart';
 
 import 'package:infoprofile_demo/resources/colors.dart';
 
@@ -15,22 +15,45 @@ import 'package:infoprofile_demo/resources/dummy_data.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
+import 'package:infoprofile_demo/services/prefrences_service.dart';
 
 import 'package:infoprofile_demo/utils/utils.dart';
 
 import 'package:infoprofile_demo/viewmodels/home/feeds_viewmodel.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/prefrences_settings_model.dart';
 
 class FeedsRoute extends StatefulWidget {
-  const FeedsRoute({super.key});
+  const FeedsRoute({
+    super.key,
+  });
 
   @override
   State<FeedsRoute> createState() => _FeedsRouteState();
 }
 
 class _FeedsRouteState extends State<FeedsRoute> {
-  
+  UserProvider? userProvider;
+  @override
+  void initState() {
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    _initData(userProvider: userProvider!);
+    super.initState();
+  }
+
+  _initData({required UserProvider userProvider}) async {
+    Future.delayed(
+      Duration.zero,
+      () async {
+        PrefrencesSettings settings = await PrefrenceService().getPrefrences();
+        userProvider.setUserData(userData: settings);
+        debugPrint(userProvider.userData.username);
+      },
+    );
+    
+  }
 
   @override
   Widget build(BuildContext context) {

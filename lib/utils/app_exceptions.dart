@@ -13,9 +13,18 @@ class FetchDataException extends AppExceptions {
       : super(message, "Error during communication");
 }
 
+class Uint8ListConvertException extends AppExceptions {
+  Uint8ListConvertException([String? message])
+      : super(message, "Error converting file to Uint8List");
+}
+
+class AWSBucketException extends AppExceptions {
+  AWSBucketException([String? message])
+      : super(message, "Error while uploading");
+}
+
 class BadRequestException extends AppExceptions {
-  BadRequestException([String? message])
-      : super(message, "Invalid Request");
+  BadRequestException([String? message]) : super(message, "Invalid Request");
 }
 
 class UnauthorizedException extends AppExceptions {
@@ -24,6 +33,5 @@ class UnauthorizedException extends AppExceptions {
 }
 
 class InvalidInputException extends AppExceptions {
-  InvalidInputException([String? message])
-      : super(message, "Invalid input");
+  InvalidInputException([String? message]) : super(message, "Invalid input");
 }

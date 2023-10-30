@@ -1,7 +1,7 @@
 
 import 'dart:convert';
 
-LoginResponseModel loginResponseModelFromJson(dynamic json) => LoginResponseModel.fromJson(json);
+LoginResponseModel loginResponseModelFromJson(dynamic value) => LoginResponseModel.fromJson(value);
 
 String loginResponseModelToJson(LoginResponseModel data) => json.encode(data.toJson());
 
@@ -54,6 +54,9 @@ class User {
     String username;
     String email;
     String password;
+    String fullName;
+    String profilePic;
+    String profileBio;
     int accountVerify;
     int followerCount;
     int followingCount;
@@ -66,6 +69,9 @@ class User {
         required this.username,
         required this.email,
         required this.password,
+        required this.fullName,
+        required this.profilePic,
+        required this.profileBio,
         required this.accountVerify,
         required this.followerCount,
         required this.followingCount,
@@ -79,6 +85,9 @@ class User {
         username: json["username"],
         email: json["email"],
         password: json["password"],
+        fullName: json["fullName"],
+        profilePic: json["profilePic"],
+        profileBio: json["profileBio"],
         accountVerify: json["accountVerify"],
         followerCount: json["followerCount"],
         followingCount: json["followingCount"],
@@ -92,6 +101,9 @@ class User {
         "username": username,
         "email": email,
         "password": password,
+        "fullName": fullName,
+        "profilePic": profilePic,
+        "profileBio": profileBio,
         "accountVerify": accountVerify,
         "followerCount": followerCount,
         "followingCount": followingCount,

@@ -6,7 +6,9 @@ import 'package:infoprofile_demo/providers/actions/createpost_provider.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
+
 import 'package:infoprofile_demo/utils/utils.dart';
+import 'package:infoprofile_demo/viewmodels/actions/createpost_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class CreatePostRoute extends StatefulWidget {
@@ -38,6 +40,13 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
   }
 
   @override
+  void dispose() {
+    _captionController.dispose();
+    _captionFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
@@ -51,9 +60,15 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
                   enableFeedback: value.isPostReady,
                   elevation: 0,
                   visualDensity: VisualDensity.compact,
-                  onPressed: () {
-                    if (value.isPostReady) {
-                      // posy api
+                  onPressed: () async {
+                    if (value.isPostReady && value.imageFile != null) {
+                      await CreatePostViewModel().onSubmitPost(
+                          createPostProvider: value,
+                          caption: _captionController.text,
+                          imageFile: value.imageFile!,
+                          context: context,
+                          screenSize: screenSize);
+
                       value.setIsPostReady(status: false);
                     }
                   },
