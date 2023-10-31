@@ -20,6 +20,9 @@ class AppUrls {
   static String createPost = "$base/createPost";
   static String deletePost = "$base/deletePost";
   static String editPost = "$base/editPost";
+  static String getUserPost = "$base/getUserPost";
+  static String getMyPost = "$base/getMyPost";
+
   // likes
   static String getPostLikes = "$base/getPostLikes";
   static String postLike = "$base/postLike";
@@ -44,7 +47,8 @@ class AppUrls {
   static String userFeed = "$base/userFeed";
     // get user/others profile-info
   static String userProfile = "$base/userProfile";
-  
+  static String userSearch = "$base/userSearch";
+
   
 
 

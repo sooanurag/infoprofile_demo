@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:infoprofile_demo/services/network/base_api_service.dart';
 import 'package:infoprofile_demo/services/network/network_api_service.dart';
 
@@ -15,7 +15,7 @@ class UserRepository {
     String? profileBio,
   }) async {
     try {
-      await _apiService
+     return await _apiService
           .patchApiCall(
         url: AppUrls.editProfile,
         header: ApiPayload.bearerTokenHeader(bearerToken: accesstoken),
@@ -25,10 +25,7 @@ class UserRepository {
           profilePic: profilePic,
         ),
       )
-          .then((value) {
-        // action on post
-        debugPrint(value.toString());
-      });
+          ;
     } catch (e) {
       rethrow;
     }
@@ -38,13 +35,11 @@ class UserRepository {
     required String accessToken,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .getApiCall(
               url: AppUrls.userFeed,
               header: ApiPayload.bearerTokenHeader(bearerToken: accessToken))
-          .then((value) {
-        debugPrint(value.toString());
-      });
+          ;
     } catch (e) {
       rethrow;
     }
@@ -55,15 +50,27 @@ class UserRepository {
     required String userId,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .getApiCall(
         url: AppUrls.userProfile,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'userId=$userId',
       )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+          ;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> userSearchApi({
+    required String accessToken,
+    required String name,
+  }) async {
+    try {
+      return  await _apiService.getApiCall(
+          url: AppUrls.userSearch,
+          header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
+          params: 'name=$name');
     } catch (e) {
       rethrow;
     }

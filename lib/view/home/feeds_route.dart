@@ -7,6 +7,7 @@ import 'package:infoprofile_demo/components/home/feeds/custom_floatingbutton.dar
 import 'package:infoprofile_demo/components/home/feeds/post_layout.dart';
 
 import 'package:infoprofile_demo/models/user_model.dart';
+import 'package:infoprofile_demo/providers/home/feeds_provider.dart';
 import 'package:infoprofile_demo/providers/home/user_provider.dart';
 
 import 'package:infoprofile_demo/resources/colors.dart';
@@ -36,24 +37,25 @@ class FeedsRoute extends StatefulWidget {
 
 class _FeedsRouteState extends State<FeedsRoute> {
   UserProvider? userProvider;
+  FeedsProvider? feedsProvider;
   @override
   void initState() {
     userProvider = Provider.of<UserProvider>(context, listen: false);
-    _initData(userProvider: userProvider!);
+    feedsProvider = Provider.of<FeedsProvider>(context, listen: false);
     super.initState();
+    _initData(userProvider: userProvider!);
+    // _initFeeds(feedsProvider: feedsProvider!);
   }
 
   _initData({required UserProvider userProvider}) async {
-    Future.delayed(
-      Duration.zero,
-      () async {
-        PrefrencesSettings settings = await PrefrenceService().getPrefrences();
-        userProvider.setUserData(userData: settings);
-        debugPrint(userProvider.userData.username);
-      },
-    );
-    
+    PrefrencesSettings settings = await PrefrenceService().getPrefrences();
+    userProvider.setUserData(userData: settings);
+    debugPrint(userProvider.userData.username);
   }
+
+  // _initFeeds({required FeedsProvider feedsProvider}) {
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +69,7 @@ class _FeedsRouteState extends State<FeedsRoute> {
             child: Column(
               children: [
                 ProfileInfo(
+                  userProvider: userProvider!,
                   screenSize: screenSize,
                   profileCallBack: () {
                     Navigator.pushNamed(context, Routes.profile);
@@ -133,9 +136,14 @@ class _FeedsRouteState extends State<FeedsRoute> {
                           onTap: () {
                             Scaffold.of(context).openDrawer();
                           },
-                          child: const CircleAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                "https://picsum.photos/200/200"),
+                          child: CircleAvatar(
+                            backgroundImage:
+                                (userProvider?.userData.profilePic == null ||
+                                        userProvider!
+                                            .userData.profilePic!.isEmpty)
+                                    ? null
+                                    : CachedNetworkImageProvider(
+                                        userProvider!.userData.profilePic!),
                           )),
                     );
                   },

@@ -57,4 +57,11 @@ class AppStrings {
   static const uploading = "Uploading...";
   static const uploadErrorTitle = "Unable to upload";
   static const uploadSuccess = "New post added!";
+  static const noPostsFound = "Add Post.";
+
+  // search--
+  static const onEmptySearchInputField =
+      "Try searching for people, topics or keywords";
+  static const noUsersFound = "No user found!";
+  static const userSearchError = "Something went wrong!";
 }

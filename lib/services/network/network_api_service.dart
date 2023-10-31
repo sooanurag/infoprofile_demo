@@ -17,7 +17,7 @@ class NetworkApiService extends BaseApiService {
     try {
       final response = await http
           .get(
-            Uri.parse((params == null) ? url : 'url?$params'),
+            Uri.parse((params == null) ? url : '$url?$params'),
             headers: header,
           )
           .timeout(const Duration(seconds: 10));

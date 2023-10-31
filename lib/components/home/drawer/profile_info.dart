@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infoprofile_demo/providers/home/user_provider.dart';
 
 import '../../../resources/fonts.dart';
 
@@ -7,7 +9,14 @@ class ProfileInfo extends StatefulWidget {
   final Size screenSize;
   final double? radius;
   final VoidCallback profileCallBack;
-  const ProfileInfo({super.key, required this.screenSize, this.radius,required this.profileCallBack});
+  final UserProvider userProvider;
+  const ProfileInfo({
+    super.key,
+    required this.screenSize,
+    this.radius,
+    required this.profileCallBack,
+    required this.userProvider,
+  });
 
   @override
   State<ProfileInfo> createState() => _ProfileInfoState();
@@ -16,6 +25,7 @@ class ProfileInfo extends StatefulWidget {
 class _ProfileInfoState extends State<ProfileInfo> {
   @override
   Widget build(BuildContext context) {
+    final userData = widget.userProvider.userData;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,6 +39,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
               onTap: widget.profileCallBack,
               child: CircleAvatar(
                 radius: widget.radius ?? widget.screenSize.width * 0.08,
+                backgroundImage: (userData.profilePic==null || userData.profilePic!.isEmpty)? null: CachedNetworkImageProvider(userData.profilePic!),
               ),
             ),
             IconButton(
@@ -47,11 +58,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
         ),
         //fullname - ** provider missing
         Text(
-          "Anurag Gupta",
-          style: AppFonts.headerStyle(fontWeight: FontWeight.bold,context: context),
+          userData.fullName??"N/A",
+          style: AppFonts.headerStyle(
+              fontWeight: FontWeight.bold, context: context),
         ),
         Text(
-          "@username",
+          '@${userData.username}',
           style: AppFonts.headerStyle(
             context: context,
             fontWeight: FontWeight.w500,
@@ -69,7 +81,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
           },
           child: RichText(
             text: TextSpan(
-                text: "719 ",
+                text: '${userData.followingCount} ',
                 style: AppFonts.headerStyle(
                   context: context,
                   fontWeight: FontWeight.bold,
@@ -83,10 +95,11 @@ class _ProfileInfoState extends State<ProfileInfo> {
                       color: Colors.grey,
                     ),
                   ),
-                  const TextSpan(text: "0 "),
+                   TextSpan(text: "${userData.followerCount} "),
                   TextSpan(
                     text: "Followers",
-                    style: AppFonts.headerStyle(color: Colors.grey,context: context),
+                    style: AppFonts.headerStyle(
+                        color: Colors.grey, context: context),
                   ),
                 ]),
           ),

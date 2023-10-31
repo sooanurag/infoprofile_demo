@@ -16,7 +16,7 @@ class PostRepository {
     String? caption,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .postApiCall(
         url: AppUrls.createPost,
         header: ApiPayload.bearerTokenHeader(bearerToken: accesstoken),
@@ -25,11 +25,7 @@ class PostRepository {
           mediaType: AppStrings.mediaType,
           caption: caption,
         ),
-      )
-          .then((value) {
-        // action on post
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -40,15 +36,12 @@ class PostRepository {
     required String postId,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .deleteApiCall(
         url: AppUrls.deletePost,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'postId=$postId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -60,7 +53,7 @@ class PostRepository {
     String? caption,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .patchApiCall(
         url: AppUrls.editPost,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
@@ -68,10 +61,7 @@ class PostRepository {
           caption: caption,
         ),
         params: 'postId=$postId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -84,15 +74,12 @@ class PostRepository {
     required String postId,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .getApiCall(
         url: AppUrls.getPostLikes,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'postId=$postId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -103,15 +90,12 @@ class PostRepository {
     required String postId,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .postApiCall(
         url: AppUrls.postLike,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'postId=$postId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -122,15 +106,12 @@ class PostRepository {
     required String postId,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .deleteApiCall(
         url: AppUrls.postDislike,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'postId=$postId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -145,16 +126,13 @@ class PostRepository {
     required String postId,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .postApiCall(
               url: AppUrls.createComment,
               header: ApiPayload.bearerTokenHeader(bearerToken: accesstoken),
               data: ApiPayload.createCommentData(comment: comment),
               params: 'postId=$postId')
-          .then((value) {
-        // action on post
-        debugPrint(value.toString());
-      });
+          ;
     } catch (e) {
       rethrow;
     }
@@ -166,15 +144,12 @@ class PostRepository {
     required String commentId,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .deleteApiCall(
         url: AppUrls.deleteComment,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'postId=$postId&commentId=$commentId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -187,16 +162,13 @@ class PostRepository {
     required String newComment,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .patchApiCall(
         url: AppUrls.editComment,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'postId=$postId&commentId=$commentId',
         data: ApiPayload.editCommentData(comment: newComment),
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -207,15 +179,12 @@ class PostRepository {
     required String postId,
   }) async {
     try {
-      await _apiService
+      return await _apiService
           .getApiCall(
         url: AppUrls.listComments,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'postId=$postId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -227,17 +196,49 @@ class PostRepository {
     required String accessToken,
     required String postId,
   }) async {
-    try{await _apiService
+    try{
+      return await _apiService
         .postApiCall(
       url: AppUrls.reportPost,
       header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
       params: 'postId=$postId',
-    )
-        .then((value) {
-      debugPrint(value.toString());
-    });}
+    );}
     catch (e) {
       rethrow;
     }
   }
+  // get user posts
+  Future<dynamic> getUserPostApi({
+    required String accessToken,
+    required String userId,
+  }) async {
+    try {
+      return await _apiService
+          .getApiCall(
+        url: AppUrls.getUserPost,
+        header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
+        params: 'userId=$userId',
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> getMyPostApi({
+    required String accessToken,
+  }) async {
+    try {
+      return await _apiService
+          .getApiCall(
+        url: AppUrls.getMyPost,
+        header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+  
+
 }

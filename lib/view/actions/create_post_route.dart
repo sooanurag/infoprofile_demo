@@ -28,7 +28,6 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
     createPostProvider =
         Provider.of<CreatePostProvider>(context, listen: false);
     _initData(createPostProvider: createPostProvider);
-
     super.initState();
   }
 
@@ -70,6 +69,7 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
                           screenSize: screenSize);
 
                       value.setIsPostReady(status: false);
+                      _captionController.clear();
                     }
                   },
                   buttonText: "Post",

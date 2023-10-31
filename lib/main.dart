@@ -4,6 +4,7 @@ import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/providers/actions/createpost_provider.dart';
 import 'package:infoprofile_demo/providers/home/feeds_provider.dart';
 import 'package:infoprofile_demo/providers/home/postbuttons_provider.dart';
+import 'package:infoprofile_demo/providers/home/search_provider.dart';
 import 'package:infoprofile_demo/providers/home/user_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/authanimate_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
@@ -34,7 +35,7 @@ class InfoProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //debug-print
-    debugPrint('${settings.username}: ${settings.accesstoken}');
+    debugPrint('${settings.username}: ${settings.accesstoken}\n user id: ${settings.userId}');
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
@@ -46,14 +47,15 @@ class InfoProfile extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PostbuttonsProvider()),
         ChangeNotifierProvider(create: (_) => CreatePostProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => SearchProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         darkTheme: darkTheme,
-        onGenerateRoute: RouteHandler.generateRoute,
         initialRoute:
-            (settings.accesstoken != null) ? Routes.feeds : Routes.getstarted,
+            (settings.accesstoken != null) ? Routes.getstarted : Routes.getstarted,
+        onGenerateRoute: RouteHandler.generateRoute,
       ),
     );
   }

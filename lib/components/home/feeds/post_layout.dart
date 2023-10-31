@@ -143,6 +143,7 @@ class _PostLayoutState extends State<PostLayout> {
                                 ? const FaIcon(
                                     FontAwesomeIcons.solidHeart,
                                     size: 80,
+                                    shadows: [Shadow(blurRadius: 1)],
                                   )
                                     .animate()
                                     .scale(curve: Curves.easeIn)
