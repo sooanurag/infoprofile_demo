@@ -113,7 +113,7 @@ class _SearchRouteState extends State<SearchRoute> {
                               padding: const EdgeInsets.only(bottom: 15),
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(10),
-                                onTap: (){
+                                onTap: () {
                                   // open profile
                                 },
                                 child: GlassmorphContainer(
@@ -147,16 +147,22 @@ class _SearchRouteState extends State<SearchRoute> {
                                                     context: context),
                                               ),
                                             Text(
-                                              usersList[index]['email'],
+                                              usersList[index]['username'],
                                               style: AppFonts.headerStyle(
-                                                  fontWeight:(usersList[index]['fullName']!=null)? FontWeight.w400: FontWeight.w600,
-                                                  context: context,),
+                                                fontWeight: (usersList[index]
+                                                            ['fullName'] !=
+                                                        null)
+                                                    ? FontWeight.w400
+                                                    : FontWeight.w600,
+                                                context: context,
+                                              ),
                                             ),
                                           ],
                                         ),
                                         const Spacer(),
                                         IconButton(
-                                            visualDensity: VisualDensity.compact,
+                                            visualDensity:
+                                                VisualDensity.compact,
                                             onPressed: () {
                                               // follow
                                               // change icon

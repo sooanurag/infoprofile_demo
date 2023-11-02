@@ -14,5 +14,7 @@ class AppPaths{
   static const String linkdin = "assets/animations/linkdin.json";
   static const String twitter = "assets/animations/twitter.json";
   static const String person = "assets/animations/person_icon.json";
+  static const String followBlack = "assets/animations/follow_black.json";
+  static const String followWhite = "assets/animations/follow_white.json";
 
 }

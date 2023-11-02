@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 
 import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/view/actions/create_post_route.dart';
@@ -27,9 +28,9 @@ class RouteHandler {
       case Routes.getstarted:
         return MaterialPageRoute(builder: (context) => const GetStartedRoute());
       case Routes.feeds:
-        return MaterialPageRoute(builder: (context) => const FeedsRoute());
+        return MaterialPageRoute(builder: (context) =>  FeedsRoute(prefrencesSettings: settings.arguments as PrefrencesSettings,));
       case Routes.profile:
-        return MaterialPageRoute(builder: (context) => const ProfileRoute());
+        return MaterialPageRoute(builder: (context) =>  ProfileRoute(prefrencesSettings: settings.arguments as PrefrencesSettings,));
       case Routes.notification:
         return MaterialPageRoute(
             builder: (context) => const NotificationsRoute());

@@ -34,6 +34,7 @@ class AppStrings {
   //log-in
   static const emailInvalidtext = "Enter your email address!";
   static const usernameInvalidtext = "Crete a unique username!";
+  static const fullNameInvalidtext = "Enter your full name!";
   static const passwordInvalidtext = "Enter your password!";
   static const prefixSignUp = "Don't have an account?";
   static const prefixLogin = "Already have an account?";
@@ -51,6 +52,7 @@ class AppStrings {
   static const emailNotVerified =
       "Error during communication:\nACCOUNT_NOT_VERIFIED";
   static const notAvailabe = "Not available.";
+  static const hasError = "Something went wroung.";
 
   //post---
   static const mediaType = "image";

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/resources/api_payloads.dart';
-import 'package:infoprofile_demo/resources/strings.dart';
+
 import 'package:infoprofile_demo/resources/urls.dart';
 
 
@@ -22,7 +22,6 @@ class PostRepository {
         header: ApiPayload.bearerTokenHeader(bearerToken: accesstoken),
         data: ApiPayload.createPostData(
           postUrl: dataUrl,
-          mediaType: AppStrings.mediaType,
           caption: caption,
         ),
       );

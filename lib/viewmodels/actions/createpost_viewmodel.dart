@@ -37,13 +37,16 @@ class CreatePostViewModel {
                   style: AppFonts.headerStyle(
                     context: context,
                     fontWeight: FontWeight.w500,
+                    color: AppColors.white,
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 LinearProgressIndicator(
-                  color: AppColors.white,
+                  color: (Theme.of(context).brightness == Brightness.dark)
+                      ? AppColors.white
+                      : AppColors.black,
                 ),
               ],
             ),

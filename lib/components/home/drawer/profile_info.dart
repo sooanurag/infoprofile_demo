@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:infoprofile_demo/providers/home/user_provider.dart';
+import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
+
 
 import '../../../resources/fonts.dart';
 
@@ -9,13 +10,13 @@ class ProfileInfo extends StatefulWidget {
   final Size screenSize;
   final double? radius;
   final VoidCallback profileCallBack;
-  final UserProvider userProvider;
+  final PrefrencesSettings prefrencesSettings;
   const ProfileInfo({
     super.key,
     required this.screenSize,
     this.radius,
     required this.profileCallBack,
-    required this.userProvider,
+    required this.prefrencesSettings,
   });
 
   @override
@@ -25,7 +26,7 @@ class ProfileInfo extends StatefulWidget {
 class _ProfileInfoState extends State<ProfileInfo> {
   @override
   Widget build(BuildContext context) {
-    final userData = widget.userProvider.userData;
+    final userData = widget.prefrencesSettings;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +40,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
               onTap: widget.profileCallBack,
               child: CircleAvatar(
                 radius: widget.radius ?? widget.screenSize.width * 0.08,
-                backgroundImage: (userData.profilePic==null || userData.profilePic!.isEmpty)? null: CachedNetworkImageProvider(userData.profilePic!),
+                backgroundImage: (userData.profilePic==null || userData.profilePic!.length<2)? null: CachedNetworkImageProvider(userData.profilePic!),
               ),
             ),
             IconButton(

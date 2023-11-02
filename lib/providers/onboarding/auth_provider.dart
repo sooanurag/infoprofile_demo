@@ -40,7 +40,6 @@ class AuthProvider with ChangeNotifier {
       setAuthTypeSubHead(
           authtypeSubHead:
               AppStrings.authSubHeaders[AppStrings.authNewPassword]);
-      // set form widget
     }
 
     notifyListeners();
@@ -81,7 +80,6 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-// cerdentials
   String _signUpEmail = "";
   String get signUpEmail => _signUpEmail;
   void setSignUpEmail({required String email}) {
@@ -108,7 +106,6 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-// verify-OTP
   bool _isVerifyingEmail = false;
   bool get isVerifyingEmail => _isVerifyingEmail;
   void setIsVerfyingEmailStatus({required bool status}) {
@@ -116,13 +113,10 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-// obscure
   bool _isObscure = true;
   bool get isObscure => _isObscure;
   void setObscureStatus({required bool status}) {
     _isObscure = status;
     notifyListeners();
   }
-
-  
 }

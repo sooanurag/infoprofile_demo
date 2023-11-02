@@ -20,6 +20,7 @@ class AuthViewModel {
   static Future<void> onSubmitSignUp({
     required String inputEmail,
     required String inputUsername,
+    required String inputfullName,
     required String inputPassword,
     required BuildContext context,
     required AuthProvider authProvider,
@@ -28,6 +29,7 @@ class AuthViewModel {
         .signUpApi(
             data: ApiPayload.signUpData(
       username: inputUsername,
+      fullName: inputfullName,
       email: inputEmail,
       password: inputPassword,
     ))
@@ -36,7 +38,7 @@ class AuthViewModel {
       authProvider.setInputPassword(password: inputPassword);
       Navigator.of(context).pop();
       Utils.showToastMessage(
-          (value['statusCode'] == 200) ? "Signed In!" : "Failed");
+          "Registered!");
     }).onError((error, stackTrace) {
       Navigator.of(context).pop();
       Utils.showToastMessage(error.toString());

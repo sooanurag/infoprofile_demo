@@ -7,6 +7,10 @@ class LottieAnimations {
       Lottie.asset(AppPaths.logoAnimationDelayed, height: 200, repeat: false);
   static LottieBuilder onBoardingOne =
       Lottie.asset(AppPaths.onBoardingOne, reverse: true);
+  static LottieBuilder followBlack =
+      Lottie.asset(AppPaths.followBlack, reverse: true);
+  static LottieBuilder followWhite =
+      Lottie.asset(AppPaths.followWhite, reverse: true);
   static LottieBuilder onBoardingTwo =
       Lottie.asset(AppPaths.onBoardingtwo, repeat: true);
   static LottieBuilder onBoardingThree =

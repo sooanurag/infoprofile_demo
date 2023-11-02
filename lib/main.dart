@@ -11,8 +11,11 @@ import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/getstarted_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/onboarding_provider.dart';
 import 'package:infoprofile_demo/providers/theme_provider.dart';
+
 import 'package:infoprofile_demo/services/prefrences_service.dart';
 import 'package:infoprofile_demo/services/route/route_handler.dart';
+import 'package:infoprofile_demo/view/home/feeds_route.dart';
+import 'package:infoprofile_demo/view/onboarding/getstarted_route.dart';
 import 'package:provider/provider.dart';
 
 import 'resources/routes.dart';
@@ -21,6 +24,7 @@ import 'services/theme/theme_handler.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PrefrencesSettings settings = await PrefrenceService().getPrefrences();
+
   await dotenv.load(fileName: '.env');
 
   runApp(InfoProfile(
@@ -35,7 +39,8 @@ class InfoProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //debug-print
-    debugPrint('${settings.username}: ${settings.accesstoken}\n user id: ${settings.userId}');
+    debugPrint(
+        '${settings.username}: ${settings.accesstoken}\n user id: ${settings.userId}');
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
@@ -53,9 +58,10 @@ class InfoProfile extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         darkTheme: darkTheme,
-        initialRoute:
-            (settings.accesstoken != null) ? Routes.getstarted : Routes.getstarted,
+        // initialRoute:
+        //     (settings.accesstoken != null) ? Routes.feeds : Routes.getstarted,
         onGenerateRoute: RouteHandler.generateRoute,
+        home: (settings.accesstoken != null)?  FeedsRoute(prefrencesSettings: settings,): const GetStartedRoute(),
       ),
     );
   }

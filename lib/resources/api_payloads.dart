@@ -11,10 +11,12 @@ class ApiPayload {
   static Map<String, String> signUpData({
     required String username,
     required String email,
+    required String fullName,
     required String password,
   }) =>
       {
         'username': username,
+        'fullName' : fullName,
         'email': email,
         'password': password,
       };
@@ -79,12 +81,10 @@ class ApiPayload {
   //==== post
   static Map<String, String> createPostData({
     required String postUrl,
-    required String mediaType,
     String? caption,
   }) =>
       {
         "url": postUrl,
-        "mediaType": mediaType,
         "caption": caption ?? "",
       };
 

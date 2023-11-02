@@ -19,10 +19,12 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
+  final _fullNameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   final _usernameFocusNode = FocusNode();
+  final _fullNameFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -53,6 +55,7 @@ class _SignUpFormState extends State<SignUpForm> {
           Utils.customTextFormField(
             inputController: _usernameController,
             currentFocusNode: _usernameFocusNode,
+            cursorColor: AppColors.black,
             textInputAction: TextInputAction.next,
             invalidText: AppStrings.usernameInvalidtext,
             prefixIcon: LottieAnimations.person,
@@ -66,8 +69,25 @@ class _SignUpFormState extends State<SignUpForm> {
             height: 20,
           ),
           Utils.customTextFormField(
+            inputController: _fullNameController,
+            currentFocusNode: _fullNameFocusNode,
+            cursorColor: AppColors.black,
+            textInputAction: TextInputAction.next,
+            invalidText: AppStrings.fullNameInvalidtext,
+            prefixIcon: LottieAnimations.person,
+            borderRadius: 30,
+            hint: "Full Name",
+            fillColor: Colors.white,
+            isFilled: true,
+            contentPadding: const EdgeInsets.all(0),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Utils.customTextFormField(
             inputController: _emailController,
             currentFocusNode: _emailFocusNode,
+            cursorColor: AppColors.black,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
             invalidText: AppStrings.emailInvalidtext,
@@ -86,6 +106,7 @@ class _SignUpFormState extends State<SignUpForm> {
               inputController: _passwordController,
               currentFocusNode: _passwordFocusNode,
               textInputAction: TextInputAction.done,
+              cursorColor: AppColors.black,
               invalidText: AppStrings.passwordInvalidtext,
               prefixIcon: LottieAnimations.lock,
               obscure: value.isObscure,
@@ -127,6 +148,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   authProvider: authProvider,
                   context: context,
                   inputEmail: _emailController.text.trim(),
+                  inputfullName: _fullNameController.text.trim(),
                   inputUsername: _usernameController.text.trim(),
                   inputPassword: _passwordController.text.trim(),
                 );

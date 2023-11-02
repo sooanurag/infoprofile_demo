@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infoprofile_demo/resources/strings.dart';
+
 
 import 'package:infoprofile_demo/utils/glassmorph_container.dart';
 import 'package:image_picker/image_picker.dart';
@@ -214,8 +217,14 @@ class Utils {
   static Future<File?> selectImage({
     required ImageSource source,
   }) async {
-    XFile? pickedImageFile = await ImagePicker().pickImage(source: source);
-    
+    XFile? pickedImageFile;
+    try {
+      pickedImageFile = await ImagePicker().pickImage(source: source);
+    } catch (e) {
+      debugPrint(e.toString());
+      Utils.showToastMessage(AppStrings.uploadErrorTitle);
+    }
+
     if (pickedImageFile != null) {
       // debugPrint(pickedImageFile.path.toString());
       return await cropImage(

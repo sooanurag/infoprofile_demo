@@ -3,32 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/components/home/drawer/profile_info.dart';
 import 'package:infoprofile_demo/components/home/feeds/custom_floatingbutton.dart';
-
-import 'package:infoprofile_demo/components/home/feeds/post_layout.dart';
-
-import 'package:infoprofile_demo/models/user_model.dart';
-import 'package:infoprofile_demo/providers/home/feeds_provider.dart';
-import 'package:infoprofile_demo/providers/home/user_provider.dart';
+import 'package:infoprofile_demo/models/userfeeds_model.dart';
 
 import 'package:infoprofile_demo/resources/colors.dart';
 
-import 'package:infoprofile_demo/resources/dummy_data.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
+
 import 'package:infoprofile_demo/services/prefrences_service.dart';
+import 'package:infoprofile_demo/utils/lottie_animation.dart';
 
 import 'package:infoprofile_demo/utils/utils.dart';
 
 import 'package:infoprofile_demo/viewmodels/home/feeds_viewmodel.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:provider/provider.dart';
 
 import '../../models/prefrences_settings_model.dart';
 
 class FeedsRoute extends StatefulWidget {
+  final PrefrencesSettings prefrencesSettings;
   const FeedsRoute({
     super.key,
+    required this.prefrencesSettings,
   });
 
   @override
@@ -36,30 +33,15 @@ class FeedsRoute extends StatefulWidget {
 }
 
 class _FeedsRouteState extends State<FeedsRoute> {
-  UserProvider? userProvider;
-  FeedsProvider? feedsProvider;
   @override
-  void initState() {
-    userProvider = Provider.of<UserProvider>(context, listen: false);
-    feedsProvider = Provider.of<FeedsProvider>(context, listen: false);
-    super.initState();
-    _initData(userProvider: userProvider!);
-    // _initFeeds(feedsProvider: feedsProvider!);
+  void dispose() {
+    super.dispose();
   }
-
-  _initData({required UserProvider userProvider}) async {
-    PrefrencesSettings settings = await PrefrenceService().getPrefrences();
-    userProvider.setUserData(userData: settings);
-    debugPrint(userProvider.userData.username);
-  }
-
-  // _initFeeds({required FeedsProvider feedsProvider}) {
-
-  // }
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    int pageNo = 1;
+    PrefrencesSettings userData = widget.prefrencesSettings;
     return Scaffold(
       drawer: Drawer(
         child: SafeArea(
@@ -69,10 +51,11 @@ class _FeedsRouteState extends State<FeedsRoute> {
             child: Column(
               children: [
                 ProfileInfo(
-                  userProvider: userProvider!,
+                  prefrencesSettings: userData,
                   screenSize: screenSize,
                   profileCallBack: () {
-                    Navigator.pushNamed(context, Routes.profile);
+                    Navigator.pushNamed(context, Routes.profile,
+                        arguments: userData);
                   },
                 ),
                 Divider(
@@ -137,13 +120,11 @@ class _FeedsRouteState extends State<FeedsRoute> {
                             Scaffold.of(context).openDrawer();
                           },
                           child: CircleAvatar(
-                            backgroundImage:
-                                (userProvider?.userData.profilePic == null ||
-                                        userProvider!
-                                            .userData.profilePic!.isEmpty)
-                                    ? null
-                                    : CachedNetworkImageProvider(
-                                        userProvider!.userData.profilePic!),
+                            backgroundImage: (userData.profilePic == null ||
+                                    userData.profilePic!.length < 2)
+                                ? null
+                                : CachedNetworkImageProvider(
+                                    userData.profilePic!),
                           )),
                     );
                   },
@@ -172,7 +153,9 @@ class _FeedsRouteState extends State<FeedsRoute> {
             ];
           },
           body: LiquidPullToRefresh(
-            onRefresh: FeedsViewModel.feedsRefreshHandler,
+            onRefresh: () async {
+              Future.delayed(const Duration(seconds: 1));
+            },
             color: (Theme.of(context).brightness == Brightness.dark)
                 ? AppColors.black
                 : AppColors.white,
@@ -180,18 +163,63 @@ class _FeedsRouteState extends State<FeedsRoute> {
             height: screenSize.height * 0.08,
             showChildOpacityTransition: false,
             animSpeedFactor: 5,
-            child: ListView.builder(
-              itemCount: DummyData.users.length,
-              itemBuilder: (context, index) {
-                UserModel userData = DummyData.users[index];
-                return PostLayout(
-                  screenSize: screenSize,
-                  name: userData.fullName.toString(),
-                  username: userData.username.toString(),
-                  imageURL: userData.profilePicture!,
-                  caption:
-                      "This is sample text, only for preview. this is sample text, onluy for preview purposes. This is only sample data.#ajfnakjf #fjnakjf",
-                );
+            child: FutureBuilder(
+              future: FeedsViewModel().userFeedsApiCall(
+                accessToken: userData.accesstoken!,
+                pageNo: 1,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: Text(AppStrings.hasError),
+                    );
+                  } else {
+                    debugPrint(snapshot.data.toString());
+                    UserFeedsModel feedsData =
+                        UserFeedsModel.fromJson(snapshot.data);
+                    List<UserFeed> feedsList = feedsData.userFeed;
+                    return (feedsList.isEmpty)
+                        ? Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 80,
+                                    child: (Theme.of(context).brightness ==
+                                            Brightness.dark)
+                                        ? LottieAnimations.followWhite
+                                        : LottieAnimations.followBlack,
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Text(
+                                    "Add Friends",
+                                    style: AppFonts.headerStyle(
+                                        context: context,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : ListView.builder(
+                            itemCount: feedsList.length,
+                            itemBuilder: (context, index) {
+                              return Container();
+                            },
+                          );
+                  }
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
               },
             ),
           ),

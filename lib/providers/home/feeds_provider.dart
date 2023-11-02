@@ -11,8 +11,21 @@ class FeedsProvider with ChangeNotifier {
   }
 
   // after pagination
+  int _pageNo = 1;
+  int get pageNo => _pageNo;
+  void setPageNo({required int pageNo}) {
+    _pageNo = pageNo;
+    notifyListeners();
+  }
+
   void addFeeds({required List<UserFeed> newFeeds}) {
     _feedsList.add(newFeeds);
+    notifyListeners();
+  }
+
+  void refreshFeeds() {
+    _feedsList.clear();
+    _pageNo = 1;
     notifyListeners();
   }
 }

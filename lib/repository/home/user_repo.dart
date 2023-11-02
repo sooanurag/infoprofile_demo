@@ -1,4 +1,3 @@
-
 import 'package:infoprofile_demo/services/network/base_api_service.dart';
 import 'package:infoprofile_demo/services/network/network_api_service.dart';
 
@@ -15,8 +14,7 @@ class UserRepository {
     String? profileBio,
   }) async {
     try {
-     return await _apiService
-          .patchApiCall(
+      return await _apiService.patchApiCall(
         url: AppUrls.editProfile,
         header: ApiPayload.bearerTokenHeader(bearerToken: accesstoken),
         data: ApiPayload.editProfiletData(
@@ -24,8 +22,7 @@ class UserRepository {
           profileBio: profileBio,
           profilePic: profilePic,
         ),
-      )
-          ;
+      );
     } catch (e) {
       rethrow;
     }
@@ -33,13 +30,14 @@ class UserRepository {
 
   Future<dynamic> userFeedsApi({
     required String accessToken,
+    required String pageNo,
   }) async {
     try {
-      return await _apiService
-          .getApiCall(
-              url: AppUrls.userFeed,
-              header: ApiPayload.bearerTokenHeader(bearerToken: accessToken))
-          ;
+      return await _apiService.getApiCall(
+        url: AppUrls.userFeed,
+        header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
+        params: 'pageNo=$pageNo&limit=20'
+      );
     } catch (e) {
       rethrow;
     }
@@ -50,13 +48,11 @@ class UserRepository {
     required String userId,
   }) async {
     try {
-      return await _apiService
-          .getApiCall(
+      return await _apiService.getApiCall(
         url: AppUrls.userProfile,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'userId=$userId',
-      )
-          ;
+      );
     } catch (e) {
       rethrow;
     }
@@ -67,7 +63,7 @@ class UserRepository {
     required String name,
   }) async {
     try {
-      return  await _apiService.getApiCall(
+      return await _apiService.getApiCall(
           url: AppUrls.userSearch,
           header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
           params: 'name=$name');

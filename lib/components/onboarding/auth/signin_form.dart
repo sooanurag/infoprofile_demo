@@ -24,11 +24,6 @@ class _SignInFormState extends State<SignInForm> {
   final _passwordFocusNode = FocusNode();
   final _formkey = GlobalKey<FormState>();
 
-  // @override
-  // void initState() {
-  //   _emailFocusNode.requestFocus();
-  //   super.initState();
-  // }
 
   @override
   void dispose() {
@@ -49,6 +44,7 @@ class _SignInFormState extends State<SignInForm> {
             inputController: _emailController,
             invalidText: AppStrings.emailInvalidtext,
             currentFocusNode: _emailFocusNode,
+            cursorColor: AppColors.black,
             textInputAction: TextInputAction.next,
             prefixIcon: LottieAnimations.email,
             borderRadius: 30,
@@ -65,6 +61,7 @@ class _SignInFormState extends State<SignInForm> {
               inputController: _passwordController,
               invalidText: AppStrings.passwordInvalidtext,
               currentFocusNode: _passwordFocusNode,
+              cursorColor: AppColors.black,
               textInputAction: TextInputAction.done,
               prefixIcon: LottieAnimations.lock,
               obscure: value.isObscure,

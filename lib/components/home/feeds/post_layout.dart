@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
@@ -11,14 +12,25 @@ class PostLayout extends StatefulWidget {
   final String name;
   final String username;
   final String caption;
-  final String imageURL;
-  const PostLayout(
-      {super.key,
-      required this.screenSize,
-      required this.name,
-      required this.username,
-      required this.imageURL,
-      this.caption = ""});
+  final String postImageURL;
+  final String userProfilePic;
+  final DateTime createOn;
+  final int likesCount;
+  final bool isLiked;
+  final int commentsCount;
+  const PostLayout({
+    super.key,
+    required this.screenSize,
+    required this.name,
+    required this.username,
+    required this.postImageURL,
+    required this.userProfilePic,
+    required this.createOn,
+    required this.likesCount,
+    required this.isLiked,
+    required this.commentsCount,
+    this.caption = "",
+  });
 
   @override
   State<PostLayout> createState() => _PostLayoutState();
@@ -30,8 +42,24 @@ class _PostLayoutState extends State<PostLayout> {
   TextOverflow? textOverflow = TextOverflow.ellipsis;
   @override
   Widget build(BuildContext context) {
-
     Size screenSize = MediaQuery.of(context).size;
+    String? hours;
+    String? beforeYesterday;
+    String? lastYearPost;
+    bool isYesterday = false;
+    if (widget.createOn.day == DateTime.now().day) {
+      int hoursTemp = DateTime.now().hour - widget.createOn.hour;
+      if (hoursTemp > 23) {
+        isYesterday = true;
+      } else {
+        hours = hoursTemp.toString();
+      }
+    } else if (widget.createOn.year == DateTime.now().year) {
+      hours = null;
+      beforeYesterday = DateFormat("dd MMMM").format(widget.createOn);
+    } else {
+      lastYearPost = DateFormat("dd MMMM yyyy").format(widget.createOn);
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -43,9 +71,9 @@ class _PostLayoutState extends State<PostLayout> {
         children: [
           Row(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 24,
-                backgroundImage: NetworkImage("https://picsum.photos/300/300"),
+                backgroundImage: NetworkImage(widget.userProfilePic),
               ),
               const SizedBox(
                 width: 10,
@@ -63,7 +91,7 @@ class _PostLayoutState extends State<PostLayout> {
                         ),
                       ),
                       Text(
-                        " - 8h",
+                        " - ${hours ?? ((isYesterday) ? "Yesterday" : beforeYesterday ?? lastYearPost!)}",
                         style: AppFonts.headerStyle(
                             color: AppColors.grey, context: context),
                       ),
@@ -132,7 +160,7 @@ class _PostLayoutState extends State<PostLayout> {
                 alignment: Alignment.bottomCenter,
                 children: [
                   CachedNetworkImage(
-                    imageUrl: widget.imageURL,
+                    imageUrl: widget.postImageURL,
                   ),
                   Positioned.fill(
                     child: Center(
