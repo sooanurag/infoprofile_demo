@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/utils/glassmorph_container.dart';
 
 class NotificationsRoute extends StatefulWidget {
-  const NotificationsRoute({super.key});
+  final PrefrencesSettings prefrencesSettings;
+  const NotificationsRoute({super.key, required this.prefrencesSettings});
 
   @override
   State<NotificationsRoute> createState() => _NotificationsRouteState();
@@ -18,7 +20,8 @@ class _NotificationsRouteState extends State<NotificationsRoute> {
       appBar: AppBar(
         title: Text(
           "Notifications",
-          style: AppFonts.headerStyle(fontWeight: FontWeight.bold,context: context),
+          style: AppFonts.headerStyle(
+              fontWeight: FontWeight.bold, context: context),
         ),
       ),
       body: ListView.builder(
@@ -44,7 +47,8 @@ class _NotificationsRouteState extends State<NotificationsRoute> {
                     ),
                     Text(
                       "Kapil sharma",
-                      style: AppFonts.headerStyle(fontWeight: FontWeight.w600,context: context),
+                      style: AppFonts.headerStyle(
+                          fontWeight: FontWeight.w600, context: context),
                     ),
                     const Spacer(),
                     IconButton(

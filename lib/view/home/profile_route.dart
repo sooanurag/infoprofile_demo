@@ -4,13 +4,13 @@ import 'package:infoprofile_demo/components/home/drawer/profile_info.dart';
 import 'package:infoprofile_demo/components/home/profile/buttons.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/models/userposts_model.dart';
-import 'package:infoprofile_demo/providers/home/user_provider.dart';
+
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 
 import 'package:infoprofile_demo/utils/utils.dart';
 import 'package:infoprofile_demo/viewmodels/home/profile_viewmodel.dart';
-import 'package:provider/provider.dart';
+
 
 class ProfileRoute extends StatefulWidget {
   final PrefrencesSettings prefrencesSettings;
@@ -23,8 +23,8 @@ class ProfileRoute extends StatefulWidget {
 class _ProfileRouteState extends State<ProfileRoute> {
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final userData = userProvider.userData;
+    // final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userData = widget.prefrencesSettings;
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +37,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
           child: Column(
             children: [
               ProfileInfo(
-                prefrencesSettings: widget.prefrencesSettings,
+                prefrencesSettings: userData,
                 profileCallBack: () {},
                 radius: screenSize.width * 0.1,
                 screenSize: screenSize,

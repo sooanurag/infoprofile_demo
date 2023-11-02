@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:infoprofile_demo/models/userfeeds_model.dart';
-import 'package:infoprofile_demo/providers/home/feeds_provider.dart';
 
 import 'package:infoprofile_demo/repository/home/user_repo.dart';
 

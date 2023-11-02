@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/models/searchedusers_model.dart';
 import 'package:infoprofile_demo/providers/home/search_provider.dart';
-import 'package:infoprofile_demo/providers/home/user_provider.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
@@ -12,7 +12,8 @@ import 'package:provider/provider.dart';
 import '../../utils/glassmorph_container.dart';
 
 class SearchRoute extends StatefulWidget {
-  const SearchRoute({super.key});
+  final PrefrencesSettings prefrencesSettings;
+  const SearchRoute({super.key, required this.prefrencesSettings});
 
   @override
   State<SearchRoute> createState() => _SearchRouteState();
@@ -47,7 +48,6 @@ class _SearchRouteState extends State<SearchRoute> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
     final searchProvider = Provider.of<SearchProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
@@ -85,7 +85,7 @@ class _SearchRouteState extends State<SearchRoute> {
                 )
               : FutureBuilder(
                   future: SearchViewModel().onSubmitSearch(
-                    accessToken: userProvider.userData.accesstoken!,
+                    accessToken: widget.prefrencesSettings.accesstoken!,
                     inputName: _searchController.text.trim(),
                     context: context,
                   ),

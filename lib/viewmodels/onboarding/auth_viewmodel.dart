@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/models/login_response_model.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/models/veryotp_response.dart';
-import 'package:infoprofile_demo/providers/home/user_provider.dart';
+
 import 'package:infoprofile_demo/repository/auth/auth_repo.dart';
 import 'package:infoprofile_demo/resources/api_payloads.dart';
 
@@ -10,7 +10,6 @@ import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/services/prefrences_service.dart';
 
 import 'package:infoprofile_demo/utils/utils.dart';
-import 'package:provider/provider.dart';
 
 import '../../components/onboarding/auth/newpassword_form.dart';
 import '../../providers/onboarding/auth_provider.dart';
@@ -60,7 +59,6 @@ class AuthViewModel {
         .then((value) async {
       final loginResponseData = LoginResponseModel.fromJson(value);
       final userData = loginResponseData.data;
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
       
       PrefrenceService().savePrefrences(
           prefrencesSettings: PrefrencesSettings(
@@ -76,10 +74,9 @@ class AuthViewModel {
         postCount: userData.user.postCount,
       ));
       PrefrencesSettings settings = await PrefrenceService().getPrefrences();
-      userProvider.setUserData (userData: settings );
       if(context.mounted){
       Navigator.popUntil(context, (route) => route.isFirst);
-      Navigator.pushReplacementNamed(context, Routes.feeds);}
+      Navigator.pushReplacementNamed(context, Routes.feeds, arguments: settings);}
     }).onError((error, stackTrace) {
       Navigator.pop(context);
       Utils.alertDialog(

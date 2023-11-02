@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/providers/actions/createpost_provider.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
@@ -12,7 +13,8 @@ import 'package:infoprofile_demo/viewmodels/actions/createpost_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class CreatePostRoute extends StatefulWidget {
-  const CreatePostRoute({super.key});
+  final PrefrencesSettings prefrencesSettings;
+  const CreatePostRoute({super.key, required this.prefrencesSettings});
 
   @override
   State<CreatePostRoute> createState() => _CreatePostRouteState();
@@ -66,6 +68,7 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
                           caption: _captionController.text,
                           imageFile: value.imageFile!,
                           context: context,
+                          prefrencesSettings: widget.prefrencesSettings,
                           screenSize: screenSize);
 
                       value.setIsPostReady(status: false);

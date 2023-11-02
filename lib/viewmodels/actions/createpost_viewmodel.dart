@@ -1,15 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/providers/actions/createpost_provider.dart';
-import 'package:infoprofile_demo/providers/home/user_provider.dart';
+
 import 'package:infoprofile_demo/repository/home/posts_repo.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 import 'package:infoprofile_demo/services/storage/s3_service.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
-import 'package:provider/provider.dart';
+
 
 class CreatePostViewModel {
   Future<void> onSubmitPost({
@@ -17,9 +18,9 @@ class CreatePostViewModel {
     required BuildContext context,
     required Size screenSize,
     required CreatePostProvider createPostProvider,
+    required PrefrencesSettings prefrencesSettings,
     String? caption,
   }) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
     String? imageUrl;
     Utils.customDialog(
         barrierDismissible: false,
@@ -54,7 +55,7 @@ class CreatePostViewModel {
         ));
     debugPrint('caption: $caption');
     await S3Services()
-        .upload(file: imageFile, userid: userProvider.userData.userId!)
+        .upload(file: imageFile, userid: prefrencesSettings.userId!)
         .then(
       (value) {
         // Navigator.pop(context);
@@ -82,7 +83,7 @@ class CreatePostViewModel {
     if (imageUrl != null) {
       await PostRepository()
           .createPostApi(
-        accesstoken: userProvider.userData.accesstoken!,
+        accesstoken: prefrencesSettings.accesstoken!,
         dataUrl: imageUrl!,
         caption: (caption!.isEmpty) ? " " : caption,
       )

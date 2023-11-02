@@ -11,7 +11,7 @@ import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 
-import 'package:infoprofile_demo/services/prefrences_service.dart';
+
 import 'package:infoprofile_demo/utils/lottie_animation.dart';
 
 import 'package:infoprofile_demo/utils/utils.dart';
@@ -40,7 +40,7 @@ class _FeedsRouteState extends State<FeedsRoute> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    int pageNo = 1;
+    // int pageNo = 1;
     PrefrencesSettings userData = widget.prefrencesSettings;
     return Scaffold(
       drawer: Drawer(
@@ -70,7 +70,7 @@ class _FeedsRouteState extends State<FeedsRoute> {
                       return InkWell(
                         onTap: () {
                           if (index == 0) {
-                            Navigator.pushNamed(context, Routes.profile);
+                            Navigator.pushNamed(context, Routes.profile, arguments: widget.prefrencesSettings);
                           }
                         },
                         child: ListTile(
@@ -137,14 +137,14 @@ class _FeedsRouteState extends State<FeedsRoute> {
                   IconButton(
                     visualDensity: VisualDensity.compact,
                     onPressed: () {
-                      Navigator.pushNamed(context, Routes.search);
+                      Navigator.pushNamed(context, Routes.search,arguments: widget.prefrencesSettings);
                     },
                     icon: const Icon(Icons.search_outlined),
                   ),
                   IconButton(
                     visualDensity: VisualDensity.compact,
                     onPressed: () {
-                      Navigator.pushNamed(context, Routes.notification);
+                      Navigator.pushNamed(context, Routes.notification, arguments: widget.prefrencesSettings);
                     },
                     icon: const Icon(Icons.notifications_outlined),
                   ),
@@ -225,7 +225,7 @@ class _FeedsRouteState extends State<FeedsRoute> {
           ),
         ),
       ),
-      floatingActionButton: const CustomFloatingButton(),
+      floatingActionButton:  CustomFloatingButton(prefrencesSettings: userData),
     );
   }
 }

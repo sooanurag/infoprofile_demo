@@ -28,16 +28,30 @@ class RouteHandler {
       case Routes.getstarted:
         return MaterialPageRoute(builder: (context) => const GetStartedRoute());
       case Routes.feeds:
-        return MaterialPageRoute(builder: (context) =>  FeedsRoute(prefrencesSettings: settings.arguments as PrefrencesSettings,));
+        return MaterialPageRoute(
+            builder: (context) => FeedsRoute(
+                  prefrencesSettings: settings.arguments as PrefrencesSettings,
+                ));
       case Routes.profile:
-        return MaterialPageRoute(builder: (context) =>  ProfileRoute(prefrencesSettings: settings.arguments as PrefrencesSettings,));
+        return MaterialPageRoute(
+            builder: (context) => ProfileRoute(
+                  prefrencesSettings: settings.arguments as PrefrencesSettings,
+                ));
       case Routes.notification:
         return MaterialPageRoute(
-            builder: (context) => const NotificationsRoute());
+            builder: (context) => NotificationsRoute(
+                  prefrencesSettings: settings.arguments as PrefrencesSettings,
+                ));
       case Routes.search:
-        return MaterialPageRoute(builder: (context) => const SearchRoute());
+        return MaterialPageRoute(
+            builder: (context) => SearchRoute(
+                  prefrencesSettings: settings.arguments as PrefrencesSettings,
+                ));
       case Routes.createPost:
-        return MaterialPageRoute(builder: (context) => const CreatePostRoute());
+        return MaterialPageRoute(
+            builder: (context) => CreatePostRoute(
+                  prefrencesSettings: settings.arguments as PrefrencesSettings,
+                ));
 
       default:
         return MaterialPageRoute(
