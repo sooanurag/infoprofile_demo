@@ -49,6 +49,7 @@ class _SearchRouteState extends State<SearchRoute> {
   @override
   Widget build(BuildContext context) {
     final searchProvider = Provider.of<SearchProvider>(context, listen: false);
+    final PrefrencesSettings userData = widget.prefrencesSettings;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -163,9 +164,13 @@ class _SearchRouteState extends State<SearchRoute> {
                                         IconButton(
                                             visualDensity:
                                                 VisualDensity.compact,
-                                            onPressed: () {
-                                              // follow
-                                              // change icon
+                                            onPressed: () async {
+                                              // change color on tab
+                                             await SearchViewModel().followUser(
+                                                  accessToken:
+                                                      userData.accesstoken!,
+                                                  followingId: usersList[index]
+                                                      ["_id"]);
                                             },
                                             icon: const Icon(Icons.person_add))
                                       ],

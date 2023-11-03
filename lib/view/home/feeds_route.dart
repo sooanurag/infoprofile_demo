@@ -3,21 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/components/home/drawer/profile_info.dart';
 import 'package:infoprofile_demo/components/home/feeds/custom_floatingbutton.dart';
-import 'package:infoprofile_demo/models/userfeeds_model.dart';
-
+import 'package:infoprofile_demo/components/home/feeds/feeds.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
-
-
-import 'package:infoprofile_demo/utils/lottie_animation.dart';
-
 import 'package:infoprofile_demo/utils/utils.dart';
-
-import 'package:infoprofile_demo/viewmodels/home/feeds_viewmodel.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../models/prefrences_settings_model.dart';
 
@@ -37,10 +29,10 @@ class _FeedsRouteState extends State<FeedsRoute> {
   void dispose() {
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    // int pageNo = 1;
     PrefrencesSettings userData = widget.prefrencesSettings;
     return Scaffold(
       drawer: Drawer(
@@ -70,7 +62,8 @@ class _FeedsRouteState extends State<FeedsRoute> {
                       return InkWell(
                         onTap: () {
                           if (index == 0) {
-                            Navigator.pushNamed(context, Routes.profile, arguments: widget.prefrencesSettings);
+                            Navigator.pushNamed(context, Routes.profile,
+                                arguments: widget.prefrencesSettings);
                           }
                         },
                         child: ListTile(
@@ -137,14 +130,16 @@ class _FeedsRouteState extends State<FeedsRoute> {
                   IconButton(
                     visualDensity: VisualDensity.compact,
                     onPressed: () {
-                      Navigator.pushNamed(context, Routes.search,arguments: widget.prefrencesSettings);
+                      Navigator.pushNamed(context, Routes.search,
+                          arguments: widget.prefrencesSettings);
                     },
                     icon: const Icon(Icons.search_outlined),
                   ),
                   IconButton(
                     visualDensity: VisualDensity.compact,
                     onPressed: () {
-                      Navigator.pushNamed(context, Routes.notification, arguments: widget.prefrencesSettings);
+                      Navigator.pushNamed(context, Routes.notification,
+                          arguments: widget.prefrencesSettings);
                     },
                     icon: const Icon(Icons.notifications_outlined),
                   ),
@@ -152,80 +147,13 @@ class _FeedsRouteState extends State<FeedsRoute> {
               ),
             ];
           },
-          body: LiquidPullToRefresh(
-            onRefresh: () async {
-              Future.delayed(const Duration(seconds: 1));
-            },
-            color: (Theme.of(context).brightness == Brightness.dark)
-                ? AppColors.black
-                : AppColors.white,
-            backgroundColor: AppColors.grey,
-            height: screenSize.height * 0.08,
-            showChildOpacityTransition: false,
-            animSpeedFactor: 5,
-            child: FutureBuilder(
-              future: FeedsViewModel().userFeedsApiCall(
-                accessToken: userData.accesstoken!,
-                pageNo: 1,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return const Center(
-                      child: Text(AppStrings.hasError),
-                    );
-                  } else {
-                    debugPrint(snapshot.data.toString());
-                    UserFeedsModel feedsData =
-                        UserFeedsModel.fromJson(snapshot.data);
-                    List<UserFeed> feedsList = feedsData.userFeed;
-                    return (feedsList.isEmpty)
-                        ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 80,
-                                    child: (Theme.of(context).brightness ==
-                                            Brightness.dark)
-                                        ? LottieAnimations.followWhite
-                                        : LottieAnimations.followBlack,
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Text(
-                                    "Add Friends",
-                                    style: AppFonts.headerStyle(
-                                        context: context,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        : ListView.builder(
-                            itemCount: feedsList.length,
-                            itemBuilder: (context, index) {
-                              return Container();
-                            },
-                          );
-                  }
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
+          body: Feeds(
+            prefrencesSettings: userData,
+            screenSize: screenSize,
           ),
         ),
       ),
-      floatingActionButton:  CustomFloatingButton(prefrencesSettings: userData),
+      floatingActionButton: CustomFloatingButton(prefrencesSettings: userData),
     );
   }
 }

@@ -43,7 +43,7 @@ class NetworkApiService extends BaseApiService {
     try {
       final response = await http
           .post(
-            Uri.parse((params == null) ? url : 'url?$params'),
+            Uri.parse((params == null) ? url : '$url?$params'),
             body: jsonEncode(data),
             headers: header,
           )
@@ -69,12 +69,13 @@ class NetworkApiService extends BaseApiService {
     try {
       dynamic response = await http
           .delete(
-            Uri.parse((params == null) ? url : 'url?$params'),
+            Uri.parse((params == null) ? url : '$url?$params'),
             headers: header,
             body: jsonEncode(data),
           )
           .timeout(const Duration(seconds: 10));
       apiResponse = returnResponse(response);
+      debugPrint('response: $apiResponse');
     } on SocketException {
       throw FetchDataException("No Internet");
     }

@@ -5,8 +5,7 @@ import 'package:infoprofile_demo/services/network/network_api_service.dart';
 
 import '../../resources/urls.dart';
 
-class ProfileRepository{
-
+class ProfileRepository {
   final BaseApiService _apiService = NetworkApiService();
 
   Future<dynamic> followUserApi({
@@ -14,15 +13,13 @@ class ProfileRepository{
     required String followingId,
   }) async {
     try {
-      await _apiService
-          .postApiCall(
+      dynamic res = await _apiService.postApiCall(
         url: AppUrls.followUser,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'followingId=$followingId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
+      debugPrint(res.toString());
+      return res;
     } catch (e) {
       rethrow;
     }
@@ -33,15 +30,11 @@ class ProfileRepository{
     required String followingId,
   }) async {
     try {
-      await _apiService
-          .deleteApiCall(
+      return await _apiService.deleteApiCall(
         url: AppUrls.unfollowUser,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'followingId=$followingId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -52,15 +45,11 @@ class ProfileRepository{
     required String userId,
   }) async {
     try {
-      await _apiService
-          .getApiCall(
+      return await _apiService.getApiCall(
         url: AppUrls.getFollowers,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'UserId=$userId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
@@ -71,18 +60,13 @@ class ProfileRepository{
     required String userId,
   }) async {
     try {
-      await _apiService
-          .getApiCall(
+      return await _apiService.getApiCall(
         url: AppUrls.getFollowing,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
         params: 'UserId=$userId',
-      )
-          .then((value) {
-        debugPrint(value.toString());
-      });
+      );
     } catch (e) {
       rethrow;
     }
   }
-
 }

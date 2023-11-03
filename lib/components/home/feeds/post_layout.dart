@@ -2,34 +2,25 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infoprofile_demo/components/home/feeds/posts/like_button.dart';
+import 'package:infoprofile_demo/viewmodels/home/posts_viewmodel.dart';
 import 'package:intl/intl.dart';
 
+import '../../../models/userfeeds_model.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
 
 class PostLayout extends StatefulWidget {
   final Size screenSize;
-  final String name;
-  final String username;
-  final String caption;
-  final String postImageURL;
-  final String userProfilePic;
-  final DateTime createOn;
-  final int likesCount;
-  final bool isLiked;
-  final int commentsCount;
+  final UserPosts postData;
+  final UserData userData;
+  final String accessToken;
   const PostLayout({
     super.key,
     required this.screenSize,
-    required this.name,
-    required this.username,
-    required this.postImageURL,
-    required this.userProfilePic,
-    required this.createOn,
-    required this.likesCount,
-    required this.isLiked,
-    required this.commentsCount,
-    this.caption = "",
+    required this.userData,
+    required this.postData,
+    required this.accessToken,
   });
 
   @override
@@ -37,28 +28,41 @@ class PostLayout extends StatefulWidget {
 }
 
 class _PostLayoutState extends State<PostLayout> {
-  bool isLiked = false;
   ValueNotifier<bool> islikeAnimation = ValueNotifier<bool>(false);
+
   TextOverflow? textOverflow = TextOverflow.ellipsis;
   @override
   Widget build(BuildContext context) {
+    ValueNotifier<bool> isLiked = ValueNotifier<bool>(widget.postData.isLiked);
+    ValueNotifier<int> likesCount =
+        ValueNotifier<int>(widget.postData.likeCount);
     Size screenSize = MediaQuery.of(context).size;
+    String? min;
     String? hours;
     String? beforeYesterday;
     String? lastYearPost;
     bool isYesterday = false;
-    if (widget.createOn.day == DateTime.now().day) {
-      int hoursTemp = DateTime.now().hour - widget.createOn.hour;
-      if (hoursTemp > 23) {
-        isYesterday = true;
+    if (widget.postData.createdAt.day == DateTime.now().day) {
+      if (widget.postData.createdAt.hour == DateTime.now().hour) {
+        int minTemp = DateTime.now().minute - widget.postData.createdAt.minute;
+        min = "${minTemp.toString()} mins ago";
       } else {
-        hours = hoursTemp.toString();
+        min = null;
+        int hoursTemp = DateTime.now().hour - widget.postData.createdAt.hour;
+        if (hoursTemp > 23) {
+          isYesterday = true;
+        } else {
+          hours = "${hoursTemp.toString()} hr ago";
+        }
       }
-    } else if (widget.createOn.year == DateTime.now().year) {
+    } else if (widget.postData.createdAt.year == DateTime.now().year) {
+      min = null;
       hours = null;
-      beforeYesterday = DateFormat("dd MMMM").format(widget.createOn);
+      beforeYesterday = DateFormat("dd MMMM").format(widget.postData.createdAt);
     } else {
-      lastYearPost = DateFormat("dd MMMM yyyy").format(widget.createOn);
+      min = null;
+      lastYearPost =
+          DateFormat("dd MMMM yyyy").format(widget.postData.createdAt);
     }
 
     return Padding(
@@ -73,7 +77,9 @@ class _PostLayoutState extends State<PostLayout> {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundImage: NetworkImage(widget.userProfilePic),
+                backgroundImage: (widget.userData.profilePic.length > 2)
+                    ? NetworkImage(widget.userData.profilePic)
+                    : null,
               ),
               const SizedBox(
                 width: 10,
@@ -84,21 +90,21 @@ class _PostLayoutState extends State<PostLayout> {
                   Row(
                     children: [
                       Text(
-                        widget.name,
+                        widget.userData.fullName,
                         style: AppFonts.headerStyle(
                           fontWeight: FontWeight.bold,
                           context: context,
                         ),
                       ),
                       Text(
-                        " - ${hours ?? ((isYesterday) ? "Yesterday" : beforeYesterday ?? lastYearPost!)}",
+                        " - ${min ?? hours ?? ((isYesterday) ? "Yesterday" : beforeYesterday ?? lastYearPost!)}",
                         style: AppFonts.headerStyle(
                             color: AppColors.grey, context: context),
                       ),
                     ],
                   ),
                   Text(
-                    widget.username,
+                    widget.userData.username,
                     style: AppFonts.headerStyle(
                         context: context,
                         color: Colors.grey,
@@ -138,7 +144,9 @@ class _PostLayoutState extends State<PostLayout> {
                 });
               },
               child: Text(
-                widget.caption,
+                (widget.postData.caption.length > 2)
+                    ? "- ${widget.postData.caption}"
+                    : widget.postData.caption,
                 maxLines: (textOverflow == TextOverflow.ellipsis) ? 1 : null,
                 overflow: textOverflow,
               ),
@@ -150,17 +158,32 @@ class _PostLayoutState extends State<PostLayout> {
           // image
           GestureDetector(
             onDoubleTap: () {
-              isLiked = !isLiked;
+              isLiked.value = !isLiked.value;
               islikeAnimation.value = !islikeAnimation.value;
-              setState(() {});
+              (isLiked.value) ? likesCount.value++ : likesCount.value--;
+              widget.postData.isLiked = isLiked.value;
+              widget.postData.likeCount = likesCount.value;
+              (isLiked.value)
+                  ? PostsViewModel().likeApiCall(
+                      accessToken: widget.accessToken,
+                      postId: widget.postData.id,
+                    )
+                  : PostsViewModel().disLikeApiCall(
+                      accessToken: widget.accessToken,
+                      postId: widget.postData.id,
+                    );
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: widget.postImageURL,
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.postData.url,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Positioned.fill(
                     child: Center(
@@ -196,27 +219,13 @@ class _PostLayoutState extends State<PostLayout> {
           Row(
             children: [
               // likes
-              Row(
-                children: [
-                  IconButton(
-                    visualDensity: VisualDensity.compact,
-                    onPressed: () {
-                      //like
-                      isLiked = !isLiked;
-                      islikeAnimation.value = !islikeAnimation.value;
-                      setState(() {});
-                    },
-                    icon: FaIcon(
-                      (isLiked)
-                          ? FontAwesomeIcons.solidHeart
-                          : FontAwesomeIcons.heart,
-                      size: 20,
-                      color: (isLiked) ? Colors.pink : null,
-                    ),
-                  ),
-                  // like counts
-                  const Text("211"),
-                ],
+              LikeButton(
+                postData: widget.postData,
+                isLiked: isLiked,
+                likesCount: likesCount,
+                islikeAnimation: islikeAnimation,
+                accessToken: widget.accessToken,
+                postId: widget.postData.id,
               ),
               //comments
               Row(
