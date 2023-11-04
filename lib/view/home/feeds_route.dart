@@ -32,7 +32,8 @@ class _FeedsRouteState extends State<FeedsRoute> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    debugPrint("## feedsRoute - build call");
+
     PrefrencesSettings userData = widget.prefrencesSettings;
     return Scaffold(
       drawer: Drawer(
@@ -44,16 +45,16 @@ class _FeedsRouteState extends State<FeedsRoute> {
               children: [
                 ProfileInfo(
                   prefrencesSettings: userData,
-                  screenSize: screenSize,
+                  radius: 40,
                   profileCallBack: () {
                     Navigator.pushNamed(context, Routes.profile,
                         arguments: userData);
                   },
                 ),
-                Divider(
+                const Divider(
                   color: Colors.grey,
                   thickness: 1,
-                  height: screenSize.height * 0.04,
+                  height: 40,
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -74,7 +75,6 @@ class _FeedsRouteState extends State<FeedsRoute> {
                                     Brightness.dark)
                                 ? AppColors.white
                                 : AppColors.black,
-                            size: screenSize.height * 0.02,
                           ),
                           title: Text(
                             AppStrings.drawerTilesTitles[index],
@@ -102,7 +102,7 @@ class _FeedsRouteState extends State<FeedsRoute> {
               SliverAppBar(
                 floating: true,
                 snap: true,
-                leadingWidth: screenSize.width * 0.1,
+                leadingWidth: 44,
                 centerTitle: false,
                 leading: Builder(
                   builder: (context) {
@@ -147,10 +147,7 @@ class _FeedsRouteState extends State<FeedsRoute> {
               ),
             ];
           },
-          body: Feeds(
-            prefrencesSettings: userData,
-            screenSize: screenSize,
-          ),
+          body: Feeds(prefrencesSettings: userData),
         ),
       ),
       floatingActionButton: CustomFloatingButton(prefrencesSettings: userData),

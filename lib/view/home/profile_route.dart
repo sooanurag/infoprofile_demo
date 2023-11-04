@@ -40,7 +40,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
                 prefrencesSettings: userData,
                 profileCallBack: () {},
                 radius: screenSize.width * 0.1,
-                screenSize: screenSize,
+
               ),
               const SizedBox(
                 height: 20,

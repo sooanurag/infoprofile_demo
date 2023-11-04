@@ -87,12 +87,15 @@ class Utils {
     double? inputFontSize,
     TextInputType? keyboardType,
     TextInputAction? textInputAction,
+    bool? isBorder = true,
+    Color? hintColor = Colors.black,
+    Color? inputFontColor = Colors.black,
   }) {
     return TextFormField(
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       textAlign: textAlign!,
-      style: TextStyle(fontSize: inputFontSize, color: Colors.black),
+      style: TextStyle(fontSize: inputFontSize, color:inputFontColor),
       maxLength: maxLength,
       cursorColor: cursorColor,
       enabled: isEnabled,
@@ -116,7 +119,7 @@ class Utils {
             }
           : null,
       decoration: InputDecoration(
-        hintStyle: const TextStyle(color: Colors.black),
+        hintStyle:  TextStyle(color: hintColor!),
         counterText: "",
         contentPadding: contentPadding,
         filled: isFilled,
@@ -124,9 +127,9 @@ class Utils {
         prefixIconColor: prefixIconColor,
         suffixIconColor: suffixIconColor,
         label: (label != null) ? Text(label) : null,
-        border: OutlineInputBorder(
+        border:(isBorder!)? OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(borderRadius!)),
-        ),
+        ): InputBorder.none,
         hintText: hint,
         prefixIcon: (prefixIcon == null)
             ? null

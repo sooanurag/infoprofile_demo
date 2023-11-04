@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/components/home/feeds/post_layout.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/models/userfeeds_model.dart';
-import 'package:infoprofile_demo/providers/home/feeds_provider.dart';
+import 'package:infoprofile_demo/providers/home/feeds/feeds_provider.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
@@ -13,34 +13,34 @@ import 'package:provider/provider.dart';
 
 class Feeds extends StatefulWidget {
   final PrefrencesSettings prefrencesSettings;
-  final Size screenSize;
+
+  // final Size screenSize;
   const Feeds(
-      {super.key, required this.prefrencesSettings, required this.screenSize});
+      {super.key, required this.prefrencesSettings,});
 
   @override
   State<Feeds> createState() => _FeedsState();
 }
 
-class _FeedsState extends State<Feeds> with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+class _FeedsState extends State<Feeds>  {
+  // @override
+  // bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    debugPrint("## feeds - build call");
+    // super.build(context);
     final FeedsProvider feedsProvider = Provider.of(context, listen: false);
     final userData = widget.prefrencesSettings;
     return LiquidPullToRefresh(
       onRefresh: () async {
-        setState(() {
-          
-        });
+        setState(() {});
       },
       color: (Theme.of(context).brightness == Brightness.dark)
           ? AppColors.black
           : AppColors.white,
       backgroundColor: AppColors.grey,
-      height: widget.screenSize.height * 0.08,
+      height: 50,
       showChildOpacityTransition: false,
       animSpeedFactor: 5,
       child: FutureBuilder(
@@ -92,7 +92,8 @@ class _FeedsState extends State<Feeds> with AutomaticKeepAliveClientMixin {
                       itemBuilder: (context, index) {
                         UserFeed currentFeed = feedsProvider.feedsList[index];
                         return PostLayout(
-                          screenSize: widget.screenSize,
+                          // screenSize: widget.screenSize,
+
                           userData: currentFeed.userData,
                           postData: currentFeed.userPosts,
                           accessToken: userData.accesstoken!,

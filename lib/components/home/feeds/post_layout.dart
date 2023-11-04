@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infoprofile_demo/components/home/feeds/posts/comments_button.dart';
 import 'package:infoprofile_demo/components/home/feeds/posts/like_button.dart';
 import 'package:infoprofile_demo/viewmodels/home/posts_viewmodel.dart';
 import 'package:intl/intl.dart';
@@ -11,13 +12,15 @@ import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
 
 class PostLayout extends StatefulWidget {
-  final Size screenSize;
+  // final Size screenSize;
+
   final UserPosts postData;
   final UserData userData;
   final String accessToken;
   const PostLayout({
     super.key,
-    required this.screenSize,
+    // required this.screenSize,
+
     required this.userData,
     required this.postData,
     required this.accessToken,
@@ -33,10 +36,11 @@ class _PostLayoutState extends State<PostLayout> {
   TextOverflow? textOverflow = TextOverflow.ellipsis;
   @override
   Widget build(BuildContext context) {
+    // debugPrint("layout buidcall");
     ValueNotifier<bool> isLiked = ValueNotifier<bool>(widget.postData.isLiked);
     ValueNotifier<int> likesCount =
         ValueNotifier<int>(widget.postData.likeCount);
-    Size screenSize = MediaQuery.of(context).size;
+    // Size screenSize = MediaQuery.of(context).size;
     String? min;
     String? hours;
     String? beforeYesterday;
@@ -134,7 +138,7 @@ class _PostLayoutState extends State<PostLayout> {
           ),
           //caption
           SizedBox(
-            width: widget.screenSize.width * 0.9,
+            // width: widget.screenSize.width * 0.9,
             child: GestureDetector(
               onTap: () {
                 setState(() {
@@ -228,70 +232,9 @@ class _PostLayoutState extends State<PostLayout> {
                 postId: widget.postData.id,
               ),
               //comments
-              Row(
-                children: [
-                  IconButton(
-                    visualDensity: VisualDensity.compact,
-                    onPressed: () {
-                      //commentApi
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Column(
-                              children: [
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                Divider(
-                                  thickness: 5,
-                                  indent: screenSize.width * 0.4,
-                                  endIndent: screenSize.width * 0.4,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 14, vertical: 12),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "Comments:",
-                                      style: AppFonts.headerStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 18,
-                                          context: context),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ListView.builder(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12),
-                                    itemCount: 10,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 10),
-                                        height: 60,
-                                        decoration: BoxDecoration(
-                                            color: Colors.black26,
-                                            borderRadius:
-                                                BorderRadius.circular(50)),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            );
-                          });
-                    },
-                    icon: const FaIcon(
-                      FontAwesomeIcons.comment,
-                      size: 20,
-                    ),
-                  ),
-                  // comments counts
-                  const Text("86"),
-                ],
-              ),
+              CommentsButton(
+
+                  accessToken: widget.accessToken, postData: widget.postData),
               //share button
               IconButton(
                 visualDensity: VisualDensity.compact,

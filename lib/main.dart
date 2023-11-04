@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/providers/actions/createpost_provider.dart';
-import 'package:infoprofile_demo/providers/home/feeds_provider.dart';
+import 'package:infoprofile_demo/providers/home/feeds/comments_provider.dart';
+import 'package:infoprofile_demo/providers/home/feeds/feeds_provider.dart';
 import 'package:infoprofile_demo/providers/home/postbuttons_provider.dart';
 import 'package:infoprofile_demo/providers/home/search_provider.dart';
 
@@ -50,6 +51,7 @@ class InfoProfile extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PostbuttonsProvider()),
         ChangeNotifierProvider(create: (_) => CreatePostProvider()),
         ChangeNotifierProvider(create: (_) => SearchProvider()),
+        ChangeNotifierProvider(create: (_) => CommentsProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

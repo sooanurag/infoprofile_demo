@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 
-
 import '../../../resources/fonts.dart';
 
 class ProfileInfo extends StatefulWidget {
-  final Size screenSize;
+  // final Size screenSize;
   final double? radius;
   final VoidCallback profileCallBack;
   final PrefrencesSettings prefrencesSettings;
   const ProfileInfo({
     super.key,
-    required this.screenSize,
+    // required this.screenSize,
     this.radius,
     required this.profileCallBack,
     required this.prefrencesSettings,
@@ -39,8 +38,11 @@ class _ProfileInfoState extends State<ProfileInfo> {
             GestureDetector(
               onTap: widget.profileCallBack,
               child: CircleAvatar(
-                radius: widget.radius ?? widget.screenSize.width * 0.08,
-                backgroundImage: (userData.profilePic==null || userData.profilePic!.length<2)? null: CachedNetworkImageProvider(userData.profilePic!),
+                radius: widget.radius,
+                backgroundImage: (userData.profilePic == null ||
+                        userData.profilePic!.length < 2)
+                    ? null
+                    : CachedNetworkImageProvider(userData.profilePic!),
               ),
             ),
             IconButton(
@@ -48,18 +50,18 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 onPressed: () {
                   // bottomsheet
                 },
-                icon: FaIcon(
+                icon: const FaIcon(
                   FontAwesomeIcons.ellipsisVertical,
-                  size: widget.screenSize.height * 0.02,
+                  size: 18,
                 ))
           ],
         ),
-        SizedBox(
-          height: widget.screenSize.height * 0.015,
+        const SizedBox(
+          height: 20,
         ),
-        //fullname - ** provider missing
+
         Text(
-          userData.fullName??"N/A",
+          userData.fullName ?? "N/A",
           style: AppFonts.headerStyle(
               fontWeight: FontWeight.bold, context: context),
         ),
@@ -72,8 +74,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
             color: Colors.grey,
           ),
         ),
-        SizedBox(
-          height: widget.screenSize.height * 0.01,
+        const SizedBox(
+          height: 10,
         ),
         // follower-following
         InkWell(
@@ -86,7 +88,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 style: AppFonts.headerStyle(
                   context: context,
                   fontWeight: FontWeight.bold,
-                  fontSize: widget.screenSize.height * 0.015,
+                  fontSize: 14,
                 ),
                 children: <TextSpan>[
                   TextSpan(
@@ -96,7 +98,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                       color: Colors.grey,
                     ),
                   ),
-                   TextSpan(text: "${userData.followerCount} "),
+                  TextSpan(text: "${userData.followerCount} "),
                   TextSpan(
                     text: "Followers",
                     style: AppFonts.headerStyle(

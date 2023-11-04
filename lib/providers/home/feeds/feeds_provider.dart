@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/userfeeds_model.dart';
+import '../../../models/userfeeds_model.dart';
 
 class FeedsProvider with ChangeNotifier {
   dynamic _feedsList;
