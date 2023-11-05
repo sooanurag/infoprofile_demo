@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/components/home/feeds/posts/comments_button.dart';
 import 'package:infoprofile_demo/components/home/feeds/posts/like_button.dart';
+import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/viewmodels/home/posts_viewmodel.dart';
 import 'package:intl/intl.dart';
 
@@ -13,14 +14,14 @@ import '../../../resources/fonts.dart';
 
 class PostLayout extends StatefulWidget {
   // final Size screenSize;
-
+  final PrefrencesSettings prefrencesSettings;
   final UserPosts postData;
   final UserData userData;
   final String accessToken;
   const PostLayout({
     super.key,
     // required this.screenSize,
-
+    required this.prefrencesSettings,
     required this.userData,
     required this.postData,
     required this.accessToken,
@@ -36,11 +37,10 @@ class _PostLayoutState extends State<PostLayout> {
   TextOverflow? textOverflow = TextOverflow.ellipsis;
   @override
   Widget build(BuildContext context) {
-    // debugPrint("layout buidcall");
+    debugPrint("layout buidcall");
     ValueNotifier<bool> isLiked = ValueNotifier<bool>(widget.postData.isLiked);
     ValueNotifier<int> likesCount =
         ValueNotifier<int>(widget.postData.likeCount);
-    // Size screenSize = MediaQuery.of(context).size;
     String? min;
     String? hours;
     String? beforeYesterday;
@@ -233,7 +233,7 @@ class _PostLayoutState extends State<PostLayout> {
               ),
               //comments
               CommentsButton(
-
+                prefrencesSettings: widget.prefrencesSettings,
                   accessToken: widget.accessToken, postData: widget.postData),
               //share button
               IconButton(

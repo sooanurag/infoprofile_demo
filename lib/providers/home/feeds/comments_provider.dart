@@ -4,13 +4,18 @@ import '../../../models/comments_model.dart';
 
 class CommentsProvider with ChangeNotifier {
   List<Comment>? _commentsList;
-  Map<String, List<Comment>> _commentsMap = {};
+  final Map<String, List<Comment>> _commentsMap = {};
   List<Comment> get commentsList => _commentsList ?? <Comment>[];
   void setCommentsList(
       {required List<Comment> comments, required String postId}) {
     _commentsList = comments;
     _commentsMap[postId] = comments;
-    // _commentsCount = comments.length;
+    notifyListeners();
+  }
+
+  void addCommentToList({required Comment newComment, required String postId}) {
+    _commentsMap[postId]?.add(newComment);
+    debugPrint('new Comment: ${_commentsMap[postId]?[0]}');
     notifyListeners();
   }
 
@@ -26,21 +31,4 @@ class CommentsProvider with ChangeNotifier {
     _commentsMap.clear();
     notifyListeners();
   }
-
-  // int _commentsCount = 0;
-  // int get commentsCount => _commentsCount;
-  // void setCommentsCount({required int count}) {
-  //   _commentsCount = count;
-  //   notifyListeners();
-  // }
-
-  // void incrementCommentsCount() {
-  //   _commentsCount++;
-  //   notifyListeners();
-  // }
-
-  // void decrementCommentsCount() {
-  //   _commentsCount--;
-  //   notifyListeners();
-  // }
 }

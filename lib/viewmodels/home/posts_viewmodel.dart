@@ -47,4 +47,22 @@ class PostsViewModel {
     });
     return res;
   }
+
+  Future<dynamic> createComment({
+    required String accessToken,
+    required String comment,
+    required String postId,
+    required CommentsProvider commentsProvider,
+    required User user,
+  }) async {
+    await PostRepository()
+        .createCommentApi(
+            accessToken: accessToken, comment: comment, postId: postId)
+        .then((value) {
+      String commentId = value['data']['_id'];
+      debugPrint('comment Id: $commentId');
+      Comment newComment = Comment(id: commentId, comment: comment, user: user);
+      commentsProvider.addCommentToList(newComment: newComment, postId: postId);
+    }).onError((error, stackTrace) => Utils.showToastMessage(error.toString()));
+  }
 }

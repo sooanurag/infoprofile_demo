@@ -12,8 +12,11 @@ import '../../../../viewmodels/home/posts_viewmodel.dart';
 class CommentTiles extends StatefulWidget {
   final String accessToken;
   final UserPosts postData;
-  const CommentTiles(
-      {super.key, required this.postData, required this.accessToken});
+  const CommentTiles({
+    super.key,
+    required this.postData,
+    required this.accessToken,
+  });
 
   @override
   State<CommentTiles> createState() => _CommentTilesState();
@@ -40,46 +43,54 @@ class _CommentTilesState extends State<CommentTiles> {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData) {
               List<Comment> commentsList = snapshot.data;
-              return (commentsList.isEmpty)
-                  ? const Center(
-                      child: Text("Add comment!"),
-                    )
-                  : ListView.builder(
-                    addRepaintBoundaries: false,
-                      keyboardDismissBehavior:
-                          ScrollViewKeyboardDismissBehavior.onDrag,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                      ),
-                      itemCount: commentsProvider.commentsList.length,
-                      itemBuilder: (context, index) {
-                        Comment currentComment = commentsList[index];
-                        return ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: const CircleAvatar(),
-                          title: Text(
-                            currentComment.user.username,
-                            style: AppFonts.headerStyle(
-                                context: context, fontSize: 16),
+              return
+              Consumer<CommentsProvider>(
+                builder: (context, value, child) {
+                  return (commentsList.isEmpty)
+                      ? const Center(
+                          child: Text("Add comment!"),
+                        )
+                      : ListView.builder(
+                          addRepaintBoundaries: false,
+                          keyboardDismissBehavior:
+                              ScrollViewKeyboardDismissBehavior.onDrag,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
                           ),
-                          subtitle: Text(
-                            currentComment.comment,
-                            style: AppFonts.headerStyle(
-                                context: context, fontSize: 14),
-                          ),
-                          trailing: IconButton(
-                            visualDensity: VisualDensity.compact,
-                            onPressed: () {
-                              // open bottom sheet
-                            },
-                            icon: const FaIcon(
-                              FontAwesomeIcons.ellipsisVertical,
-                              size: 14,
-                            ),
-                          ),
+                          itemCount: value.commentsList.length,
+                          itemBuilder: (context, index) {
+                            int length = value.commentsList.length - 1;
+                            Comment currentComment =
+                                value.commentsList[length - index];
+                            return ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: const CircleAvatar(),
+                              title: Text(
+                                currentComment.user.username,
+                                style: AppFonts.headerStyle(
+                                    context: context, fontSize: 16),
+                              ),
+                              subtitle: Text(
+                                currentComment.comment,
+                                style: AppFonts.headerStyle(
+                                    context: context, fontSize: 14),
+                              ),
+                              trailing: IconButton(
+                                visualDensity: VisualDensity.compact,
+                                onPressed: () {
+                                  // open bottom sheet
+                                  // edit & delete comment
+                                },
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.ellipsisVertical,
+                                  size: 14,
+                                ),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
+                },
+              );
             } else {
               return const Center(
                 child: Text(AppStrings.hasError),

@@ -88,12 +88,12 @@ class _FeedsState extends State<Feeds>  {
                       ),
                     )
                   : ListView.builder(
+                    cacheExtent: 1000,
                       itemCount: feedsProvider.feedsList.length,
                       itemBuilder: (context, index) {
                         UserFeed currentFeed = feedsProvider.feedsList[index];
                         return PostLayout(
-                          // screenSize: widget.screenSize,
-
+                          prefrencesSettings: userData,
                           userData: currentFeed.userData,
                           postData: currentFeed.userPosts,
                           accessToken: userData.accesstoken!,

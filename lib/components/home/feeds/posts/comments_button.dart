@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/components/home/feeds/posts/comment_tiles.dart';
 import 'package:infoprofile_demo/models/comments_model.dart';
+import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/providers/home/feeds/comments_provider.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
-import 'package:infoprofile_demo/resources/fonts.dart';
-import 'package:infoprofile_demo/resources/strings.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
 import 'package:infoprofile_demo/viewmodels/home/posts_viewmodel.dart';
-import 'package:provider/provider.dart';
 
+import 'package:provider/provider.dart';
 import '../../../../models/userfeeds_model.dart';
 
 class CommentsButton extends StatefulWidget {
+  final PrefrencesSettings prefrencesSettings;
   final String accessToken;
   final UserPosts postData;
   const CommentsButton({
     super.key,
+    required this.prefrencesSettings,
     required this.accessToken,
     required this.postData,
   });
@@ -47,7 +48,8 @@ class _CommentsButtonState extends State<CommentsButton> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("comments-button ; call");
+    // debugPrint("comments-button ; call");
+    final PrefrencesSettings prefrencesSettings = widget.prefrencesSettings;
     final UserPosts postData = widget.postData;
     ValueNotifier<int> commentsCount =
         ValueNotifier<int>(widget.postData.commentCount);
@@ -70,14 +72,14 @@ class _CommentsButtonState extends State<CommentsButton> {
               isScrollControlled: true,
               context: context,
               builder: (context) {
-                debugPrint("bottom-sheet call");
-                return  Scaffold(
+                // debugPrint("bottom-sheet call");
+                return Scaffold(
                   backgroundColor: Colors.transparent,
                   body: SafeArea(
                     child: Column(
                       children: [
                         Expanded(
-                          child:  CommentTiles(
+                          child: CommentTiles(
                               postData: postData,
                               accessToken: widget.accessToken),
                         ),
@@ -102,7 +104,24 @@ class _CommentsButtonState extends State<CommentsButton> {
                           currentFocusNode: _commentsFocusNode,
                           invalidText: "",
                           suffixIcon: IconButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              String comment = _commentsController.text;
+                              _commentsController.clear();
+                              User user = User(
+                                id: prefrencesSettings.userId ?? "",
+                                username: prefrencesSettings.username ?? "",
+                                email: prefrencesSettings.email ?? "",
+                                profilePic: prefrencesSettings.profilePic ?? "",
+                              );
+                              await PostsViewModel().createComment(
+                                user: user,
+                                commentsProvider: commentsProvider,
+                                accessToken: widget.accessToken,
+                                comment: comment,
+                                postId: postData.id,
+                              );
+                              commentsCount.value++;
+                            },
                             icon: const FaIcon(FontAwesomeIcons.locationArrow),
                           ),
                         ),
@@ -122,6 +141,7 @@ class _CommentsButtonState extends State<CommentsButton> {
         ValueListenableBuilder(
             valueListenable: commentsCount,
             builder: (context, value, child) {
+              postData.commentCount = commentsCount.value;
               return Text(commentsCount.value.toString());
             }),
       ],

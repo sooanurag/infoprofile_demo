@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:infoprofile_demo/resources/api_payloads.dart';
 
 import 'package:infoprofile_demo/resources/urls.dart';
@@ -119,8 +119,7 @@ class PostRepository {
   // comments
 
   Future<dynamic> createCommentApi({
-    required BuildContext context,
-    required String accesstoken,
+    required String accessToken,
     required String comment,
     required String postId,
   }) async {
@@ -128,7 +127,7 @@ class PostRepository {
       return await _apiService
           .postApiCall(
               url: AppUrls.createComment,
-              header: ApiPayload.bearerTokenHeader(bearerToken: accesstoken),
+              header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
               data: ApiPayload.createCommentData(comment: comment),
               params: 'postId=$postId')
           ;
