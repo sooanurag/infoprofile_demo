@@ -114,11 +114,13 @@ class ApiPayload {
   // profile payloads
   static Map<String, dynamic> editProfiletData({
     String? username,
+    String? fullName,
     String? profilePic,
     String? profileBio,
   }) =>
       {
         "username": username,
+        "fullName" : fullName,
         "profilePic": profilePic,
         "profileBio": profileBio,
       };

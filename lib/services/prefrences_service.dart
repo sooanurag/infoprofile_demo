@@ -7,17 +7,39 @@ class PrefrenceService {
     required PrefrencesSettings prefrencesSettings,
   }) async {
     final prefrences = await SharedPreferences.getInstance();
-    await prefrences.setString("accesstoken", prefrencesSettings.accesstoken!);
-    await prefrences.setString("userId", prefrencesSettings.userId!);
-    await prefrences.setString("username", prefrencesSettings.username!);
-    await prefrences.setString("fullName", prefrencesSettings.fullName!);
-    await prefrences.setString("profilePic", prefrencesSettings.profilePic!);
-    await prefrences.setString("profileBio", prefrencesSettings.profileBio!);
-    await prefrences.setString("email", prefrencesSettings.email!);
-    await prefrences.setInt("followerCount", prefrencesSettings.followerCount!);
-    await prefrences.setInt(
-        "followingCount", prefrencesSettings.followingCount!);
-    await prefrences.setInt("postCount", prefrencesSettings.postCount!);
+    if (prefrencesSettings.accesstoken != null) {
+      await prefrences.setString(
+          "accesstoken", prefrencesSettings.accesstoken!);
+    }
+    if (prefrencesSettings.userId != null) {
+      await prefrences.setString("userId", prefrencesSettings.userId!);
+    }
+    if (prefrencesSettings.fullName != null) {
+      await prefrences.setString("fullName", prefrencesSettings.fullName!);
+    }
+    if (prefrencesSettings.username != null) {
+      await prefrences.setString("username", prefrencesSettings.username!);
+    }
+    if (prefrencesSettings.profilePic != null) {
+      await prefrences.setString("profilePic", prefrencesSettings.profilePic!);
+    }
+    if (prefrencesSettings.profileBio != null) {
+      await prefrences.setString("profileBio", prefrencesSettings.profileBio!);
+    }
+    if (prefrencesSettings.email != null) {
+      await prefrences.setString("email", prefrencesSettings.email!);
+    }
+    if (prefrencesSettings.followerCount != null) {
+      await prefrences.setInt(
+          "followerCount", prefrencesSettings.followerCount!);
+    }
+    if (prefrencesSettings.followingCount != null) {
+      await prefrences.setInt(
+          "followingCount", prefrencesSettings.followingCount!);
+    }
+    if (prefrencesSettings.postCount != null) {
+      await prefrences.setInt("postCount", prefrencesSettings.postCount!);
+    }
     //debug-print
     debugPrint("prefrences saved!");
   }

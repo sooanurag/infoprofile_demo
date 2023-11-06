@@ -9,4 +9,5 @@ class Routes {
   static const String search = "search_route";
   static const String notification = "notification_route";
   static const String createPost = "createPost_route";
+  static const String updateProfile = "updateProfile_route";
 }

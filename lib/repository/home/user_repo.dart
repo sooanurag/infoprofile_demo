@@ -9,19 +9,13 @@ class UserRepository {
 
   Future<dynamic> editProfileApi({
     required String accesstoken,
-    String? username,
-    String? profilePic,
-    String? profileBio,
+    required Map<String, dynamic> apiPayLoad,
   }) async {
     try {
       return await _apiService.patchApiCall(
         url: AppUrls.editProfile,
         header: ApiPayload.bearerTokenHeader(bearerToken: accesstoken),
-        data: ApiPayload.editProfiletData(
-          username: username,
-          profileBio: profileBio,
-          profilePic: profilePic,
-        ),
+        data: apiPayLoad,
       );
     } catch (e) {
       rethrow;

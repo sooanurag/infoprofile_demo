@@ -11,15 +11,15 @@ class PrefrencesSettings {
   int? postCount;
 
   PrefrencesSettings({
-    required this.userId,
-    required this.accesstoken,
-    required this.email,
-    required this.username,
-    required this.fullName,
-    required this.profilePic,
-    required this.profileBio,
-    required this.followerCount,
-    required this.followingCount,
-    required this.postCount,
+    this.userId,
+    this.accesstoken,
+    this.email,
+    this.username,
+    this.fullName,
+    this.profilePic,
+    this.profileBio,
+    this.followerCount,
+    this.followingCount,
+    this.postCount,
   });
 }

@@ -89,6 +89,7 @@ class Utils {
     bool? isBorder = true,
     Color? hintColor = Colors.black,
     Color? inputFontColor = Colors.black,
+    InputBorder? border,
   }) {
     return TextFormField(
       keyboardType: keyboardType,
@@ -130,7 +131,7 @@ class Utils {
             ? OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(borderRadius!)),
               )
-            : InputBorder.none,
+            : border ?? InputBorder.none,
         hintText: hint,
         prefixIcon: (prefixIcon == null)
             ? null

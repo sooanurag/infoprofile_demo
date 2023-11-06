@@ -6,11 +6,11 @@ import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/models/userposts_model.dart';
 
 import 'package:infoprofile_demo/resources/colors.dart';
+import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 
 import 'package:infoprofile_demo/utils/utils.dart';
 import 'package:infoprofile_demo/viewmodels/home/profile_viewmodel.dart';
-
 
 class ProfileRoute extends StatefulWidget {
   final PrefrencesSettings prefrencesSettings;
@@ -20,12 +20,16 @@ class ProfileRoute extends StatefulWidget {
   State<ProfileRoute> createState() => _ProfileRouteState();
 }
 
-class _ProfileRouteState extends State<ProfileRoute> {
+class _ProfileRouteState extends State<ProfileRoute>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
-    // final userProvider = Provider.of<UserProvider>(context, listen: false);
+    super.build(context);
+
     final userData = widget.prefrencesSettings;
-    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
@@ -39,18 +43,24 @@ class _ProfileRouteState extends State<ProfileRoute> {
               ProfileInfo(
                 prefrencesSettings: userData,
                 profileCallBack: () {},
-                radius: screenSize.width * 0.1,
-
+                radius: 40,
               ),
               const SizedBox(
                 height: 20,
               ),
               // buttons
               ProfileButtons(
-                  editProfile: () {},
-                  share: () {},
-                  discoverUsers: () {},
-                  screenSize: screenSize),
+                editProfile: () {
+                  Navigator.pushNamed(context, Routes.updateProfile,
+                      arguments: widget.prefrencesSettings);
+                },
+                share: () {
+                  // share profile in pop-menu
+                },
+                discoverUsers: () {
+                  // suggestionlist
+                },
+              ),
               // buttons end
               // grid view,
               const SizedBox(
@@ -68,12 +78,11 @@ class _ProfileRouteState extends State<ProfileRoute> {
                             child: Text(AppStrings.noPostsFound),
                           );
                         } else {
-                          //print
-                          debugPrint('post data: ${snapshot.data.toString()}');
                           UserPostsModel userPostsData =
                               UserPostsModel.fromJson(snapshot.data);
                           List<Post> postsList = userPostsData.data.posts;
                           return GridView.builder(
+                            cacheExtent: 1000,
                             padding: EdgeInsets.zero,
                             itemCount: postsList.length,
                             gridDelegate:

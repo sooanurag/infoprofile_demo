@@ -5,13 +5,11 @@ import '../../../resources/fonts.dart';
 import '../../../utils/glassmorph_container.dart';
 
 class ProfileButtons extends StatelessWidget {
-  final Size screenSize;
   final VoidCallback editProfile;
   final VoidCallback share;
   final VoidCallback discoverUsers;
   const ProfileButtons({
     super.key,
-    required this.screenSize,
     required this.editProfile,
     required this.share,
     required this.discoverUsers,
@@ -32,11 +30,11 @@ class ProfileButtons extends StatelessWidget {
               hzMargin: 0,
               borderRadius: 10,
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Text(
                   "Edit profile",
-                  style: AppFonts.headerStyle(fontWeight: FontWeight.w600,context: context),
+                  style: AppFonts.headerStyle(
+                      fontWeight: FontWeight.w600, context: context),
                 ),
               ),
             ),
@@ -53,10 +51,11 @@ class ProfileButtons extends StatelessWidget {
             hzMargin: 0,
             borderRadius: 10,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Text(
                 "Share",
-                style: AppFonts.headerStyle(fontWeight: FontWeight.w600,context: context),
+                style: AppFonts.headerStyle(
+                    fontWeight: FontWeight.w600, context: context),
               ),
             ),
           ),

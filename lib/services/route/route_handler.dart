@@ -6,6 +6,7 @@ import 'package:infoprofile_demo/view/actions/create_post_route.dart';
 import 'package:infoprofile_demo/view/home/feeds_route.dart';
 import 'package:infoprofile_demo/view/home/notifications_route.dart';
 import 'package:infoprofile_demo/view/home/profile_route.dart';
+import 'package:infoprofile_demo/view/actions/update_profile_route.dart';
 import 'package:infoprofile_demo/view/home/search_route.dart';
 import 'package:infoprofile_demo/view/onboarding/getstarted_route.dart';
 import 'package:infoprofile_demo/view/onboarding/login_route.dart';
@@ -50,6 +51,11 @@ class RouteHandler {
       case Routes.createPost:
         return MaterialPageRoute(
             builder: (context) => CreatePostRoute(
+                  prefrencesSettings: settings.arguments as PrefrencesSettings,
+                ));
+      case Routes.updateProfile:
+        return MaterialPageRoute(
+            builder: (context) => UpdateProfileRoute(
                   prefrencesSettings: settings.arguments as PrefrencesSettings,
                 ));
 
