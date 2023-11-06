@@ -48,7 +48,7 @@ class ProfileRepository {
       return await _apiService.getApiCall(
         url: AppUrls.getFollowers,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
-        params: 'UserId=$userId',
+        params: 'userId=$userId',
       );
     } catch (e) {
       rethrow;
@@ -63,7 +63,7 @@ class ProfileRepository {
       return await _apiService.getApiCall(
         url: AppUrls.getFollowing,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
-        params: 'UserId=$userId',
+        params: 'userId=$userId',
       );
     } catch (e) {
       rethrow;

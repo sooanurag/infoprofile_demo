@@ -4,12 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/components/home/drawer/profile_info.dart';
 import 'package:infoprofile_demo/components/home/feeds/custom_floatingbutton.dart';
 import 'package:infoprofile_demo/components/home/feeds/feeds.dart';
+import 'package:infoprofile_demo/providers/home/user_provider.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/prefrences_settings_model.dart';
 
@@ -112,12 +114,21 @@ class _FeedsRouteState extends State<FeedsRoute> {
                           onTap: () {
                             Scaffold.of(context).openDrawer();
                           },
-                          child: CircleAvatar(
-                            backgroundImage: (userData.profilePic == null ||
-                                    userData.profilePic!.length < 2)
-                                ? null
-                                : CachedNetworkImageProvider(
-                                    userData.profilePic!),
+                          child: Consumer<UserProvider>(
+                            builder: (context,value,child) {
+                              return (value.profilePicUrl==null)? CircleAvatar(
+                                backgroundImage: (userData.profilePic == null ||
+                                        userData.profilePic!.length < 2)
+                                    ? null
+                                    : CachedNetworkImageProvider(
+                                        userData.profilePic!),
+                              )
+                              : CircleAvatar(
+                                backgroundImage:CachedNetworkImageProvider(
+                                        value.profilePicUrl!),
+                              )
+                              ;
+                            }
                           )),
                     );
                   },

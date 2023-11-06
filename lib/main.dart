@@ -6,6 +6,7 @@ import 'package:infoprofile_demo/providers/home/feeds/comments_provider.dart';
 import 'package:infoprofile_demo/providers/home/feeds/feeds_provider.dart';
 import 'package:infoprofile_demo/providers/home/postbuttons_provider.dart';
 import 'package:infoprofile_demo/providers/home/search_provider.dart';
+import 'package:infoprofile_demo/providers/home/user_provider.dart';
 
 import 'package:infoprofile_demo/providers/onboarding/authanimate_provider.dart';
 import 'package:infoprofile_demo/providers/onboarding/auth_provider.dart';
@@ -46,6 +47,7 @@ class InfoProfile extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => GetstartedProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => AuthAnimateProvider()),
         ChangeNotifierProvider(create: (_) => FeedsProvider()),
         ChangeNotifierProvider(create: (_) => PostbuttonsProvider()),
