@@ -90,7 +90,41 @@ class ProfileViewModel {
       userProvider.setusername(username: username);
       userProvider.setfullName(fullName: fullName);
       userProvider.setprofileBio(profileBio: profileBio);
-    } else if (username != null && fullName != null) {
+    } else if (username != null && profilePic != null && profileBio != null) {
+      payLoad = {
+        'profilePic': profilePic,
+        'username': username,
+        'profileBio': profileBio,
+      };
+      await PrefrenceService().savePrefrences(
+        prefrencesSettings: PrefrencesSettings(
+          username: username,
+          profilePic: profilePic,
+          profileBio: profileBio,
+        ),
+      );
+      userProvider.setusername(username: username);
+      userProvider.setProfilePicUrl(url: profilePic);
+      userProvider.setprofileBio(profileBio: profileBio);
+    }
+    else if (fullName != null && profilePic != null && profileBio != null) {
+      payLoad = {
+        'profilePic': profilePic,
+        'username': username,
+        'profileBio': profileBio,
+      };
+      await PrefrenceService().savePrefrences(
+        prefrencesSettings: PrefrencesSettings(
+          fullName: fullName,
+          profilePic: profilePic,
+          profileBio: profileBio,
+        ),
+      );
+      userProvider.setfullName(fullName: fullName);
+      userProvider.setProfilePicUrl(url: profilePic);
+      userProvider.setprofileBio(profileBio: profileBio);
+    }
+     else if (username != null && fullName != null) {
       payLoad = {
         'fullName': fullName,
         'username': username,

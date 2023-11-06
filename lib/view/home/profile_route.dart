@@ -4,6 +4,7 @@ import 'package:infoprofile_demo/components/home/drawer/profile_info.dart';
 import 'package:infoprofile_demo/components/home/profile/buttons.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/models/userposts_model.dart';
+import 'package:infoprofile_demo/providers/home/user_provider.dart';
 
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
@@ -11,6 +12,7 @@ import 'package:infoprofile_demo/resources/strings.dart';
 
 import 'package:infoprofile_demo/utils/utils.dart';
 import 'package:infoprofile_demo/viewmodels/home/profile_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class ProfileRoute extends StatefulWidget {
   final PrefrencesSettings prefrencesSettings;
@@ -32,7 +34,13 @@ class _ProfileRouteState extends State<ProfileRoute>
     final userData = widget.prefrencesSettings;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        title:  Consumer<UserProvider>(
+          builder: (context,value,child) {
+            return Text((value.username == null)
+                      ? '@${userData.username}'
+                      : '@${value.username!}',);
+          }
+        ),
       ),
       body: SafeArea(
         bottom: false,
@@ -43,7 +51,7 @@ class _ProfileRouteState extends State<ProfileRoute>
               ProfileInfo(
                 prefrencesSettings: userData,
                 profileCallBack: () {},
-                radius: 40,
+                radius: 60,
               ),
               const SizedBox(
                 height: 20,

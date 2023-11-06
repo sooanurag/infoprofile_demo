@@ -34,8 +34,6 @@ class _FeedsRouteState extends State<FeedsRoute> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("## feedsRoute - build call");
-
     PrefrencesSettings userData = widget.prefrencesSettings;
     return Scaffold(
       drawer: Drawer(
@@ -46,9 +44,11 @@ class _FeedsRouteState extends State<FeedsRoute> {
             child: Column(
               children: [
                 ProfileInfo(
+                  isDrawer: true,
                   prefrencesSettings: userData,
                   radius: 40,
                   profileCallBack: () {
+                    Navigator.pop(context);
                     Navigator.pushNamed(context, Routes.profile,
                         arguments: userData);
                   },
@@ -56,7 +56,7 @@ class _FeedsRouteState extends State<FeedsRoute> {
                 const Divider(
                   color: Colors.grey,
                   thickness: 1,
-                  height: 40,
+                  height: 30,
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -82,7 +82,7 @@ class _FeedsRouteState extends State<FeedsRoute> {
                             AppStrings.drawerTilesTitles[index],
                             style: AppFonts.headerStyle(
                               context: context,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -110,26 +110,23 @@ class _FeedsRouteState extends State<FeedsRoute> {
                   builder: (context) {
                     return Padding(
                       padding: const EdgeInsets.only(left: 12),
-                      child: GestureDetector(
-                          onTap: () {
-                            Scaffold.of(context).openDrawer();
-                          },
-                          child: Consumer<UserProvider>(
-                            builder: (context,value,child) {
-                              return (value.profilePicUrl==null)? CircleAvatar(
+                      child: GestureDetector(onTap: () {
+                        Scaffold.of(context).openDrawer();
+                      }, child: Consumer<UserProvider>(
+                          builder: (context, value, child) {
+                        return (value.profilePicUrl == null)
+                            ? CircleAvatar(
                                 backgroundImage: (userData.profilePic == null ||
                                         userData.profilePic!.length < 2)
                                     ? null
                                     : CachedNetworkImageProvider(
                                         userData.profilePic!),
                               )
-                              : CircleAvatar(
-                                backgroundImage:CachedNetworkImageProvider(
-                                        value.profilePicUrl!),
-                              )
-                              ;
-                            }
-                          )),
+                            : CircleAvatar(
+                                backgroundImage: CachedNetworkImageProvider(
+                                    value.profilePicUrl!),
+                              );
+                      })),
                     );
                   },
                 ),

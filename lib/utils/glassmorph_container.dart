@@ -44,8 +44,8 @@ class GlassmorphContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(borderRadius!),
               gradient: LinearGradient(
                 colors: colors ?? [
-                  color!.withOpacity(0),
-                  color!.withOpacity(0.3),
+                  color!.withOpacity(0.1),
+                  color!.withOpacity(0.4),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
