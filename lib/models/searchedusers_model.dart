@@ -2,30 +2,58 @@
 
 import 'dart:convert';
 
-SearchedUsersModel searchedUsersModelFromJson(dynamic value) => SearchedUsersModel.fromJson(value);
+SearchUserModel searchUserModelFromJson(dynamic value) => SearchUserModel.fromJson(value);
 
-String searchedUsersModelToJson(SearchedUsersModel data) => json.encode(data.toJson());
+String searchUserModelToJson(SearchUserModel data) => json.encode(data.toJson());
 
-class SearchedUsersModel {
+class SearchUserModel {
     int statusCode;
     String type;
-    List<dynamic> data;
+    List<Datum> data;
 
-    SearchedUsersModel({
+    SearchUserModel({
         required this.statusCode,
         required this.type,
         required this.data,
     });
 
-    factory SearchedUsersModel.fromJson(Map<String, dynamic> json) => SearchedUsersModel(
+    factory SearchUserModel.fromJson(Map<String, dynamic> json) => SearchUserModel(
         statusCode: json["statusCode"],
         type: json["type"],
-        data: List<dynamic>.from(json["data"].map((x) => x)),
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "type": type,
-        "data": List<dynamic>.from(data.map((x) => x)),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    };
+}
+
+class Datum {
+    String id;
+    String username;
+    String fullName;
+    String profilePic;
+
+    Datum({
+        required this.id,
+        required this.username,
+        required this.fullName,
+        required this.profilePic,
+    });
+
+    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        id: json["_id"],
+        username: json["username"],
+        fullName: json["fullName"],
+        profilePic: json["profilePic"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "_id": id,
+        "username": username,
+        "fullName": fullName,
+        "profilePic": profilePic,
     };
 }

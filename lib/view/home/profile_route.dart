@@ -14,6 +14,8 @@ import 'package:infoprofile_demo/utils/utils.dart';
 import 'package:infoprofile_demo/viewmodels/home/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/userfeeds_model.dart';
+
 class ProfileRoute extends StatefulWidget {
   final PrefrencesSettings prefrencesSettings;
   const ProfileRoute({super.key, required this.prefrencesSettings});
@@ -34,13 +36,17 @@ class _ProfileRouteState extends State<ProfileRoute>
     final userData = widget.prefrencesSettings;
     return Scaffold(
       appBar: AppBar(
-        title:  Consumer<UserProvider>(
-          builder: (context,value,child) {
-            return Text((value.username == null)
-                      ? '@${userData.username}'
-                      : '@${value.username!}',);
-          }
-        ),
+        title: Consumer<UserProvider>(builder: (context, value, child) {
+          return Text(
+            (value.username == null)
+                ? '@${userData.username}'
+                : '@${value.username!}',
+            style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.white
+                    : AppColors.black),
+          );
+        }),
       ),
       body: SafeArea(
         bottom: false,
@@ -99,7 +105,17 @@ class _ProfileRouteState extends State<ProfileRoute>
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10),
                             itemBuilder: (context, index) {
+                              Post currentPost = postsList[index];
                               return InkWell(
+                                onTap: (){
+                                  UserPosts postData = UserPosts(id: currentPost.id, userId: currentPost.userId, url: currentPost.url, caption: currentPost.caption, likeCount: currentPost.likeCount, commentCount: currentPost.commentCount, createdAt: currentPost.createdAt, isLiked: false,);
+                                  UserData postUserData = UserData(id: userData.userId!, username: userData.username!, email: userData.email!, profilePic: userData.profilePic!, fullName: userData.fullName!,);
+                                  Navigator.pushNamed(context, Routes.postView,arguments: {
+                                    'param1': postData,
+                                    'param2': postUserData,
+                                    'param3': userData,
+                                  });
+                                },
                                 onLongPress: () {
                                   Utils.alertDialog(
                                     backgroundColor: AppColors.black,

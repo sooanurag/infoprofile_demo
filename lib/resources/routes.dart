@@ -10,4 +10,6 @@ class Routes {
   static const String notification = "notification_route";
   static const String createPost = "createPost_route";
   static const String updateProfile = "updateProfile_route";
+  static const String postView = "postView_route";
+  static const String userProfileView = "userProfileView_route";
 }

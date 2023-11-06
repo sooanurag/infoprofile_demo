@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/models/searchedusers_model.dart';
 import 'package:infoprofile_demo/providers/home/search_provider.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
+import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 import 'package:infoprofile_demo/viewmodels/home/search_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -103,19 +105,27 @@ class _SearchRouteState extends State<SearchRoute> {
                           ),
                         );
                       } else if (snapshot.hasData) {
-                        SearchedUsersModel searchedUsersData =
-                            SearchedUsersModel.fromJson(snapshot.data);
-                        List<dynamic> usersList = searchedUsersData.data;
+                        SearchUserModel searchedUsersData =
+                            SearchUserModel.fromJson(snapshot.data);
+                        List<Datum> usersList = searchedUsersData.data;
                         return ListView.builder(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           itemCount: usersList.length,
                           itemBuilder: (context, index) {
+                            Datum currentUser = usersList[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 15),
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(10),
                                 onTap: () {
                                   // open profile
+                                  Navigator.pushNamed(
+                                      context, Routes.userProfileView,
+                                      arguments: {
+                                        'param1': userData.accesstoken,
+                                        'param2': currentUser.id,
+                                        'param3':userData,
+                                      });
                                 },
                                 child: GlassmorphContainer(
                                     borderRadius: 10,
@@ -126,33 +136,34 @@ class _SearchRouteState extends State<SearchRoute> {
                                         : AppColors.grey,
                                     child: Row(
                                       children: [
-                                        const CircleAvatar(
-                                          backgroundColor: Colors.amber,
+                                        CircleAvatar(
                                           backgroundImage:
-                                              CachedNetworkImageProvider(
-                                                  "https://picsum.photos/200/200"),
+                                              (currentUser.profilePic.length >
+                                                      2)
+                                                  ? CachedNetworkImageProvider(
+                                                      currentUser.profilePic)
+                                                  : null,
                                         ),
                                         const SizedBox(
-                                          width: 10,
+                                          width: 20,
                                         ),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            if (usersList[index]['fullName'] !=
-                                                null)
+                                            if (currentUser.fullName.length > 2)
                                               Text(
-                                                usersList[index]['fullName'],
+                                                currentUser.fullName,
                                                 style: AppFonts.headerStyle(
                                                     fontWeight: FontWeight.w600,
                                                     context: context),
                                               ),
                                             Text(
-                                              usersList[index]['username'],
+                                              currentUser.username,
                                               style: AppFonts.headerStyle(
-                                                fontWeight: (usersList[index]
-                                                            ['fullName'] !=
-                                                        null)
+                                                fontWeight: (currentUser
+                                                            .fullName.length >
+                                                        2)
                                                     ? FontWeight.w400
                                                     : FontWeight.w600,
                                                 context: context,
@@ -161,18 +172,16 @@ class _SearchRouteState extends State<SearchRoute> {
                                           ],
                                         ),
                                         const Spacer(),
-                                        IconButton(
-                                            visualDensity:
-                                                VisualDensity.compact,
-                                            onPressed: () async {
-                                              // change color on tab
-                                             await SearchViewModel().followUser(
-                                                  accessToken:
-                                                      userData.accesstoken!,
-                                                  followingId: usersList[index]
-                                                      ["_id"]);
-                                            },
-                                            icon: const Icon(Icons.person_add))
+                                        FaIcon(
+                                          FontAwesomeIcons.caretRight,
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
                                       ],
                                     )),
                               ),

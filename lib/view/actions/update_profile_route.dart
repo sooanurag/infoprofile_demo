@@ -5,6 +5,8 @@ import 'package:infoprofile_demo/components/actions/edit_profile/edit_profile_fo
 import 'package:infoprofile_demo/components/actions/edit_profile/edit_profilepic.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 
+import '../../resources/colors.dart';
+
 class UpdateProfileRoute extends StatefulWidget {
   final PrefrencesSettings prefrencesSettings;
   const UpdateProfileRoute({
@@ -22,7 +24,13 @@ class _UpdateProfileRouteState extends State<UpdateProfileRoute> {
     final PrefrencesSettings userData = widget.prefrencesSettings;
     ValueNotifier<File?> newProfilePic = ValueNotifier<File?>(null);
     return Scaffold(
-      appBar: AppBar(title: const Text("Edit Profile")),
+      appBar: AppBar(
+        title: Text("Edit Profile",
+            style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.white
+                    : AppColors.black)),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

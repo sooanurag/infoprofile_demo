@@ -8,8 +8,10 @@ class ProfileButtons extends StatelessWidget {
   final VoidCallback editProfile;
   final VoidCallback share;
   final VoidCallback discoverUsers;
+  final String? buttonOneTitle;
   const ProfileButtons({
     super.key,
+    this.buttonOneTitle = "Edit profile",
     required this.editProfile,
     required this.share,
     required this.discoverUsers,
@@ -32,7 +34,7 @@ class ProfileButtons extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Text(
-                  "Edit profile",
+                  buttonOneTitle!,
                   style: AppFonts.headerStyle(
                       fontWeight: FontWeight.w600, context: context),
                 ),

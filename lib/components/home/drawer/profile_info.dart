@@ -138,8 +138,11 @@ class _ProfileInfoState extends State<ProfileInfo> {
                                       FollowersModel.fromJson(snapshot.data);
                                   List<Follower> followerList =
                                       followersModel.data.followers;
-                                  userProvider.setFollowersCount(
-                                      count: followerList.length);
+                                  Future.delayed(
+                                    Duration.zero,
+                                    () => userProvider.setFollowersCount(
+                                        count: followerList.length),
+                                  );
                                   PrefrenceService().savePrefrences(
                                       prefrencesSettings: PrefrencesSettings(
                                           followerCount: followerList.length));
@@ -202,8 +205,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
                                       FollowingModel.fromJson(snapshot.data);
                                   List<Following> followingList =
                                       followingModel.data.following;
-                                  userProvider.setFollowingCount(
-                                      count: followingList.length);
+                                  Future.delayed(Duration.zero,() => userProvider.setFollowingCount(
+                                      count: followingList.length),);
                                   PrefrenceService().savePrefrences(
                                       prefrencesSettings: PrefrencesSettings(
                                           followingCount:

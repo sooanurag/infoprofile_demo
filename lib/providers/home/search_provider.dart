@@ -7,4 +7,11 @@ class SearchProvider with ChangeNotifier {
     _isSearchInputEmpty = status;
     notifyListeners();
   }
+
+  String _followStatus = "Follow";
+  String get followStatus => _followStatus;
+  void setFollowStatsu({required String status}) {
+    _followStatus = status;
+    notifyListeners();
+  }
 }

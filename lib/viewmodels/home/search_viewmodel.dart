@@ -29,6 +29,21 @@ class SearchViewModel {
     await ProfileRepository()
         .followUserApi(accessToken: accessToken, followingId: followingId)
         .then((value) => Utils.showToastMessage("following"))
-        .onError((error, stackTrace) => Utils.showToastMessage(error.toString()));
+        .onError(
+            (error, stackTrace) => Utils.showToastMessage(error.toString()));
+  }
+
+  Future<dynamic> getUserProfile({
+    required String accessToken,
+    required String userId,
+  }) async {
+    try {
+      dynamic res = await UserRepository()
+          .userProfileApi(accessToken: accessToken, userId: userId);
+      debugPrint('userProfile: $res');
+      return res;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

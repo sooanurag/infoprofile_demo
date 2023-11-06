@@ -3,6 +3,7 @@ import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 
 import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/view/actions/create_post_route.dart';
+import 'package:infoprofile_demo/view/actions/postview_route.dart';
 import 'package:infoprofile_demo/view/home/feeds_route.dart';
 import 'package:infoprofile_demo/view/home/notifications_route.dart';
 import 'package:infoprofile_demo/view/home/profile_route.dart';
@@ -13,6 +14,8 @@ import 'package:infoprofile_demo/view/onboarding/login_route.dart';
 import 'package:infoprofile_demo/view/onboarding/onboarding_route.dart';
 import 'package:infoprofile_demo/view/onboarding/signup_route.dart';
 
+import '../../models/userfeeds_model.dart';
+import '../../view/actions/searched_userprofile_route.dart';
 import '../../view/onboarding/splash_route.dart';
 
 class RouteHandler {
@@ -57,6 +60,32 @@ class RouteHandler {
         return MaterialPageRoute(
             builder: (context) => UpdateProfileRoute(
                   prefrencesSettings: settings.arguments as PrefrencesSettings,
+                ));
+      case Routes.postView:
+        final Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        UserPosts postData = arguments['param1'];
+        UserData postUserData = arguments['param2'];
+        PrefrencesSettings prefrencesSettings = arguments['param3'];
+
+        return MaterialPageRoute(
+            builder: (context) => PostViewRoute(
+                  postData: postData,
+                  postUserData: postUserData,
+                  prefrencesSettings: prefrencesSettings,
+                ));
+      case Routes.userProfileView:
+        final Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        String accessToken = arguments['param1'];
+        String userId = arguments['param2'];
+        PrefrencesSettings userData = arguments['param3'];
+
+        return MaterialPageRoute(
+            builder: (context) => SearchUserProfileRoute(
+                  accessToken: accessToken,
+                  userId: userId,
+                  prefrencesSettings: userData,
                 ));
 
       default:
