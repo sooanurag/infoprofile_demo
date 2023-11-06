@@ -13,10 +13,12 @@ import '../../../../models/userfeeds_model.dart';
 
 class CommentsButton extends StatefulWidget {
   final PrefrencesSettings prefrencesSettings;
+  final UserData postUserData;
   final String accessToken;
   final UserPosts postData;
   const CommentsButton({
     super.key,
+    required this.postUserData,
     required this.prefrencesSettings,
     required this.accessToken,
     required this.postData,
@@ -49,7 +51,6 @@ class _CommentsButtonState extends State<CommentsButton> {
   @override
   Widget build(BuildContext context) {
     // debugPrint("comments-button ; call");
-    final PrefrencesSettings prefrencesSettings = widget.prefrencesSettings;
     final UserPosts postData = widget.postData;
     ValueNotifier<int> commentsCount =
         ValueNotifier<int>(widget.postData.commentCount);
@@ -80,6 +81,9 @@ class _CommentsButtonState extends State<CommentsButton> {
                       children: [
                         Expanded(
                           child: CommentTiles(
+                            commentsCount: commentsCount,
+                            prefrencesSettings: widget.prefrencesSettings,
+                            postUserData: widget.postUserData,
                               postData: postData,
                               accessToken: widget.accessToken),
                         ),
@@ -105,22 +109,7 @@ class _CommentsButtonState extends State<CommentsButton> {
                           invalidText: "",
                           suffixIcon: IconButton(
                             onPressed: () async {
-                              String comment = _commentsController.text;
-                              _commentsController.clear();
-                              User user = User(
-                                id: prefrencesSettings.userId ?? "",
-                                username: prefrencesSettings.username ?? "",
-                                email: prefrencesSettings.email ?? "",
-                                profilePic: prefrencesSettings.profilePic ?? "",
-                              );
-                              await PostsViewModel().createComment(
-                                user: user,
-                                commentsProvider: commentsProvider,
-                                accessToken: widget.accessToken,
-                                comment: comment,
-                                postId: postData.id,
-                              );
-                              commentsCount.value++;
+                              await onSubmitComment(commentsCount: commentsCount);
                             },
                             icon: const FaIcon(FontAwesomeIcons.locationArrow),
                           ),
@@ -146,5 +135,26 @@ class _CommentsButtonState extends State<CommentsButton> {
             }),
       ],
     );
+  }
+
+  Future<void> onSubmitComment({
+    required ValueNotifier<int> commentsCount,
+  }) async {
+    String comment = _commentsController.text;
+    _commentsController.clear();
+    User user = User(
+      id: widget.prefrencesSettings.userId ?? "",
+      username: widget.prefrencesSettings.username ?? "",
+      email: widget.prefrencesSettings.email ?? "",
+      profilePic: widget.prefrencesSettings.profilePic ?? "",
+    );
+    await PostsViewModel().createComment(
+      user: user,
+      commentsProvider: commentsProvider,
+      accessToken: widget.accessToken,
+      comment: comment,
+      postId: widget.postData.id,
+    );
+    commentsCount.value++;
   }
 }

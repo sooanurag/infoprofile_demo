@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/components/home/feeds/posts/comments_button.dart';
 import 'package:infoprofile_demo/components/home/feeds/posts/like_button.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
+import 'package:infoprofile_demo/utils/utils.dart';
 import 'package:infoprofile_demo/viewmodels/home/posts_viewmodel.dart';
 import 'package:intl/intl.dart';
 
@@ -13,16 +14,14 @@ import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
 
 class PostLayout extends StatefulWidget {
-  // final Size screenSize;
   final PrefrencesSettings prefrencesSettings;
   final UserPosts postData;
-  final UserData userData;
+  final UserData postUserData;
   final String accessToken;
   const PostLayout({
     super.key,
-    // required this.screenSize,
     required this.prefrencesSettings,
-    required this.userData,
+    required this.postUserData,
     required this.postData,
     required this.accessToken,
   });
@@ -37,7 +36,6 @@ class _PostLayoutState extends State<PostLayout> {
   TextOverflow? textOverflow = TextOverflow.ellipsis;
   @override
   Widget build(BuildContext context) {
-    debugPrint("layout buidcall");
     ValueNotifier<bool> isLiked = ValueNotifier<bool>(widget.postData.isLiked);
     ValueNotifier<int> likesCount =
         ValueNotifier<int>(widget.postData.likeCount);
@@ -81,8 +79,8 @@ class _PostLayoutState extends State<PostLayout> {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundImage: (widget.userData.profilePic.length > 2)
-                    ? NetworkImage(widget.userData.profilePic)
+                backgroundImage: (widget.postUserData.profilePic.length > 2)
+                    ? CachedNetworkImageProvider(widget.postUserData.profilePic)
                     : null,
               ),
               const SizedBox(
@@ -94,7 +92,7 @@ class _PostLayoutState extends State<PostLayout> {
                   Row(
                     children: [
                       Text(
-                        widget.userData.fullName,
+                        widget.postUserData.fullName,
                         style: AppFonts.headerStyle(
                           fontWeight: FontWeight.bold,
                           context: context,
@@ -108,7 +106,7 @@ class _PostLayoutState extends State<PostLayout> {
                     ],
                   ),
                   Text(
-                    widget.userData.username,
+                    widget.postUserData.username,
                     style: AppFonts.headerStyle(
                         context: context,
                         color: Colors.grey,
@@ -118,18 +116,21 @@ class _PostLayoutState extends State<PostLayout> {
                 ],
               ),
               const Spacer(),
-              IconButton(
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  // open bottom-sheet for opr
-                },
-                icon: FaIcon(
-                  FontAwesomeIcons.ellipsisVertical,
-                  size: 18,
-                  color: AppColors.grey,
-                ),
-              )
+              if (widget.postData.userId != widget.prefrencesSettings.userId)
+              Utils.popUpMenu(
+                      context: context,
+                      popUpMenuItems: [
+                        PopupMenuItem(
+                          child: const Text("Report"),
+                          onTap: () async {
+                            await PostsViewModel().reportPost(
+                              accessToken: widget.accessToken,
+                              postId: widget.postData.id,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
             ],
           ),
 
@@ -233,8 +234,10 @@ class _PostLayoutState extends State<PostLayout> {
               ),
               //comments
               CommentsButton(
-                prefrencesSettings: widget.prefrencesSettings,
-                  accessToken: widget.accessToken, postData: widget.postData),
+                  postUserData: widget.postUserData,
+                  prefrencesSettings: widget.prefrencesSettings,
+                  accessToken: widget.accessToken,
+                  postData: widget.postData),
               //share button
               IconButton(
                 visualDensity: VisualDensity.compact,

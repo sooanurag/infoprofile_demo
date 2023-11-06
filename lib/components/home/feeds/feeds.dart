@@ -15,14 +15,16 @@ class Feeds extends StatefulWidget {
   final PrefrencesSettings prefrencesSettings;
 
   // final Size screenSize;
-  const Feeds(
-      {super.key, required this.prefrencesSettings,});
+  const Feeds({
+    super.key,
+    required this.prefrencesSettings,
+  });
 
   @override
   State<Feeds> createState() => _FeedsState();
 }
 
-class _FeedsState extends State<Feeds>  {
+class _FeedsState extends State<Feeds> {
   // @override
   // bool get wantKeepAlive => true;
 
@@ -88,13 +90,14 @@ class _FeedsState extends State<Feeds>  {
                       ),
                     )
                   : ListView.builder(
-                    cacheExtent: 1000,
+                      cacheExtent: 2000,
                       itemCount: feedsProvider.feedsList.length,
                       itemBuilder: (context, index) {
                         UserFeed currentFeed = feedsProvider.feedsList[index];
+
                         return PostLayout(
                           prefrencesSettings: userData,
-                          userData: currentFeed.userData,
+                          postUserData: currentFeed.userData,
                           postData: currentFeed.userPosts,
                           accessToken: userData.accesstoken!,
                         );

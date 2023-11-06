@@ -19,6 +19,19 @@ class CommentsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeComment({required commentIndex, required String postId}) {
+    _commentsMap[postId]?.removeAt(commentIndex);
+    notifyListeners();
+  }
+
+  void editComment(
+      {required commentIndex,
+      required String postId,
+      required String newComment}) {
+    _commentsMap[postId]?[commentIndex].comment = newComment;
+    notifyListeners();
+  }
+
   List<Comment>? getCommentFromMap({required String postId}) {
     if (_commentsMap.containsKey(postId)) {
       debugPrint('provider postId: $postId');

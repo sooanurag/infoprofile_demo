@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 
-
 import 'package:infoprofile_demo/utils/glassmorph_container.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -95,7 +94,7 @@ class Utils {
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       textAlign: textAlign!,
-      style: TextStyle(fontSize: inputFontSize, color:inputFontColor),
+      style: TextStyle(fontSize: inputFontSize, color: inputFontColor),
       maxLength: maxLength,
       cursorColor: cursorColor,
       enabled: isEnabled,
@@ -119,7 +118,7 @@ class Utils {
             }
           : null,
       decoration: InputDecoration(
-        hintStyle:  TextStyle(color: hintColor!),
+        hintStyle: TextStyle(color: hintColor!),
         counterText: "",
         contentPadding: contentPadding,
         filled: isFilled,
@@ -127,9 +126,11 @@ class Utils {
         prefixIconColor: prefixIconColor,
         suffixIconColor: suffixIconColor,
         label: (label != null) ? Text(label) : null,
-        border:(isBorder!)? OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius!)),
-        ): InputBorder.none,
+        border: (isBorder!)
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(borderRadius!)),
+              )
+            : InputBorder.none,
         hintText: hint,
         prefixIcon: (prefixIcon == null)
             ? null
@@ -247,5 +248,15 @@ class Utils {
       return File(croppedIMageFile.path);
     }
     return null;
+  }
+
+// pop-up menu
+  static popUpMenu({
+    required BuildContext context,
+    required List<PopupMenuEntry<dynamic>> popUpMenuItems,
+  }) {
+    return PopupMenuButton(
+      itemBuilder: (context) => popUpMenuItems,
+    );
   }
 }

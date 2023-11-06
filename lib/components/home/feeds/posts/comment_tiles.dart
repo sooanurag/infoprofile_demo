@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:infoprofile_demo/models/comments_model.dart';
+import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/providers/home/feeds/comments_provider.dart';
+import 'package:infoprofile_demo/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/userfeeds_model.dart';
@@ -10,10 +12,16 @@ import '../../../../resources/strings.dart';
 import '../../../../viewmodels/home/posts_viewmodel.dart';
 
 class CommentTiles extends StatefulWidget {
+  final PrefrencesSettings prefrencesSettings;
+  final UserData postUserData;
   final String accessToken;
   final UserPosts postData;
+  final ValueNotifier<int> commentsCount;
   const CommentTiles({
     super.key,
+    required this.commentsCount,
+    required this.prefrencesSettings,
+    required this.postUserData,
     required this.postData,
     required this.accessToken,
   });
@@ -23,9 +31,15 @@ class CommentTiles extends StatefulWidget {
 }
 
 class _CommentTilesState extends State<CommentTiles> {
+  final _editCommentController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    _editCommentController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // debugPrint("Comments Tile - Build call");
     final UserPosts postData = widget.postData;
     final CommentsProvider commentsProvider =
         Provider.of(context, listen: false);
@@ -43,8 +57,7 @@ class _CommentTilesState extends State<CommentTiles> {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData) {
               List<Comment> commentsList = snapshot.data;
-              return
-              Consumer<CommentsProvider>(
+              return Consumer<CommentsProvider>(
                 builder: (context, value, child) {
                   return (commentsList.isEmpty)
                       ? const Center(
@@ -75,17 +88,92 @@ class _CommentTilesState extends State<CommentTiles> {
                                 style: AppFonts.headerStyle(
                                     context: context, fontSize: 14),
                               ),
-                              trailing: IconButton(
-                                visualDensity: VisualDensity.compact,
-                                onPressed: () {
-                                  // open bottom sheet
-                                  // edit & delete comment
-                                },
-                                icon: const FaIcon(
-                                  FontAwesomeIcons.ellipsisVertical,
-                                  size: 14,
-                                ),
-                              ),
+                              trailing: Utils.popUpMenu(
+                                  context: context,
+                                  popUpMenuItems: (currentComment.user.id ==
+                                          widget.prefrencesSettings.userId)
+                                      ? [
+                                          PopupMenuItem(
+                                            child: const Text("Delete"),
+                                            onTap: () async {
+                                              // delete api
+                                              await PostsViewModel()
+                                                  .deleteComment(
+                                                accessToken: widget.accessToken,
+                                                postId: postData.id,
+                                                commentId: currentComment.id,
+                                                commentIndex: length - index,
+                                                commentsProvider:
+                                                    commentsProvider,
+                                              );
+                                              widget.commentsCount.value--;
+                                            },
+                                          ),
+                                          PopupMenuItem(
+                                            child: const Text("Edit"),
+                                            onTap: () async {
+                                              Utils.alertDialog(
+                                                context: context,
+                                                inputTitle:
+                                                    const Text("Edit comment"),
+                                                inputContent: TextField(
+                                                  controller:
+                                                      _editCommentController,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                    hintText: "New comment",
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                  ),
+                                                ),
+                                                inputActions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child:
+                                                          const Text("Cancel")),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      if (_editCommentController
+                                                          .text.isNotEmpty) {
+                                                        await PostsViewModel()
+                                                            .editComment(
+                                                          accessToken: widget
+                                                              .accessToken,
+                                                          commentId:
+                                                              currentComment.id,
+                                                          commentIndex: length - index,
+                                                          commentsProvider:
+                                                              commentsProvider,
+                                                          newComment:
+                                                              _editCommentController
+                                                                  .text,
+                                                          postId: postData.id,
+                                                        );
+                                                        _editCommentController
+                                                            .clear();
+                                                        if(context.mounted){
+                                                        Navigator.pop(context);}
+                                                      }
+                                                    },
+                                                    child: const Text("Save"),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          )
+                                        ]
+                                      : [
+                                          PopupMenuItem(
+                                            child: const Text("Report"),
+                                            onTap: () {
+                                              // repost api
+                                              Utils.showToastMessage(
+                                                  "Comment reported!");
+                                            },
+                                          )
+                                        ]),
                             );
                           },
                         );
