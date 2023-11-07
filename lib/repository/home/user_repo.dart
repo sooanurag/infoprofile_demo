@@ -28,10 +28,9 @@ class UserRepository {
   }) async {
     try {
       return await _apiService.getApiCall(
-        url: AppUrls.userFeed,
-        header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
-        params: 'pageNo=$pageNo&limit=50'
-      );
+          url: AppUrls.userFeed,
+          header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
+          params: 'pageNo=$pageNo&limit=50');
     } catch (e) {
       rethrow;
     }
@@ -66,13 +65,27 @@ class UserRepository {
     }
   }
 
+  Future<dynamic> getAllUsers({
+    required String accessToken,
+  }) async {
+    try {
+      return await _apiService.getApiCall(
+        url: AppUrls.allUser,
+        header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<dynamic> logOutApi({
     required String accessToken,
   }) async {
     try {
       return await _apiService.postApiCall(
-          url: AppUrls.logOut,
-          header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),);
+        url: AppUrls.logOut,
+        header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
+      );
     } catch (e) {
       rethrow;
     }

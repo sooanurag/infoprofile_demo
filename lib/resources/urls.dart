@@ -48,6 +48,7 @@ class AppUrls {
   static String userFeed = "$base/userFeed";
   // get user/others profile-info
   static String userProfile = "$base/userProfile";
+  static String allUser = "$base/allUsers";
   static String userSearch = "$base/userSearch";
 
   // notifications

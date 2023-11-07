@@ -1,10 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/components/home/feeds/post_layout.dart';
+import 'package:infoprofile_demo/models/getallusers_model.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/models/userfeeds_model.dart';
 import 'package:infoprofile_demo/providers/home/feeds/feeds_provider.dart';
+import 'package:infoprofile_demo/repository/home/user_repo.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
+import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
 import 'package:infoprofile_demo/utils/lottie_animation.dart';
 import 'package:infoprofile_demo/viewmodels/home/feeds_viewmodel.dart';
@@ -64,30 +68,94 @@ class _FeedsState extends State<Feeds> with AutomaticKeepAliveClientMixin {
                       SizedBox(
                         height: MediaQuery.of(context).size.height*0.8,
                         child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 80,
-                                  child: (Theme.of(context).brightness ==
-                                          Brightness.dark)
-                                      ? LottieAnimations.followWhite
-                                      : LottieAnimations.followBlack,
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  "Add Friends",
-                                  style: AppFonts.headerStyle(
-                                      context: context,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
+                          child: InkWell(
+                            onTap: ()async{
+                              // open
+                              await showModalBottomSheet(
+                    showDragHandle: true,
+                    context: context,
+                    builder: (context) {
+                      return FutureBuilder(
+                        future: UserRepository().getAllUsers(
+                            accessToken:
+                                widget.prefrencesSettings.accesstoken!),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData) {
+                              GetAllUsersModel getAllUsersModel =
+                                  GetAllUsersModel.fromJson(snapshot.data);
+                              List<Datum> data = getAllUsersModel.data;
+                              return ListView.builder(
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  Datum currentUser = data[index];
+                                  return InkWell(
+                                    onTap: () {
+                                      // open userprofile
+                                      Navigator.pushNamed(
+                                          context, Routes.userProfileView,
+                                          arguments: {
+                                            'param1': userData.accesstoken,
+                                            'param2': currentUser.id,
+                                            'param3': userData,
+                                          });
+                                    },
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundImage:
+                                            (currentUser.profilePic.length < 2)
+                                                ? null
+                                                : CachedNetworkImageProvider(
+                                                    currentUser.profilePic),
+                                      ),
+                                      title: Text(currentUser.fullName),
+                                      subtitle:
+                                          Text('@${currentUser.username}'),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              return const Center(
+                                child: Text(AppStrings.hasError),
+                              );
+                            }
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 80,
+                                    child: (Theme.of(context).brightness ==
+                                            Brightness.dark)
+                                        ? LottieAnimations.followWhite
+                                        : LottieAnimations.followBlack,
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Text(
+                                    "Add Friends",
+                                    style: AppFonts.headerStyle(
+                                        context: context,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
