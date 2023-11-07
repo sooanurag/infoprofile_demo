@@ -10,6 +10,7 @@ import 'package:infoprofile_demo/viewmodels/home/posts_viewmodel.dart';
 
 import 'package:provider/provider.dart';
 import '../../../../models/userfeeds_model.dart';
+import '../../../../viewmodels/home/notifications_viewmodel.dart';
 
 class CommentsButton extends StatefulWidget {
   final PrefrencesSettings prefrencesSettings;
@@ -110,6 +111,7 @@ class _CommentsButtonState extends State<CommentsButton> {
                           suffixIcon: IconButton(
                             onPressed: () async {
                               await onSubmitComment(commentsCount: commentsCount);
+                              
                             },
                             icon: const FaIcon(FontAwesomeIcons.locationArrow),
                           ),
@@ -156,5 +158,11 @@ class _CommentsButtonState extends State<CommentsButton> {
       postId: widget.postData.id,
     );
     commentsCount.value++;
+    await NotificationsViewModel().addNotification(
+        accessToken: widget.accessToken,
+        postUserId: widget.postData.userId,
+        postId: widget.postData.id,
+        type: 'COMMENT',
+      );
   }
 }

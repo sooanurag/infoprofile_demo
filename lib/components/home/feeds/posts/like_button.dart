@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infoprofile_demo/models/userfeeds_model.dart';
 import 'package:infoprofile_demo/viewmodels/home/posts_viewmodel.dart';
 
+import '../../../../viewmodels/home/notifications_viewmodel.dart';
+
 class LikeButton extends StatefulWidget {
   final UserPosts postData;
   final ValueNotifier<bool> isLiked;
@@ -45,12 +47,20 @@ class _LikeButtonState extends State<LikeButton> {
                   widget.postData.isLiked = widget.isLiked.value;
                   widget.postData.likeCount = widget.likesCount.value;
                   (!widget.isLiked.value)
-                      ? PostsViewModel().disLikeApiCall(
+                      ? await PostsViewModel().disLikeApiCall(
                           accessToken: widget.accessToken,
                           postId: widget.postId)
-                      : PostsViewModel().likeApiCall(
+                      : await PostsViewModel().likeApiCall(
                           accessToken: widget.accessToken,
                           postId: widget.postId);
+                  if (widget.isLiked.value) {
+                    await NotificationsViewModel().addNotification(
+                      accessToken: widget.accessToken,
+                      postUserId: widget.postData.userId,
+                      postId: widget.postData.id,
+                      type: 'LIKE',
+                    );
+                  }
                 },
                 icon: FaIcon(
                   (widget.isLiked.value)

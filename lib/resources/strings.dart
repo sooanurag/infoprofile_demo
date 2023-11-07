@@ -46,7 +46,7 @@ class AppStrings {
     "Favourits",
     "Archive",
     "Acitvity",
-    "Settings",
+    "Log Out",
   ];
   // EXCEPTIONS
   static const emailNotVerified =

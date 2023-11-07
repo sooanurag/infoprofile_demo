@@ -162,7 +162,7 @@ class Utils {
     FontAwesomeIcons.star,
     FontAwesomeIcons.bookmark,
     FontAwesomeIcons.chartLine,
-    FontAwesomeIcons.gear,
+    FontAwesomeIcons.rightFromBracket,
   ];
 
   //-------------

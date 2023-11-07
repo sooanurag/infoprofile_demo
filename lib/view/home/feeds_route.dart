@@ -10,7 +10,9 @@ import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/routes.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
+import 'package:infoprofile_demo/services/prefrences_service.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
+import 'package:infoprofile_demo/viewmodels/home/feeds_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/prefrences_settings_model.dart';
@@ -63,10 +65,22 @@ class _FeedsRouteState extends State<FeedsRoute> {
                     itemCount: AppStrings.drawerTilesTitles.length,
                     itemBuilder: (context, index) {
                       return InkWell(
-                        onTap: () {
+                        onTap: () async {
                           if (index == 0) {
                             Navigator.pushNamed(context, Routes.profile,
                                 arguments: widget.prefrencesSettings);
+                          }
+                          if (index ==
+                              AppStrings.drawerTilesTitles.length - 1) {
+                            await FeedsViewModel()
+                                .logOut(accessToken: userData.accesstoken!);
+                            PrefrenceService().deletePrefrences();
+                            if (mounted) {
+                              Navigator.popUntil(
+                                  context, (route) => route.isFirst);
+                              Navigator.pushReplacementNamed(
+                                  context, Routes.getstarted);
+                            }
                           }
                         },
                         child: ListTile(

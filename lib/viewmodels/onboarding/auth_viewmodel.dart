@@ -36,8 +36,7 @@ class AuthViewModel {
       authProvider.setAuthType(authtype: AppStrings.authVerifyUserEmail);
       authProvider.setInputPassword(password: inputPassword);
       Navigator.of(context).pop();
-      Utils.showToastMessage(
-          "Registered!");
+      Utils.showToastMessage("Registered!");
     }).onError((error, stackTrace) {
       Navigator.of(context).pop();
       Utils.showToastMessage(error.toString());
@@ -59,10 +58,10 @@ class AuthViewModel {
         .then((value) async {
       final loginResponseData = LoginResponseModel.fromJson(value);
       final userData = loginResponseData.data;
-      
-      PrefrenceService().savePrefrences(
+
+      await PrefrenceService().savePrefrences(
           prefrencesSettings: PrefrencesSettings(
-            userId: userData.user.id,
+        userId: userData.user.id,
         accesstoken: userData.accessToken,
         email: userData.user.email,
         username: userData.user.username,
@@ -74,9 +73,11 @@ class AuthViewModel {
         postCount: userData.user.postCount,
       ));
       PrefrencesSettings settings = await PrefrenceService().getPrefrences();
-      if(context.mounted){
-      Navigator.popUntil(context, (route) => route.isFirst);
-      Navigator.pushReplacementNamed(context, Routes.feeds, arguments: settings);}
+      if (context.mounted) {
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.pushReplacementNamed(context, Routes.feeds,
+            arguments: settings);
+      }
     }).onError((error, stackTrace) {
       Navigator.pop(context);
       Utils.alertDialog(
@@ -128,12 +129,13 @@ class AuthViewModel {
           context: context,
           authProvider: providerValue,
         );
-        if (context.mounted) {
-          Navigator.popUntil(context, (route) => route.isFirst);
-          Navigator.pushReplacementNamed(context, Routes.feeds);
-          providerValue.clearCredentials();
-          Utils.showToastMessage("Loged In");
-        }
+        providerValue.clearCredentials();
+        // if (context.mounted) {
+        //   Navigator.popUntil(context, (route) => route.isFirst);
+        //   Navigator.pushReplacementNamed(context, Routes.feeds);
+        //   providerValue.clearCredentials();
+        //   Utils.showToastMessage("Loged In");
+        // }
       }).onError((error, stackTrace) {
         Navigator.of(context).pop();
         providerValue.setIsVerfyingEmailStatus(status: false);

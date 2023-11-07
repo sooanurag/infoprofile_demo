@@ -30,7 +30,7 @@ class UserRepository {
       return await _apiService.getApiCall(
         url: AppUrls.userFeed,
         header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
-        params: 'pageNo=$pageNo&limit=20'
+        params: 'pageNo=$pageNo&limit=50'
       );
     } catch (e) {
       rethrow;
@@ -61,6 +61,18 @@ class UserRepository {
           url: AppUrls.userSearch,
           header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),
           params: 'name=$name');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> logOutApi({
+    required String accessToken,
+  }) async {
+    try {
+      return await _apiService.postApiCall(
+          url: AppUrls.logOut,
+          header: ApiPayload.bearerTokenHeader(bearerToken: accessToken),);
     } catch (e) {
       rethrow;
     }

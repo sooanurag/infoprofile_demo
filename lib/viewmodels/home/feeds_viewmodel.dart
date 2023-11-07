@@ -3,6 +3,8 @@ import 'package:infoprofile_demo/models/userfeeds_model.dart';
 import 'package:infoprofile_demo/providers/home/feeds/feeds_provider.dart';
 
 import 'package:infoprofile_demo/repository/home/user_repo.dart';
+import 'package:infoprofile_demo/resources/strings.dart';
+import 'package:infoprofile_demo/utils/utils.dart';
 
 class FeedsViewModel {
   Future<dynamic> userFeedsApiCall({
@@ -29,6 +31,14 @@ class FeedsViewModel {
       debugPrint('feeds er: $e');
       rethrow;
     }
+  }
+
+  Future<void> logOut({
+    required String accessToken,
+  })async{
+    await UserRepository().logOutApi(accessToken: accessToken)
+    .then((value) => Utils.showToastMessage("Loged out."))
+    .onError((error, stackTrace) => Utils.showToastMessage(AppStrings.hasError));
   }
 
   // void nextPage({

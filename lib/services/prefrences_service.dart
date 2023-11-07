@@ -44,6 +44,11 @@ class PrefrenceService {
     debugPrint("prefrences saved!");
   }
 
+  Future<void> deletePrefrences() async {
+    final prefrences = await SharedPreferences.getInstance();
+    await prefrences.clear();
+  }
+
   Future<PrefrencesSettings> getPrefrences() async {
     final prefrences = await SharedPreferences.getInstance();
     String? accesstoken = prefrences.getString("accesstoken");

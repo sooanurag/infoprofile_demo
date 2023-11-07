@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infoprofile_demo/providers/home/search_provider.dart';
 import 'package:infoprofile_demo/repository/home/profile_repo.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
 
@@ -25,12 +26,27 @@ class SearchViewModel {
   Future<dynamic> followUser({
     required String accessToken,
     required String followingId,
+    required SearchProvider searchProvider,
   }) async {
     await ProfileRepository()
         .followUserApi(accessToken: accessToken, followingId: followingId)
-        .then((value) => Utils.showToastMessage("following"))
-        .onError(
-            (error, stackTrace) => Utils.showToastMessage(error.toString()));
+        .then((value) {
+      searchProvider.setFollowStatsu(status: "Unfollow");
+      Utils.showToastMessage("following!");
+    }).onError((error, stackTrace) => Utils.showToastMessage(error.toString()));
+  }
+
+  Future<dynamic> unFollowUser({
+    required String accessToken,
+    required String followingId,
+    required SearchProvider searchProvider,
+  }) async {
+    await ProfileRepository()
+        .unfollowUserApi(accessToken: accessToken, followingId: followingId)
+        .then((value) {
+      searchProvider.setFollowStatsu(status: "Follow");
+      Utils.showToastMessage("Unfollowed!");
+    }).onError((error, stackTrace) => Utils.showToastMessage(error.toString()));
   }
 
   Future<dynamic> getUserProfile({

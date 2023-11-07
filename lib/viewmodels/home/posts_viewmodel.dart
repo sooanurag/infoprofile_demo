@@ -4,16 +4,19 @@ import 'package:infoprofile_demo/providers/home/feeds/comments_provider.dart';
 import 'package:infoprofile_demo/repository/home/posts_repo.dart';
 import 'package:infoprofile_demo/utils/utils.dart';
 
+
 class PostsViewModel {
   Future<void> likeApiCall({
     required String accessToken,
     required String postId,
   }) async {
+
     await PostRepository()
         .postLikesApi(accessToken: accessToken, postId: postId)
         .then((value) => null)
         .onError(
             (error, stackTrace) => Utils.showToastMessage(error.toString()));
+    
   }
 
   Future<void> disLikeApiCall({
@@ -63,6 +66,7 @@ class PostsViewModel {
 
       Comment newComment = Comment(id: commentId, comment: comment, user: user);
       commentsProvider.addCommentToList(newComment: newComment, postId: postId);
+      //notification
     }).onError((error, stackTrace) => Utils.showToastMessage(error.toString()));
   }
 

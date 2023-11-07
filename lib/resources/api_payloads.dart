@@ -126,4 +126,17 @@ class ApiPayload {
       };
 
   // end
+
+  // notifications
+  static Map<String,dynamic> addNotificationsData({
+    required String receiverId,
+    required String activityId,
+    required String type,
+  })
+  => {
+      "receiverId" : receiverId,
+      "activityId" : activityId,
+      "type" : type,
+  };
+
 }

@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppUrls {
   static String base = dotenv.env['apibaseUrl']!;
+  static String notificationBase = dotenv.env['notificationBase']!;
   // flow: signUp(sends otp to email) => verifyUser
   static String signUp = "$base/signup";
   static String verifyUser = "$base/verifyUser";
@@ -43,15 +44,14 @@ class AppUrls {
 
   // user
   static String editProfile = "$base/editProfile";
-    // user home-feeds
+  // user home-feeds
   static String userFeed = "$base/userFeed";
-    // get user/others profile-info
+  // get user/others profile-info
   static String userProfile = "$base/userProfile";
   static String userSearch = "$base/userSearch";
 
-  
-
-
-  
-
+  // notifications
+  static String addNotification = "$notificationBase/AddNotification";
+  static String deleteNotification = "$notificationBase/deleteNotification";
+  static String getnotification = "$notificationBase/notification";
 }

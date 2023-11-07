@@ -24,14 +24,13 @@ class Feeds extends StatefulWidget {
   State<Feeds> createState() => _FeedsState();
 }
 
-class _FeedsState extends State<Feeds> {
-  // @override
-  // bool get wantKeepAlive => true;
+class _FeedsState extends State<Feeds> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("## feeds - build call");
-    // super.build(context);
+    super.build(context);
     final FeedsProvider feedsProvider = Provider.of(context, listen: false);
     final userData = widget.prefrencesSettings;
     return LiquidPullToRefresh(
@@ -61,34 +60,39 @@ class _FeedsState extends State<Feeds> {
               UserFeedsModel feedsData = UserFeedsModel.fromJson(snapshot.data);
               List<UserFeed> feedsList = feedsData.userFeed;
               return (feedsList.isEmpty)
-                  ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 80,
-                              child: (Theme.of(context).brightness ==
-                                      Brightness.dark)
-                                  ? LottieAnimations.followWhite
-                                  : LottieAnimations.followBlack,
+                  ? ListView(children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height*0.8,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 80,
+                                  child: (Theme.of(context).brightness ==
+                                          Brightness.dark)
+                                      ? LottieAnimations.followWhite
+                                      : LottieAnimations.followBlack,
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Text(
+                                  "Add Friends",
+                                  style: AppFonts.headerStyle(
+                                      context: context,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            Text(
-                              "Add Friends",
-                              style: AppFonts.headerStyle(
-                                  context: context,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    )
+                    ])
                   : ListView.builder(
                       cacheExtent: 2000,
                       itemCount: feedsProvider.feedsList.length,

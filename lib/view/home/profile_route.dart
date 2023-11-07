@@ -91,11 +91,11 @@ class _ProfileRouteState extends State<ProfileRoute>
                           return const Center(
                             child: Text(AppStrings.noPostsFound),
                           );
-                        } else {
+                        } else if (snapshot.hasData) {
                           UserPostsModel userPostsData =
                               UserPostsModel.fromJson(snapshot.data);
                           List<Post> postsList = userPostsData.data.posts;
-                          return GridView.builder(
+                          return (postsList.isNotEmpty)? GridView.builder(
                             cacheExtent: 1000,
                             padding: EdgeInsets.zero,
                             itemCount: postsList.length,
@@ -107,14 +107,30 @@ class _ProfileRouteState extends State<ProfileRoute>
                             itemBuilder: (context, index) {
                               Post currentPost = postsList[index];
                               return InkWell(
-                                onTap: (){
-                                  UserPosts postData = UserPosts(id: currentPost.id, userId: currentPost.userId, url: currentPost.url, caption: currentPost.caption, likeCount: currentPost.likeCount, commentCount: currentPost.commentCount, createdAt: currentPost.createdAt, isLiked: false,);
-                                  UserData postUserData = UserData(id: userData.userId!, username: userData.username!, email: userData.email!, profilePic: userData.profilePic!, fullName: userData.fullName!,);
-                                  Navigator.pushNamed(context, Routes.postView,arguments: {
-                                    'param1': postData,
-                                    'param2': postUserData,
-                                    'param3': userData,
-                                  });
+                                onTap: () {
+                                  UserPosts postData = UserPosts(
+                                    id: currentPost.id,
+                                    userId: currentPost.userId,
+                                    url: currentPost.url,
+                                    caption: currentPost.caption,
+                                    likeCount: currentPost.likeCount,
+                                    commentCount: currentPost.commentCount,
+                                    createdAt: currentPost.createdAt,
+                                    isLiked: false,
+                                  );
+                                  UserData postUserData = UserData(
+                                    id: userData.userId!,
+                                    username: userData.username!,
+                                    email: userData.email!,
+                                    profilePic: userData.profilePic!,
+                                    fullName: userData.fullName!,
+                                  );
+                                  Navigator.pushNamed(context, Routes.postView,
+                                      arguments: {
+                                        'param1': postData,
+                                        'param2': postUserData,
+                                        'param3': userData,
+                                      });
                                 },
                                 onLongPress: () {
                                   Utils.alertDialog(
@@ -151,6 +167,13 @@ class _ProfileRouteState extends State<ProfileRoute>
                                 ),
                               );
                             },
+                          )
+                          :const Center(
+                            child: Text("No Posts"),
+                          );
+                        } else {
+                          return const Center(
+                            child: Text("No Posts"),
                           );
                         }
                       } else {
