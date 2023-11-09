@@ -38,6 +38,7 @@ class _ProfileRouteState extends State<ProfileRoute>
     final userData = widget.prefrencesSettings;
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Consumer<UserProvider>(builder: (context, value, child) {
           return Text(
             (value.username == null)

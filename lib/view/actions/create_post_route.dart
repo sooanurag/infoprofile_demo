@@ -73,6 +73,9 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
 
                       value.setIsPostReady(status: false);
                       _captionController.clear();
+                      if (mounted) {
+                        Navigator.pop(context);
+                      }
                     }
                   },
                   buttonText: "Post",
@@ -110,9 +113,12 @@ class _CreatePostRouteState extends State<CreatePostRoute> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                            "https://picsum.photos/800/800"),
+                      CircleAvatar(
+                        backgroundImage:
+                            (widget.prefrencesSettings.profilePic!.length > 2)
+                                ? CachedNetworkImageProvider(
+                                    widget.prefrencesSettings.profilePic!)
+                                : null,
                       ), // user profile pic
                       const SizedBox(
                         width: 10,

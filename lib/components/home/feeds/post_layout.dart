@@ -196,10 +196,11 @@ class _PostLayoutState extends State<PostLayout> {
                           valueListenable: islikeAnimation,
                           builder: (context, value, child) {
                             return (islikeAnimation.value)
-                                ? const FaIcon(
+                                ?  FaIcon(
                                     FontAwesomeIcons.solidHeart,
                                     size: 80,
-                                    shadows: [Shadow(blurRadius: 1)],
+                                    color: AppColors.white,
+                                    shadows: const [Shadow(blurRadius: 1)],
                                   )
                                     .animate()
                                     .scale(curve: Curves.easeIn)

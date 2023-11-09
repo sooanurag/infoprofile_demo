@@ -38,9 +38,7 @@ class InfoProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //debug-print
-    debugPrint(
-        '${settings.username}: ${settings.accesstoken}\n user id: ${settings.userId}');
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
