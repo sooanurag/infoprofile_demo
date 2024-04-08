@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
-import 'package:infoprofile_demo/services/storage/s3_service.dart';
+import 'package:infoprofile_demo/services/storage/firebase_storage_service.dart';
+
 import 'package:infoprofile_demo/utils/utils.dart';
 import 'package:infoprofile_demo/viewmodels/home/profile_viewmodel.dart';
 
@@ -117,8 +118,12 @@ class _EditProfileFormState extends State<EditProfileForm> {
                   debugPrint('image file: ${widget.newProfilePic.value}');
                   String? imageUrl;
                   if (widget.newProfilePic.value != null) {
-                    imageUrl = await S3Services().upload(
-                      file: widget.newProfilePic.value!,
+                    // imageUrl = await S3Services().upload(
+                    //   file: widget.newProfilePic.value!,
+                    //   userid: widget.prefrencesSettings.userId!,
+                    // );
+                    imageUrl = await StorageFirebase.upload(
+                      widget.newProfilePic.value!,
                       userid: widget.prefrencesSettings.userId!,
                     );
                     debugPrint('imageUrl: $imageUrl');

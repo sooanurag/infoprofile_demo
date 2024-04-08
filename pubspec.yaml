@@ -11,7 +11,10 @@ dependencies:
   animated_text_kit: ^4.2.2
 
 
+  build_runner: ^2.4.9
   cached_network_image: ^3.3.0
+  firebase_core: ^2.27.0
+  firebase_storage: ^11.6.9
   flutter:
     sdk: flutter
   flutter_animate: ^4.2.0+1

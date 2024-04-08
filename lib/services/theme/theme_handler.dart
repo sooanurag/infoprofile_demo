@@ -9,7 +9,7 @@ var kDarkColorScheme =
     ColorScheme.fromSeed(brightness: Brightness.dark, seedColor: Colors.grey);
 
 ThemeData lightTheme = ThemeData().copyWith(
-    useMaterial3: true,
+
     dividerColor: Colors.grey,
     iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
@@ -28,7 +28,7 @@ ThemeData lightTheme = ThemeData().copyWith(
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
     dividerColor: Colors.grey,
-    useMaterial3: true,
+
     colorScheme: kDarkColorScheme,
     iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(

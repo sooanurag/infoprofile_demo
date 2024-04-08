@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:infoprofile_demo/firebase_options.dart';
 import 'package:infoprofile_demo/models/prefrences_settings_model.dart';
 import 'package:infoprofile_demo/providers/actions/createpost_provider.dart';
 import 'package:infoprofile_demo/providers/home/feeds/comments_provider.dart';
@@ -24,6 +26,9 @@ import 'services/theme/theme_handler.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PrefrencesSettings settings = await PrefrenceService().getPrefrences();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
 
   await dotenv.load(fileName: '.env');
 

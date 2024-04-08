@@ -8,7 +8,8 @@ import 'package:infoprofile_demo/repository/home/posts_repo.dart';
 import 'package:infoprofile_demo/resources/colors.dart';
 import 'package:infoprofile_demo/resources/fonts.dart';
 import 'package:infoprofile_demo/resources/strings.dart';
-import 'package:infoprofile_demo/services/storage/s3_service.dart';
+import 'package:infoprofile_demo/services/storage/firebase_storage_service.dart';
+
 import 'package:infoprofile_demo/utils/utils.dart';
 
 
@@ -54,8 +55,7 @@ class CreatePostViewModel {
           ),
         ));
     debugPrint('caption: $caption');
-    await S3Services()
-        .upload(file: imageFile, userid: prefrencesSettings.userId!)
+    await StorageFirebase.upload(imageFile, userid: prefrencesSettings.userId!)
         .then(
       (value) {
         // Navigator.pop(context);
